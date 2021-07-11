@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ClimbHistoryList: View {
+    @State private var presentingAddClimb: Bool = false
+
     var body: some View {
         NavigationView {
             List {
@@ -15,10 +17,13 @@ struct ClimbHistoryList: View {
             }
             .accessibility(identifier: "climbHistoryList")
             .navigationTitle("Climbs")
-            .navigationBarItems(trailing: Button("Log Climb") {
-                print("log climb tapped")
-            }.accessibility(identifier: "logClimbButton"))
-
+            .navigationBarItems(trailing:
+                Button("Log Climb") {
+                    presentingAddClimb.toggle()
+                }
+                .sheet(isPresented: $presentingAddClimb, content: AddClimbView.init)
+                .accessibility(identifier: "addClimbButton")
+            )
         }
     }
 }

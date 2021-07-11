@@ -29,15 +29,24 @@ class ClimbTrackerUITests: QuickSpec {
                 }
 
                 it("And there should be a log climb button") {
-                    XCTAssertTrue(self.climbHistory.logClimbButton.isHittable)
+                    XCTAssertTrue(self.climbHistory.addClimbButton.isHittable)
                 }
             }
 
-            context("When I log a climb") {
-                pending("Then it should be in the list") {
+            context("When I tap the add climb button") {
+                beforeEach {
+                    self.climbHistory.addClimbButton.tap()
+                }
 
-//                    let climbHistory = app.climbHistory
-                    
+                it("Then I should see the add climb view") {
+                    XCTAssertTrue(self.app.addClimb.view.exists)
+                }
+
+                it("And I can swipe down to go back") {
+                    XCTAssertTrue(self.app.addClimb.view.waitForExistence(timeout: 2))
+                    self.app.swipeDown()
+                    XCTAssertFalse(self.app.addClimb.view.isHittable)
+                    XCTAssertTrue(self.climbHistory.view.isHittable)
                 }
             }
         }

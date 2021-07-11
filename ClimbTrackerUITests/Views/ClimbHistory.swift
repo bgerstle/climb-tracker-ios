@@ -33,10 +33,10 @@ class ClimbHistory {
         }
     }
 
-    var logClimbButton: XCUIElement {
+    var addClimbButton: XCUIElement {
         navigationBar
             .buttons
-            .matching(identifier: "logClimbButton")
+            .matching(identifier: "addClimbButton")
             .firstMatch
     }
 }
