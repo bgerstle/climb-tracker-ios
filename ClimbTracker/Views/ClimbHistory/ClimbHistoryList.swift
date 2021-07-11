@@ -13,9 +13,13 @@ struct ClimbHistoryList: View {
             List {
 
             }
+            .accessibility(identifier: "climbHistoryList")
             .navigationTitle("Climbs")
+            .navigationBarItems(trailing: Button("Log Climb") {
+                print("log climb tapped")
+            }.accessibility(identifier: "logClimbButton"))
+
         }
-        .accessibility(identifier: "climbHistoryList")
     }
 }
 
