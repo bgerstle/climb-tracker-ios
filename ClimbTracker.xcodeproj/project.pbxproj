@@ -16,7 +16,6 @@
 		BCCAEE4D2698FE75006F0707 /* Quick in Frameworks */ = {isa = PBXBuildFile; productRef = BCCAEE4C2698FE75006F0707 /* Quick */; };
 		BCCAEE572698FEA2006F0707 /* Quick in Frameworks */ = {isa = PBXBuildFile; productRef = BCCAEE562698FEA2006F0707 /* Quick */; };
 		BCCAEE5A2698FFAC006F0707 /* ClimbHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCAEE592698FFAC006F0707 /* ClimbHistory.swift */; };
-		BCCAEE6F269A7F80006F0707 /* ClimbHistoryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCAEE6E269A7F80006F0707 /* ClimbHistoryRow.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,7 +49,6 @@
 		BC467224268FB97100B2CBE7 /* ClimbTrackerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClimbTrackerUITests.swift; sourceTree = "<group>"; };
 		BC467226268FB97100B2CBE7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BCCAEE592698FFAC006F0707 /* ClimbHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClimbHistory.swift; sourceTree = "<group>"; };
-		BCCAEE6E269A7F80006F0707 /* ClimbHistoryRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClimbHistoryRow.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,7 +165,6 @@
 			isa = PBXGroup;
 			children = (
 				BC467209268FB96E00B2CBE7 /* ClimbHistoryList.swift */,
-				BCCAEE6E269A7F80006F0707 /* ClimbHistoryRow.swift */,
 			);
 			path = ClimbHistory;
 			sourceTree = "<group>";
@@ -311,7 +308,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC46720A268FB96E00B2CBE7 /* ClimbHistoryList.swift in Sources */,
-				BCCAEE6F269A7F80006F0707 /* ClimbHistoryRow.swift in Sources */,
 				BC467208268FB96E00B2CBE7 /* ClimbTrackerApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
