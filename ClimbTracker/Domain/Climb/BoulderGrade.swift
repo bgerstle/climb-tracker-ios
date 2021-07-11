@@ -7,8 +7,8 @@
 
 import Foundation
 
-enum BoulderGrade : String {
-    case easy = "easy",
+enum BoulderGrade : String, CustomStringConvertible {
+    case easy = "B",
          zero = "0",
          one = "1",
          two = "2",
@@ -26,4 +26,8 @@ enum BoulderGrade : String {
          fourteen = "14",
          fifteen = "15",
          sixteen = "16"
+
+    var description: String {
+        "V\(rawValue)"
+    }
 }

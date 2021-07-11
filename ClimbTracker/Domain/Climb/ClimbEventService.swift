@@ -8,11 +8,11 @@
 import Foundation
 import Combine
 
-//protocol ClimbService {
-//    func create(climb attributes: ClimbAttributes)
-//}
+protocol ClimbService {
+    func create(climb attributes: ClimbAttributes)
+}
 
-class ClimbEventService<S: Subject> : ClimbEventService where S.Output == EventEnvelope<Climb.Event> {
+class ClimbEventService<S: Subject> : ClimbService where S.Output == EventEnvelope<Climb.Event> {
     internal init(subject: S) {
         self.subject = subject
     }

@@ -13,7 +13,5 @@ struct EventEnvelope<T> {
 }
 
 protocol Topic {
-    associatedtype EventType: RawRepresentable
-
-    static var name: String { get }
+    associatedtype EventType
 }

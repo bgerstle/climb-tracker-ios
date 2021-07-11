@@ -14,7 +14,7 @@ import Combine
 class ClimbServiceTests: QuickSpec {
     typealias TestClimbEventSubject = PassthroughSubject<EventEnvelope<Climb.Event>, Never>
     var eventSubject: TestClimbEventSubject! = nil
-    var service: ClimbService<TestClimbEventSubject>! = nil
+    var service: ClimbEventService<TestClimbEventSubject>! = nil
     var cancellables: [AnyCancellable] = []
 
     override func spec() {
@@ -22,7 +22,7 @@ class ClimbServiceTests: QuickSpec {
             self.continueAfterFailure = false
             self.eventSubject = TestClimbEventSubject()
             self.cancellables = []
-            self.service = ClimbService(subject: self.eventSubject)
+            self.service = ClimbEventService(subject: self.eventSubject)
         }
 
         afterEach {

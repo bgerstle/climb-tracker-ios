@@ -7,8 +7,9 @@
 
 import Foundation
 import Combine
+import SwiftUI
 
-class ClimbHistoryViewModel {
+class ClimbHistoryViewModel: ObservableObject {
     @Published var createdClimbs: [Climb] = []
     var cancellable: AnyCancellable?
 

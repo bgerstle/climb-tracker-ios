@@ -10,10 +10,21 @@ import SwiftUI
 struct ClimbHistoryList: View {
     @State private var presentingAddClimb: Bool = false
 
-    var body: some View {
-        NavigationView {
-            List {
+    typealias AddClimbViewFactory = () -> AddClimbView
+    // FIXME: remove !
+    private let addClimbViewFactory: AddClimbViewFactory!
+    @ObservedObject private var viewModel: ClimbHistoryViewModel
 
+    init(addClimbViewFactory: AddClimbViewFactory!, viewModel: ClimbHistoryViewModel!) {
+        self.addClimbViewFactory = addClimbViewFactory
+        self.viewModel = viewModel
+    }
+
+    var body: some View {
+        // TODO: fix constraint complaints
+        NavigationView {
+            ForEach(viewModel.createdClimbs) { climb in
+                ClimbHistoryRow(climbAttributes: climb.attributes)
             }
             .navigationTitle("Climbs")
             .navigationBarItems(trailing:
@@ -22,7 +33,7 @@ struct ClimbHistoryList: View {
                 }
                 .accessibility(identifier: "addClimbButton")
             )
-            .sheet(isPresented: $presentingAddClimb, content: AddClimbView.init)
+            .sheet(isPresented: $presentingAddClimb, content: addClimbViewFactory)
         }
         .accessibility(identifier: "climbHistoryList")
     }
@@ -30,6 +41,6 @@ struct ClimbHistoryList: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ClimbHistoryList()
+        ClimbHistoryList(addClimbViewFactory: nil, viewModel: nil)
     }
 }

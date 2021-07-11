@@ -6,9 +6,15 @@
 //
 
 import SwiftUI
+import Combine
 
 struct AddClimbView: View {
     @Environment(\.presentationMode) var presentationMode
+    var climbService: ClimbService!
+
+    init(climbService: ClimbService! = nil) {
+        self.climbService = climbService
+    }
 
     var body: some View {
         NavigationView {
@@ -19,6 +25,12 @@ struct AddClimbView: View {
             .navigationBarItems(trailing:
                 Button("Submit") {
                     presentationMode.wrappedValue.dismiss()
+                    climbService.create(
+                        climb: ClimbAttributes(
+                            climbedAt: Date(),
+                            kind: .boulder(grade: .easy)
+                        )
+                    )
                 }
                 .accessibility(identifier: "submitButton")
             )

@@ -12,17 +12,18 @@ protocol NotificationCenterTopic: Topic {
     static var notificationName: Notification.Name { get }
 }
 
-extension NotificationCenter.Publisher {
-    func convertToEvents<T: NotificationCenterTopic>(on topic: T.Type) -> some Combine.Publisher
-    {
-        return map { notification in
-            return notification.object as! EventEnvelope<T.Type>
+extension NotificationCenter {
+    func publisher<T: NotificationCenterTopic>(topic: T.Type) -> Publishers.Map<NotificationCenter.Publisher, EventEnvelope<T.EventType>> {
+        return publisher(for: topic.notificationName).map { notification in
+            return notification.object as! EventEnvelope<T.EventType>
         }
     }
 
-}
-extension NotificationCenter {
-    func publisher<T: NotificationCenterTopic>(topic: T.Type) -> some Combine.Publisher {
-        return publisher(for: T.notificationName).convertToEvents(on: topic)
+    func subject<T: NotificationCenterTopic>(topic: T.Type) -> (PassthroughSubject<EventEnvelope<T.EventType>, Never>, AnyCancellable) {
+        let subject = PassthroughSubject<EventEnvelope<T.EventType>, Never>()
+        let cancellable = subject.sink {
+            self.post(name: topic.notificationName, object: $0)
+        }
+        return (subject, cancellable)
     }
 }
