@@ -21,9 +21,9 @@ class ClimbTrackerUITests: QuickSpec {
                     let app = XCUIApplication()
                     app.launch()
 
-                    let climbHistoryView = app.climbHistoryView
-                    XCTAssertTrue(climbHistoryView.view.isHittable)
-                    XCTAssertTrue(climbHistoryView.rows.count == 0)
+                    let climbHistory = app.climbHistory
+                    XCTAssertTrue(climbHistory.view.isHittable)
+                    XCTAssertTrue(climbHistory.rows.count == 0)
                 }
             }
         }

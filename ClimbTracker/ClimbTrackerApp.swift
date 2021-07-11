@@ -11,7 +11,7 @@ import SwiftUI
 struct ClimbTrackerApp: App {
     var body: some Scene {
         WindowGroup {
-            ClimbHistoryView()
+            ClimbHistoryList()
         }
     }
 }

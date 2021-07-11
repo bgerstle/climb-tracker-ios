@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		BC467208268FB96E00B2CBE7 /* ClimbTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC467207268FB96E00B2CBE7 /* ClimbTrackerApp.swift */; };
-		BC46720A268FB96E00B2CBE7 /* ClimbHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC467209268FB96E00B2CBE7 /* ClimbHistoryView.swift */; };
+		BC46720A268FB96E00B2CBE7 /* ClimbHistoryList.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC467209268FB96E00B2CBE7 /* ClimbHistoryList.swift */; };
 		BC46720C268FB97000B2CBE7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC46720B268FB97000B2CBE7 /* Assets.xcassets */; };
 		BC46720F268FB97000B2CBE7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC46720E268FB97000B2CBE7 /* Preview Assets.xcassets */; };
 		BC46721A268FB97100B2CBE7 /* ClimbTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC467219268FB97100B2CBE7 /* ClimbTrackerTests.swift */; };
@@ -20,7 +20,7 @@
 		BCCAEE4726953EAD006F0707 /* CreateProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCAEE4626953EAD006F0707 /* CreateProject.swift */; };
 		BCCAEE4D2698FE75006F0707 /* Quick in Frameworks */ = {isa = PBXBuildFile; productRef = BCCAEE4C2698FE75006F0707 /* Quick */; };
 		BCCAEE572698FEA2006F0707 /* Quick in Frameworks */ = {isa = PBXBuildFile; productRef = BCCAEE562698FEA2006F0707 /* Quick */; };
-		BCCAEE5A2698FFAC006F0707 /* ClimbHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCAEE592698FFAC006F0707 /* ClimbHistoryView.swift */; };
+		BCCAEE5A2698FFAC006F0707 /* ClimbHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCAEE592698FFAC006F0707 /* ClimbHistory.swift */; };
 		BCCAEE6F269A7F80006F0707 /* ClimbHistoryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCAEE6E269A7F80006F0707 /* ClimbHistoryRow.swift */; };
 /* End PBXBuildFile section */
 
@@ -44,7 +44,7 @@
 /* Begin PBXFileReference section */
 		BC467204268FB96E00B2CBE7 /* ClimbTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClimbTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC467207268FB96E00B2CBE7 /* ClimbTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClimbTrackerApp.swift; sourceTree = "<group>"; };
-		BC467209268FB96E00B2CBE7 /* ClimbHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClimbHistoryView.swift; sourceTree = "<group>"; };
+		BC467209268FB96E00B2CBE7 /* ClimbHistoryList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClimbHistoryList.swift; sourceTree = "<group>"; };
 		BC46720B268FB97000B2CBE7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BC46720E268FB97000B2CBE7 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		BC467210268FB97000B2CBE7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -59,7 +59,7 @@
 		BCCAEE1926949606006F0707 /* ProjectClimbed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectClimbed.swift; sourceTree = "<group>"; };
 		BCCAEE312694AD11006F0707 /* Project.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
 		BCCAEE4626953EAD006F0707 /* CreateProject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProject.swift; sourceTree = "<group>"; };
-		BCCAEE592698FFAC006F0707 /* ClimbHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClimbHistoryView.swift; sourceTree = "<group>"; };
+		BCCAEE592698FFAC006F0707 /* ClimbHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClimbHistory.swift; sourceTree = "<group>"; };
 		BCCAEE6E269A7F80006F0707 /* ClimbHistoryRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClimbHistoryRow.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -213,7 +213,7 @@
 		BCCAEE582698FF71006F0707 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				BCCAEE592698FFAC006F0707 /* ClimbHistoryView.swift */,
+				BCCAEE592698FFAC006F0707 /* ClimbHistory.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -221,7 +221,7 @@
 		BCCAEE6D269A7F56006F0707 /* ClimbHistory */ = {
 			isa = PBXGroup;
 			children = (
-				BC467209268FB96E00B2CBE7 /* ClimbHistoryView.swift */,
+				BC467209268FB96E00B2CBE7 /* ClimbHistoryList.swift */,
 				BCCAEE6E269A7F80006F0707 /* ClimbHistoryRow.swift */,
 			);
 			path = ClimbHistory;
@@ -365,7 +365,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BC46720A268FB96E00B2CBE7 /* ClimbHistoryView.swift in Sources */,
+				BC46720A268FB96E00B2CBE7 /* ClimbHistoryList.swift in Sources */,
 				BCCAEE6F269A7F80006F0707 /* ClimbHistoryRow.swift in Sources */,
 				BCCAEDFE26949338006F0707 /* Grade.swift in Sources */,
 				BCCAEE4726953EAD006F0707 /* CreateProject.swift in Sources */,
@@ -389,7 +389,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC467225268FB97100B2CBE7 /* ClimbTrackerUITests.swift in Sources */,
-				BCCAEE5A2698FFAC006F0707 /* ClimbHistoryView.swift in Sources */,
+				BCCAEE5A2698FFAC006F0707 /* ClimbHistory.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

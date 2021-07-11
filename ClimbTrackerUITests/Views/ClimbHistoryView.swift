@@ -7,7 +7,7 @@
 
 import XCTest
 
-class ClimbHistoryView {
+class ClimbHistoryPage {
     public let view: XCUIElement
 
     init(view: XCUIElement) {
@@ -16,8 +16,8 @@ class ClimbHistoryView {
 }
 
 extension XCUIApplication {
-    var climbHistoryView: ClimbHistoryView {
-        return ClimbHistoryView(view: tables.matching(identifier: "climbHistoryList").firstMatch)
+    var climbHistoryView: ClimbHistoryPage {
+        return ClimbHistoryPage(view: tables.matching(identifier: "climbHistoryList").firstMatch)
     }
 }
 
@@ -29,7 +29,7 @@ class ClimbHistoryRow {
     }
 }
 
-extension ClimbHistoryView {
+extension ClimbHistoryPage {
     var rows: [ClimbHistoryRow] {
         get {
             view.descendants(matching: .any)

@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  ClimbHistoryList.swift
 //  ClimbTracker
 //
 //  Created by Brian Gerstle on 7/2/21.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ClimbHistoryView: View {
+struct ClimbHistoryList: View {
     var body: some View {
         List {
             
@@ -17,6 +17,6 @@ struct ClimbHistoryView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ClimbHistoryView()
+        ClimbHistoryList()
     }
 }
