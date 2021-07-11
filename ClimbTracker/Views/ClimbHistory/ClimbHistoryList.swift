@@ -9,9 +9,13 @@ import SwiftUI
 
 struct ClimbHistoryList: View {
     var body: some View {
-        List {
-            
-        }.accessibility(identifier: "climbHistoryList")
+        NavigationView {
+            List {
+
+            }
+            .navigationTitle("Climbs")
+        }
+        .accessibility(identifier: "climbHistoryList")
     }
 }
 

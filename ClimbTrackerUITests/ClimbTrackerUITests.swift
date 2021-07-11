@@ -26,6 +26,16 @@ class ClimbTrackerUITests: QuickSpec {
                     XCTAssertTrue(climbHistory.rows.count == 0)
                 }
             }
+
+            context("When I log a climb") {
+                pending("Then it should be in the list") {
+                    let app = XCUIApplication()
+                    app.launch()
+
+//                    let climbHistory = app.climbHistory
+                    
+                }
+            }
         }
     }
 }

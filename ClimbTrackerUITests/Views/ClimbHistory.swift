@@ -21,15 +21,7 @@ class ClimbHistory {
             self.view = view
         }
     }
-}
 
-extension XCUIApplication {
-    var climbHistory: ClimbHistory {
-        return ClimbHistory(view: tables.matching(identifier: "climbHistoryList").firstMatch)
-    }
-}
-
-extension ClimbHistory {
     var rows: [ClimbHistory.Row] {
         get {
             view.descendants(matching: .any)
@@ -37,5 +29,20 @@ extension ClimbHistory {
                 .allElementsBoundByIndex
                 .map( { ClimbHistory.Row(view: $0) })
         }
+    }
+
+    var addClimbButton: XCUIElement {
+        view.navigationBars
+            .firstMatch
+            .toolbarButtons.matching(identifier: "addClimbButton")
+            .firstMatch
+    }
+}
+
+extension XCUIApplication {
+    var climbHistory: ClimbHistory {
+        return ClimbHistory(view: descendants(matching: .any)
+                                .matching(identifier: "climbHistoryList")
+                                .firstMatch)
     }
 }
