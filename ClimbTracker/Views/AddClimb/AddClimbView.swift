@@ -11,8 +11,17 @@ struct AddClimbView: View {
     @Environment(\.presentationMode) var presentationMode
 
     var body: some View {
-        VStack {
+        NavigationView {
+            VStack {
 
+            }
+            .navigationTitle("Add Climb")
+            .navigationBarItems(trailing:
+                Button("Submit") {
+                    presentationMode.wrappedValue.dismiss()
+                }
+                .accessibility(identifier: "submitButton")
+            )
         }
         .accessibility(identifier: "addClimbView")
     }

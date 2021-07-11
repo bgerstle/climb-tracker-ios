@@ -15,16 +15,16 @@ struct ClimbHistoryList: View {
             List {
 
             }
-            .accessibility(identifier: "climbHistoryList")
             .navigationTitle("Climbs")
             .navigationBarItems(trailing:
                 Button("Log Climb") {
                     presentingAddClimb.toggle()
                 }
-                .sheet(isPresented: $presentingAddClimb, content: AddClimbView.init)
                 .accessibility(identifier: "addClimbButton")
             )
+            .sheet(isPresented: $presentingAddClimb, content: AddClimbView.init)
         }
+        .accessibility(identifier: "climbHistoryList")
     }
 }
 

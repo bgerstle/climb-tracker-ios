@@ -9,11 +9,9 @@ import XCTest
 
 class ClimbHistory {
     public let view: XCUIElement
-    private let navigationBar: XCUIElement
 
-    init(view: XCUIElement, navigationBar: XCUIElement) {
+    init(view: XCUIElement) {
         self.view = view
-        self.navigationBar = navigationBar
     }
 
     class Row {
@@ -33,6 +31,10 @@ class ClimbHistory {
         }
     }
 
+    private var navigationBar: XCUIElement {
+        view.navigationBars.firstMatch
+    }
+    
     var addClimbButton: XCUIElement {
         navigationBar
             .buttons
@@ -43,11 +45,10 @@ class ClimbHistory {
 
 extension XCUIApplication {
     var climbHistory: ClimbHistory {
-        let historyView =
-            descendants(matching: .any)
+        return ClimbHistory(
+            view: descendants(matching: .any)
                 .matching(identifier: "climbHistoryList")
                 .firstMatch
-        let navigationBar = navigationBars.firstMatch
-        return ClimbHistory(view: historyView, navigationBar: navigationBar)
+        )
     }
 }

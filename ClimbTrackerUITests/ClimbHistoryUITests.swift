@@ -10,6 +10,7 @@ import Quick
 
 class ClimbTrackerUITests: QuickSpec {
     var app: XCUIApplication!
+
     var climbHistory: ClimbHistory {
         app.climbHistory
     }
@@ -40,13 +41,6 @@ class ClimbTrackerUITests: QuickSpec {
 
                 it("Then I should see the add climb view") {
                     XCTAssertTrue(self.app.addClimb.view.exists)
-                }
-
-                it("And I can swipe down to go back") {
-                    XCTAssertTrue(self.app.addClimb.view.waitForExistence(timeout: 2))
-                    self.app.swipeDown()
-                    XCTAssertFalse(self.app.addClimb.view.isHittable)
-                    XCTAssertTrue(self.climbHistory.view.isHittable)
                 }
             }
         }
