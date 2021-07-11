@@ -13,11 +13,6 @@
 		BC46720F268FB97000B2CBE7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC46720E268FB97000B2CBE7 /* Preview Assets.xcassets */; };
 		BC46721A268FB97100B2CBE7 /* ClimbTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC467219268FB97100B2CBE7 /* ClimbTrackerTests.swift */; };
 		BC467225268FB97100B2CBE7 /* ClimbTrackerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC467224268FB97100B2CBE7 /* ClimbTrackerUITests.swift */; };
-		BCCAEDFE26949338006F0707 /* Grade.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCAEDFD26949338006F0707 /* Grade.swift */; };
-		BCCAEE0F26949548006F0707 /* ProjectCreated.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCAEE0E26949548006F0707 /* ProjectCreated.swift */; };
-		BCCAEE1A26949606006F0707 /* ProjectClimbed.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCAEE1926949606006F0707 /* ProjectClimbed.swift */; };
-		BCCAEE322694AD11006F0707 /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCAEE312694AD11006F0707 /* Project.swift */; };
-		BCCAEE4726953EAD006F0707 /* CreateProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCAEE4626953EAD006F0707 /* CreateProject.swift */; };
 		BCCAEE4D2698FE75006F0707 /* Quick in Frameworks */ = {isa = PBXBuildFile; productRef = BCCAEE4C2698FE75006F0707 /* Quick */; };
 		BCCAEE572698FEA2006F0707 /* Quick in Frameworks */ = {isa = PBXBuildFile; productRef = BCCAEE562698FEA2006F0707 /* Quick */; };
 		BCCAEE5A2698FFAC006F0707 /* ClimbHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCAEE592698FFAC006F0707 /* ClimbHistory.swift */; };
@@ -54,11 +49,6 @@
 		BC467220268FB97100B2CBE7 /* ClimbTrackerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClimbTrackerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC467224268FB97100B2CBE7 /* ClimbTrackerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClimbTrackerUITests.swift; sourceTree = "<group>"; };
 		BC467226268FB97100B2CBE7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		BCCAEDFD26949338006F0707 /* Grade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grade.swift; sourceTree = "<group>"; };
-		BCCAEE0E26949548006F0707 /* ProjectCreated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectCreated.swift; sourceTree = "<group>"; };
-		BCCAEE1926949606006F0707 /* ProjectClimbed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectClimbed.swift; sourceTree = "<group>"; };
-		BCCAEE312694AD11006F0707 /* Project.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
-		BCCAEE4626953EAD006F0707 /* CreateProject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProject.swift; sourceTree = "<group>"; };
 		BCCAEE592698FFAC006F0707 /* ClimbHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClimbHistory.swift; sourceTree = "<group>"; };
 		BCCAEE6E269A7F80006F0707 /* ClimbHistoryRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClimbHistoryRow.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -115,7 +105,6 @@
 			isa = PBXGroup;
 			children = (
 				BC467207268FB96E00B2CBE7 /* ClimbTrackerApp.swift */,
-				BCCAEE2726949804006F0707 /* Domain */,
 				BCCAEDEF26948E85006F0707 /* Views */,
 				BC46720B268FB97000B2CBE7 /* Assets.xcassets */,
 				BC467210268FB97000B2CBE7 /* Info.plist */,
@@ -157,50 +146,6 @@
 				BCCAEE6D269A7F56006F0707 /* ClimbHistory */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		BCCAEDFC26949332006F0707 /* Values */ = {
-			isa = PBXGroup;
-			children = (
-				BCCAEDFD26949338006F0707 /* Grade.swift */,
-			);
-			path = Values;
-			sourceTree = "<group>";
-		};
-		BCCAEE0D26949525006F0707 /* Events */ = {
-			isa = PBXGroup;
-			children = (
-				BCCAEE0E26949548006F0707 /* ProjectCreated.swift */,
-				BCCAEE1926949606006F0707 /* ProjectClimbed.swift */,
-			);
-			path = Events;
-			sourceTree = "<group>";
-		};
-		BCCAEE2726949804006F0707 /* Domain */ = {
-			isa = PBXGroup;
-			children = (
-				BCCAEE4526953E7A006F0707 /* Commands */,
-				BCCAEE302694AD06006F0707 /* Aggregates */,
-				BCCAEDFC26949332006F0707 /* Values */,
-				BCCAEE0D26949525006F0707 /* Events */,
-			);
-			path = Domain;
-			sourceTree = "<group>";
-		};
-		BCCAEE302694AD06006F0707 /* Aggregates */ = {
-			isa = PBXGroup;
-			children = (
-				BCCAEE312694AD11006F0707 /* Project.swift */,
-			);
-			path = Aggregates;
-			sourceTree = "<group>";
-		};
-		BCCAEE4526953E7A006F0707 /* Commands */ = {
-			isa = PBXGroup;
-			children = (
-				BCCAEE4626953EAD006F0707 /* CreateProject.swift */,
-			);
-			path = Commands;
 			sourceTree = "<group>";
 		};
 		BCCAEE532698FE97006F0707 /* Frameworks */ = {
@@ -367,12 +312,7 @@
 			files = (
 				BC46720A268FB96E00B2CBE7 /* ClimbHistoryList.swift in Sources */,
 				BCCAEE6F269A7F80006F0707 /* ClimbHistoryRow.swift in Sources */,
-				BCCAEDFE26949338006F0707 /* Grade.swift in Sources */,
-				BCCAEE4726953EAD006F0707 /* CreateProject.swift in Sources */,
-				BCCAEE322694AD11006F0707 /* Project.swift in Sources */,
-				BCCAEE0F26949548006F0707 /* ProjectCreated.swift in Sources */,
 				BC467208268FB96E00B2CBE7 /* ClimbTrackerApp.swift in Sources */,
-				BCCAEE1A26949606006F0707 /* ProjectClimbed.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
