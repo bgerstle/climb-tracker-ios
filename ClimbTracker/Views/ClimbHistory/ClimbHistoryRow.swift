@@ -22,8 +22,12 @@ struct ClimbHistoryRow: View {
     }
 
     var body: some View {
-        Text("Climbed a \(climbAttributes.kind.description) at \(climbedAtString)")
-            .accessibility(identifier: "climbHistoryRow")
+        HStack {
+            Text("Climbed a \(climbAttributes.kind.description) at \(climbedAtString)")
+        }
+        .accessibility(identifier: "climbHistoryRow")
+        .fixedSize(horizontal: false, vertical: true)
+        .padding(Edge.Set(arrayLiteral: .vertical, .leading))
     }
 }
 

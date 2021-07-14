@@ -23,8 +23,12 @@ struct ClimbHistoryList: View {
     var body: some View {
         // TODO: fix constraint complaints
         NavigationView {
-            ForEach(viewModel.createdClimbs) { climb in
-                ClimbHistoryRow(climbAttributes: climb.attributes)
+            ScrollView {
+                LazyVStack(alignment:.leading) {
+                    ForEach(viewModel.createdClimbs) { climb in
+                        ClimbHistoryRow(climbAttributes: climb.attributes)
+                    }
+                }
             }
             .navigationTitle("Climbs")
             .navigationBarItems(trailing:
