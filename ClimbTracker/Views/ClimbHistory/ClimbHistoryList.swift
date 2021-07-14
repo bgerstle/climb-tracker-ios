@@ -41,6 +41,16 @@ struct ClimbHistoryList: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ClimbHistoryList(addClimbViewFactory: nil, viewModel: nil)
+        let viewModel = ClimbHistoryViewModel()
+        if case .created(let climb) = Climb.create(attributes: ClimbAttributes(climbedAt: Date(), kind: .boulder(grade: .easy))).event {
+            viewModel.createdClimbs = [
+                climb
+            ]
+        }
+        let addClimbView = AddClimbView(climbService: nil)
+        return ClimbHistoryList(
+            addClimbViewFactory: { addClimbView },
+            viewModel: viewModel
+        )
     }
 }
