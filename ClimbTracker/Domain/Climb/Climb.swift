@@ -10,7 +10,7 @@ import Foundation
 class Climb: Identifiable {
     typealias ID = UUID
 
-    private init(id: UUID, attributes: ClimbAttributes) {
+    init(id: UUID, attributes: ClimbAttributes) {
         self.id = id
         self.attributes = attributes
     }
