@@ -47,11 +47,3 @@ struct ClimbAttributes: Hashable, Equatable {
 
     let kind: Category
 }
-
-extension Climb.Event : NotificationCenterTopic {
-    typealias EventType = Self
-
-    static var notificationName: Notification.Name {
-        Notification.Name("ClimbEvent")
-    }
-}
