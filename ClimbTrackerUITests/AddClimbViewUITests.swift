@@ -34,7 +34,7 @@ class AddClimbViewUITests: QuickSpec {
                                     .waitForExistence(timeout: 2))
                 }
 
-                context("When I log a bouldering send") {
+                describe("When I log a bouldering send") {
                     beforeEach {
                         self.addClimb.submitButton.tap()
                     }
@@ -57,6 +57,39 @@ class AddClimbViewUITests: QuickSpec {
                     it("Then I am taken back to climb history") {
                         XCTAssertFalse(self.addClimb.view.isHittable)
                         XCTAssertTrue(self.app.climbHistory.view.isHittable)
+                    }
+                }
+
+                context("And I am selecting a grade") {
+                    beforeEach {
+                        self.addClimb.picker.tap()
+                    }
+
+                    describe("When I select a grade") {
+                        beforeEach {
+                            self.addClimb.pickerOption(forGrade: "V5").tap()
+                        }
+
+                        it("Then I am taken back to the add climb view") {
+                            XCTAssertTrue(self.addClimb.view.isHittable)
+                        }
+
+                        describe("And I hit submit") {
+                            beforeEach {
+                                self.addClimb.submitButton.tap()
+                            }
+
+                            it("Then I am taken back to my climb history") {
+                                XCTAssertTrue(self.climbHistory.view
+                                                .waitForExistence(timeout: 2))
+                            }
+
+                            pending("And it shows the climb I added") {
+                                XCTAssertEqual(self.climbHistory.rows.count, 1)
+                                let firstRow = self.climbHistory.rows.first!
+                                XCTAssertTrue(firstRow.view.accessibilityLabel?.contains("V5") ?? false)
+                            }
+                        }
                     }
                 }
             }

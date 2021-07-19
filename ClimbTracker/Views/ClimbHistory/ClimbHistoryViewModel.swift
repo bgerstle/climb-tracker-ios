@@ -20,7 +20,7 @@ class ClimbHistoryViewModel: ObservableObject {
         return publisher.sink { climbEvent in
             switch climbEvent.event {
             case .created(let climb):
-                self.createdClimbs.append(climb)
+                self.createdClimbs.insert(climb, at: 0)
             }
         }
     }

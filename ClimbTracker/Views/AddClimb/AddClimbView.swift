@@ -12,14 +12,27 @@ struct AddClimbView: View {
     @Environment(\.presentationMode) var presentationMode
     var climbService: ClimbService!
 
+    @State var selectedGrade: BoulderGrade = BoulderGrade.easy
+
     init(climbService: ClimbService! = nil) {
         self.climbService = climbService
     }
 
     var body: some View {
         NavigationView {
-            VStack {
-
+            Form {
+                Section() {
+                    HStack {
+                        Picker(selection: $selectedGrade, label: Text("Grade")) {
+                            ForEach(BoulderGrade.allCases) { grade in
+                                Text(grade.description)
+                                    .tag(grade)
+                                    .accessibility(identifier: grade.rawValue)
+                            }
+                        }
+                        .accessibility(identifier: "gradePicker")
+                    }
+                }
             }
             .navigationTitle("Add Climb")
             .navigationBarItems(trailing:
@@ -28,7 +41,7 @@ struct AddClimbView: View {
                     climbService.create(
                         climb: ClimbAttributes(
                             climbedAt: Date(),
-                            kind: .boulder(grade: .easy)
+                            kind: .boulder(grade: selectedGrade)
                         )
                     )
                 }

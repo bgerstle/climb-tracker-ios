@@ -23,7 +23,9 @@ struct ClimbHistoryRow: View {
 
     var body: some View {
         HStack {
-            Text("Climbed a \(climbAttributes.kind.description) at \(climbedAtString)")
+            let text = Text("Climbed a \(climbAttributes.kind.description) at \(climbedAtString)")
+            // surely there's a better way to make text accessible/testable
+            text.accessibility(label: text)
         }
         .accessibility(identifier: "climbHistoryRow")
         .fixedSize(horizontal: false, vertical: true)

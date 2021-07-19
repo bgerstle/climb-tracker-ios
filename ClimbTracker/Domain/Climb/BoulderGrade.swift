@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum BoulderGrade : String, CustomStringConvertible {
+enum BoulderGrade : String, CustomStringConvertible, CaseIterable, Identifiable {
     case easy = "B",
          zero = "0",
          one = "1",
@@ -30,4 +30,6 @@ enum BoulderGrade : String, CustomStringConvertible {
     var description: String {
         "V\(rawValue)"
     }
+
+    var id: RawValue { self.rawValue }
 }
