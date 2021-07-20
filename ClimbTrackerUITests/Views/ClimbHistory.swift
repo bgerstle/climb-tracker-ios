@@ -20,6 +20,10 @@ class ClimbHistory {
         public init(view: XCUIElement) {
             self.view = view
         }
+
+        var cellText: String {
+            view.label
+        }
     }
 
     var rows: [ClimbHistory.Row] {

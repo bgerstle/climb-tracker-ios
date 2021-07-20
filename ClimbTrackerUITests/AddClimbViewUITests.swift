@@ -46,6 +46,8 @@ class AddClimbViewUITests: QuickSpec {
 
                     it("And it shows the climb I added") {
                         XCTAssertEqual(self.climbHistory.rows.count, 1)
+                        let firstRow = self.climbHistory.rows.first!
+                        XCTAssertTrue(firstRow.cellText.contains("VB"))
                     }
                 }
 
@@ -84,10 +86,10 @@ class AddClimbViewUITests: QuickSpec {
                                                 .waitForExistence(timeout: 2))
                             }
 
-                            pending("And it shows the climb I added") {
+                            it("And it shows the climb I added") {
                                 XCTAssertEqual(self.climbHistory.rows.count, 1)
                                 let firstRow = self.climbHistory.rows.first!
-                                XCTAssertTrue(firstRow.view.accessibilityLabel?.contains("V5") ?? false)
+                                XCTAssertTrue(firstRow.cellText.contains("V5"))
                             }
                         }
                     }
