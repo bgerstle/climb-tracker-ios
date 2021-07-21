@@ -27,6 +27,7 @@ struct ClimbHistoryList: View {
                 LazyVStack(alignment:.leading) {
                     ForEach(viewModel.createdClimbs) { climb in
                         ClimbHistoryRow(climbAttributes: climb.attributes)
+                        Divider()
                     }
                 }
             }
