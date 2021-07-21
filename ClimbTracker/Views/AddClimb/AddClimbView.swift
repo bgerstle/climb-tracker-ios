@@ -10,40 +10,28 @@ import Combine
 
 struct AddClimbView: View {
     @Environment(\.presentationMode) var presentationMode
-    var climbService: ClimbService!
 
-    @State var selectedGrade: BoulderGrade = BoulderGrade.easy
-
-    init(climbService: ClimbService! = nil) {
-        self.climbService = climbService
-    }
+    @ObservedObject var addClimbViewModel: AddClimbViewModel
 
     var body: some View {
         NavigationView {
             Form {
-                Section() {
-                    HStack {
-                        Picker(selection: $selectedGrade, label: Text("Grade")) {
-                            ForEach(BoulderGrade.allCases) { grade in
-                                Text(grade.description)
-                                    .tag(grade)
-                                    .accessibility(identifier: grade.rawValue)
-                            }
-                        }
-                        .accessibility(identifier: "gradePicker")
-                    }
+                CategoryPicker(selectedCategory: $addClimbViewModel.selectedCategory)
+
+                switch addClimbViewModel.selectedCategory {
+                case .boulder:
+                    GradePicker<BoulderGrade>(selectedGrade: $addClimbViewModel.selectedBoulderGrade)
+                case .topRope:
+                    GradePicker<RopeGrade>(selectedGrade: $addClimbViewModel.selectedRopeGrade)
+                case .sport:
+                    GradePicker<RopeGrade>(selectedGrade: $addClimbViewModel.selectedRopeGrade)
                 }
             }
             .navigationTitle("Add Climb")
             .navigationBarItems(trailing:
                 Button("Submit") {
                     presentationMode.wrappedValue.dismiss()
-                    climbService.create(
-                        climb: ClimbAttributes(
-                            climbedAt: Date(),
-                            kind: .boulder(grade: selectedGrade)
-                        )
-                    )
+                    addClimbViewModel.submit()
                 }
                 .accessibility(identifier: "submitButton")
             )
@@ -54,6 +42,6 @@ struct AddClimbView: View {
 
 struct NewClimbView_Previews: PreviewProvider {
     static var previews: some View {
-        AddClimbView()
+        AddClimbView(addClimbViewModel: AddClimbViewModel(climbService: nil))
     }
 }

@@ -47,9 +47,9 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         let viewModel = ClimbHistoryViewModel()
         viewModel.createdClimbs = (0...20).map { _ in
-            Climb(id: UUID(), attributes: ClimbAttributes(climbedAt: Date(), kind: .boulder(grade: .easy)))
+            Climb(id: UUID(), attributes: Climb.Attributes(climbedAt: Date(), grade: BoulderGrade.easy, category: BoulderCategory.self))
         }
-        let addClimbView = AddClimbView(climbService: nil)
+        let addClimbView = AddClimbView(addClimbViewModel: AddClimbViewModel())
         return ClimbHistoryList(
             addClimbViewFactory: { addClimbView },
             viewModel: viewModel

@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 protocol ClimbService {
-    func create(climb attributes: ClimbAttributes)
+    func create(climb attributes: Climb.Attributes)
 }
 
 class ClimbEventService<S: Subject> : ClimbService where S.Output == EventEnvelope<Climb.Event> {
@@ -19,7 +19,7 @@ class ClimbEventService<S: Subject> : ClimbService where S.Output == EventEnvelo
 
     let subject: S
 
-    func create(climb attributes: ClimbAttributes) {
+    func create(climb attributes: Climb.Attributes) {
         let createEvent = Climb.create(attributes: attributes)
         subject.send(createEvent)
     }

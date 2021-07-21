@@ -15,7 +15,7 @@ struct ClimbHistoryRow: View {
         return formatter
     }
 
-    let climbAttributes: ClimbAttributes
+    let climbAttributes: Climb.Attributes
 
     var climbedAtString: String {
         climbedAtFormatter.string(from: climbAttributes.climbedAt)
@@ -23,7 +23,7 @@ struct ClimbHistoryRow: View {
 
     var body: some View {
         HStack {
-            Text("Climbed a \(climbAttributes.kind.description) at \(climbedAtString)")
+            Text("\(climbAttributes.category.displayTitle) \(climbAttributes.grade.description) at \(climbedAtString)")
         }
         .accessibility(identifier: "climbHistoryRow")
         .fixedSize(horizontal: false, vertical: true)
@@ -33,6 +33,8 @@ struct ClimbHistoryRow: View {
 
 struct ClimbHistoryRow_Previews: PreviewProvider {
     static var previews: some View {
-        ClimbHistoryRow(climbAttributes: ClimbAttributes(climbedAt: Date(), kind: .boulder(grade: .easy)))
+        ClimbHistoryRow(climbAttributes: Climb.Attributes(climbedAt: Date(),
+                                                          grade: BoulderGrade.easy,
+                                                          category: BoulderCategory.self))
     }
 }

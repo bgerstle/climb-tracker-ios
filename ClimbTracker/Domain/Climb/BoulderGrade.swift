@@ -7,29 +7,31 @@
 
 import Foundation
 
-enum BoulderGrade : String, CustomStringConvertible, CaseIterable, Identifiable {
-    case easy = "B",
-         zero = "0",
-         one = "1",
-         two = "2",
-         three = "3",
-         four = "4",
-         five = "5",
-         six = "6",
-         seven = "7",
-         eight = "8",
-         nine = "9",
-         ten = "10",
-         eleven = "11",
-         twelve = "12",
-         thirteen = "13",
-         fourteen = "14",
-         fifteen = "15",
-         sixteen = "16"
+enum BoulderGrade : String, Grade {
+    case easy = "VB",
+         zero = "V0",
+         one = "V1",
+         two = "V2",
+         three = "V3",
+         four = "V4",
+         five = "V5",
+         six = "V6",
+         seven = "V7",
+         eight = "V8",
+         nine = "V9",
+         ten = "V10",
+         eleven = "V11",
+         twelve = "V12",
+         thirteen = "V13",
+         fourteen = "V14",
+         fifteen = "V15",
+         sixteen = "V16"
 
-    var description: String {
-        "V\(rawValue)"
+    var description: String { self.rawValue }
+
+    var id: BoulderGrade { self }
+
+    static func < (lhs: BoulderGrade, rhs: BoulderGrade) -> Bool {
+        allCases.firstIndex(of: lhs)! < allCases.firstIndex(of: rhs)!
     }
-
-    var id: RawValue { self.rawValue }
 }

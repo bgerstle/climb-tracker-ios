@@ -28,10 +28,12 @@ struct ClimbTrackerApp: App {
 
         let climbService = ClimbEventService<PassthroughSubject<EventEnvelope<Climb.Event>, Never>>(subject: subject)
 
+        let addClimbViewModel = AddClimbViewModel(climbService: climbService)
+
         return WindowGroup {
             ClimbHistoryList(
                 addClimbViewFactory: {
-                    AddClimbView(climbService: climbService)
+                    AddClimbView(addClimbViewModel: addClimbViewModel)
                 },
                 viewModel: historyViewModel
             )
