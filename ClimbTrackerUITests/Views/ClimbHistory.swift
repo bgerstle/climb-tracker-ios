@@ -41,8 +41,8 @@ class ClimbHistory {
     
     var addClimbButton: XCUIElement {
         navigationBar
+            // FIXME: accessibility identifier isn't being set for some reason
             .buttons
-            .matching(identifier: "addClimbButton")
             .firstMatch
     }
 }

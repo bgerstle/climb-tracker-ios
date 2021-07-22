@@ -10,15 +10,15 @@ import Foundation
 class Climb: Identifiable {
     typealias ID = UUID
 
-    struct Attributes {
+    struct Attributes: Hashable {
         let climbedAt: Date
         let category: Category
-        let grade: AnyGrade
+        let grade: String
 
         init<CT: CategoryType>(climbedAt: Date, grade: CT.GradeType, category: CT.Type) {
             self.climbedAt = climbedAt
             self.category = category.id
-            self.grade = grade
+            self.grade = grade.rawValue
         }
     }
 

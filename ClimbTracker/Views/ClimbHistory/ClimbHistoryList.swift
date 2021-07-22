@@ -33,10 +33,12 @@ struct ClimbHistoryList: View {
             }
             .navigationTitle(Text("Climbs"))
             .toolbar() {
-                Button("Log Climb") {
-                    presentingAddClimb.toggle()
+                ToolbarItem(placement: .primaryAction) {
+                    Button("Log Climb") {
+                        presentingAddClimb.toggle()
+                    }
+                    .accessibility(identifier: "addClimbButton")
                 }
-                .accessibility(identifier: "addClimbButton")
             }
             .sheet(isPresented: $presentingAddClimb, content: addClimbViewFactory)
         }

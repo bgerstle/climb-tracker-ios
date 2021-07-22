@@ -41,9 +41,10 @@ class ClimbServiceTests: QuickSpec {
                         }
                         .store(in: &self.cancellables)
 
-                    let expectedClimbAttributes = ClimbAttributes(
+                    let expectedClimbAttributes = Climb.Attributes(
                         climbedAt: Date(),
-                        kind: .boulder(grade: .easy)
+                        grade: BoulderGrade.easy,
+                        category: BoulderCategory.self
                     )
 
                     self.service.create(climb: expectedClimbAttributes)

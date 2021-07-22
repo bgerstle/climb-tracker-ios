@@ -31,9 +31,10 @@ class ClimbHistoryViewModelTests: QuickSpec {
         describe("Handling climb created events") {
             context("When a climb created event is published") {
                 it("Then it publishes the new climb list with one element") {
-                    let expectedClimbAttributes = ClimbAttributes(
+                    let expectedClimbAttributes = Climb.Attributes(
                             climbedAt: Date(),
-                            kind: .boulder(grade: .easy)
+                            grade: BoulderGrade.easy,
+                            category: BoulderCategory.self
                         ),
                         eventEnvelope = Climb.create(attributes: expectedClimbAttributes)
                     var actualClimbList: [Climb]!
@@ -58,13 +59,15 @@ class ClimbHistoryViewModelTests: QuickSpec {
 
             context("When multiple climb created events are published") {
                 it("Then it publishes the new climb lists as elements are added") {
-                    let expectedClimbAttributes1 = ClimbAttributes(
-                            climbedAt: Date(),
-                            kind: .boulder(grade: .easy)
-                        ),
-                        expectedClimbAttributes2 = ClimbAttributes(
+                    let expectedClimbAttributes1 = Climb.Attributes(
+                        climbedAt: Date(),
+                        grade: BoulderGrade.easy,
+                        category: BoulderCategory.self
+                    ),
+                        expectedClimbAttributes2 = Climb.Attributes(
                             climbedAt: Date().addingTimeInterval(1.0),
-                            kind: .boulder(grade: .five)
+                            grade: BoulderGrade.five,
+                            category: BoulderCategory.self
                         ),
                         eventEnvelope1 = Climb.create(attributes: expectedClimbAttributes1),
                         eventEnvelope2 = Climb.create(attributes: expectedClimbAttributes2)
