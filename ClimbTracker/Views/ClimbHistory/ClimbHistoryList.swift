@@ -31,15 +31,17 @@ struct ClimbHistoryList: View {
                     }
                 }
             }
-            .navigationTitle("Climbs")
-            .navigationBarItems(trailing:
+            .navigationTitle(Text("Climbs"))
+            .toolbar() {
                 Button("Log Climb") {
                     presentingAddClimb.toggle()
                 }
                 .accessibility(identifier: "addClimbButton")
-            )
+            }
             .sheet(isPresented: $presentingAddClimb, content: addClimbViewFactory)
         }
+        // fixes nav bar layout constraint issues: https://stackoverflow.com/a/66299785/600467
+        .navigationViewStyle(StackNavigationViewStyle())
         .accessibility(identifier: "climbHistoryList")
     }
 }
