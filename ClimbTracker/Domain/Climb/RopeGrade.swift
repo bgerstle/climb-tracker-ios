@@ -47,3 +47,15 @@ enum RopeGrade: String, Grade {
         allCases.firstIndex(of: lhs)! < allCases.firstIndex(of: rhs)!
     }
 }
+
+final class TopRopeCategory: CategoryType {
+    typealias GradeType = RopeGrade
+
+    static let id = Category.topRope
+}
+
+final class SportCategory: CategoryType {
+    typealias GradeType = RopeGrade
+
+    static let id = Category.sport
+}

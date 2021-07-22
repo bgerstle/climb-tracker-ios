@@ -35,3 +35,9 @@ enum BoulderGrade : String, Grade {
         allCases.firstIndex(of: lhs)! < allCases.firstIndex(of: rhs)!
     }
 }
+
+final class BoulderCategory: CategoryType {
+    typealias GradeType = BoulderGrade
+
+    static let id = Category.boulder
+}
