@@ -47,8 +47,31 @@ struct ClimbHistoryList: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         let viewModel = ClimbHistoryViewModel()
-        viewModel.createdClimbs = (0...20).map { _ in
-            Climb(id: UUID(), attributes: Climb.Attributes(climbedAt: Date(), grade: BoulderGrade.easy, category: BoulderCategory.self))
+        viewModel.createdClimbs = (0...20).map { i in
+            let id = UUID(),
+                climbedAt = Date().addingTimeInterval(TimeInterval.random(in: (-600000...600000)))
+
+            if i % 2 == 0 {
+                let ropeGrade = RopeGrade.allCases[Int.random(in: (0..<RopeGrade.allCases.count))]
+                if Bool.random() {
+                    return Climb(id: id,
+                                 attributes: Climb.Attributes(climbedAt: climbedAt,
+                                                              grade: ropeGrade,
+                                                              category: TopRopeCategory.self))
+                } else {
+                    return Climb(id: id,
+                                 attributes: Climb.Attributes(climbedAt: climbedAt,
+                                                              grade: ropeGrade,
+                                                              category: SportCategory.self))
+                }
+
+            } else {
+                let boulderGrade = BoulderGrade.allCases[Int.random(in: (0..<BoulderGrade.allCases.count))]
+                return Climb(id: id,
+                             attributes: Climb.Attributes(climbedAt: climbedAt,
+                                                          grade: boulderGrade,
+                                                          category: BoulderCategory.self))
+            }
         }
         let addClimbView = AddClimbView(addClimbViewModel: AddClimbViewModel())
         return ClimbHistoryList(
