@@ -17,12 +17,16 @@ class AddClimb {
         self.view = view
     }
 
-    public var picker: XCUIElement {
+    public var gradePicker: XCUIElement {
         self.view.descendants(matching: .any).matching(identifier: "gradePicker").firstMatch
     }
 
-    public func pickerOption(forGrade grade: String) -> XCUIElement {
-        return self.view.descendants(matching: .any).matching(identifier: grade).firstMatch
+    public var categoryPicker: XCUIElement {
+        self.view.descendants(matching: .any).matching(identifier: "categoryPicker").firstMatch
+    }
+
+    public func pickerOption(forRawValue rawValue: String) -> XCUIElement {
+        return self.view.descendants(matching: .any).matching(identifier: rawValue).firstMatch
     }
 
     public var submitButton: XCUIElement {

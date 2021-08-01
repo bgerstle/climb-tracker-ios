@@ -34,64 +34,90 @@ class AddClimbViewUITests: QuickSpec {
                                     .waitForExistence(timeout: 2))
                 }
 
-                describe("When I log a bouldering send") {
-                    beforeEach {
+                describe("When I log a bouldering send without changing any fields") {
+                    it("Then I see a Boulder climb with the default grade") {
                         self.addClimb.submitButton.tap()
-                    }
-
-                    it("Then I am taken back to my climb history") {
-                        XCTAssertTrue(self.climbHistory.view
-                                        .waitForExistence(timeout: 2))
-                    }
-
-                    it("And it shows the climb I added") {
+                        
                         XCTAssertEqual(self.climbHistory.rows.count, 1)
                         let firstRow = self.climbHistory.rows.first!
                         XCTAssertTrue(firstRow.cellText.contains("VB"))
+                        XCTAssertTrue(firstRow.cellText.contains("Boulder"))
                     }
                 }
 
                 describe("When I swipe down") {
-                    beforeEach {
-                        self.app.swipeDown()
-                    }
-
                     it("Then I am taken back to climb history") {
+                        self.app.swipeDown()
+
                         XCTAssertFalse(self.addClimb.view.isHittable)
                         XCTAssertTrue(self.app.climbHistory.view.isHittable)
                     }
                 }
 
-                context("And I am selecting a grade") {
-                    beforeEach {
-                        self.addClimb.picker.tap()
+                describe("When I submit a climb with the default category and a custom grade") {
+                    it("Then I see a new boulder climb with the grade I selected") {
+                        let rawGradeValue = "V5"
+                        let defaultCategory = "Boulder"
+
+                        self.addClimb.gradePicker.tap()
+                        self.addClimb.pickerOption(forRawValue: rawGradeValue).tap()
+                        self.addClimb.submitButton.tap()
+
+                        XCTAssertTrue(self.climbHistory.view
+                                        .waitForExistence(timeout: 2))
+
+                        XCTAssertEqual(self.climbHistory.rows.count, 1)
+
+                        let firstRow = self.climbHistory.rows.first!
+                        XCTAssertTrue(firstRow.cellText.contains(rawGradeValue))
+
+                        XCTAssertTrue(firstRow.cellText.contains(defaultCategory))
                     }
+                }
 
-                    describe("When I select a grade") {
-                        beforeEach {
-                            self.addClimb.pickerOption(forGrade: "V5").tap()
-                        }
+                describe("When I submit a climb with a custom category and a default grade") {
+                    it("Then I see a new top rope climb with the default grade") {
+                        let rawCategoryValue = "Top Rope"
+                        let defaultGrade = "5.9"
 
-                        it("Then I am taken back to the add climb view") {
-                            XCTAssertTrue(self.addClimb.view.isHittable)
-                        }
+                        self.addClimb.categoryPicker.tap()
+                        self.addClimb.pickerOption(forRawValue: rawCategoryValue).tap()
+                        self.addClimb.submitButton.tap()
 
-                        describe("And I hit submit") {
-                            beforeEach {
-                                self.addClimb.submitButton.tap()
-                            }
+                        XCTAssertTrue(self.climbHistory.view
+                                        .waitForExistence(timeout: 2))
 
-                            it("Then I am taken back to my climb history") {
-                                XCTAssertTrue(self.climbHistory.view
-                                                .waitForExistence(timeout: 2))
-                            }
+                        XCTAssertEqual(self.climbHistory.rows.count, 1)
 
-                            it("And it shows the climb I added") {
-                                XCTAssertEqual(self.climbHistory.rows.count, 1)
-                                let firstRow = self.climbHistory.rows.first!
-                                XCTAssertTrue(firstRow.cellText.contains("V5"))
-                            }
-                        }
+                        let firstRow = self.climbHistory.rows.first!
+                        XCTAssertTrue(firstRow.cellText.contains(defaultGrade))
+
+                        XCTAssertTrue(firstRow.cellText.contains(rawCategoryValue))
+                    }
+                }
+
+                describe("When I submit a climb with a custom category and a custom grade") {
+                    it("Then I see a new climb with the custom grade and category") {
+                        let rawCategoryValue = "Sport"
+                        let rawGradeValue = "5.11a"
+
+                        self.addClimb.categoryPicker.tap()
+                        self.addClimb.pickerOption(forRawValue: rawCategoryValue).tap()
+
+                        self.addClimb.gradePicker.tap()
+                        self.addClimb.pickerOption(forRawValue: rawGradeValue).tap()
+
+                        self.addClimb.submitButton.tap()
+
+                        XCTAssertTrue(self.climbHistory.view
+                                        .waitForExistence(timeout: 2))
+
+                        XCTAssertEqual(self.climbHistory.rows.count, 1)
+
+                        let firstRow = self.climbHistory.rows.first!
+                        XCTAssertTrue(firstRow.cellText.contains(rawGradeValue))
+
+                        XCTAssertTrue(firstRow.cellText.contains(rawCategoryValue))
                     }
                 }
             }
