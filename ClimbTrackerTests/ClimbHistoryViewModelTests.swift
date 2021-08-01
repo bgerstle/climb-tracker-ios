@@ -8,6 +8,7 @@
 import XCTest
 import Quick
 import Combine
+import CombineExpectations
 @testable import ClimbTracker
 
 class ClimbHistoryViewModelTests: QuickSpec {
@@ -36,21 +37,13 @@ class ClimbHistoryViewModelTests: QuickSpec {
                             grade: BoulderGrade.easy,
                             category: BoulderCategory.self
                         ),
-                        eventEnvelope = Climb.create(attributes: expectedClimbAttributes)
-                    var actualClimbList: [Climb]!
-                    let expectation = self.expectation(description: "published new list")
-                    self.viewModel.$createdClimbs.dropFirst().sink {
-                        actualClimbList = $0
-                        expectation.fulfill()
-                    }.store(in: &self.cancellables)
+                        eventEnvelope = Climb.create(attributes: expectedClimbAttributes),
+                        recorder = self.viewModel.$createdClimbs.dropFirst().record()
 
                     self.viewModel.handleClimbEvents(self.eventSubject).store(in: &self.cancellables)
                     self.eventSubject.send(eventEnvelope)
 
-                    self.waitForExpectations(timeout: 2.0) { error in
-                        XCTAssertNil(error)
-                    }
-                    guard actualClimbList != nil else { return }
+                    let actualClimbList = try self.wait(for: recorder.next(), timeout: 2.0)
 
                     XCTAssertEqual(actualClimbList.count, 1)
                     XCTAssertEqual(actualClimbList.first?.attributes, expectedClimbAttributes)
@@ -70,23 +63,15 @@ class ClimbHistoryViewModelTests: QuickSpec {
                             category: BoulderCategory.self
                         ),
                         eventEnvelope1 = Climb.create(attributes: expectedClimbAttributes1),
-                        eventEnvelope2 = Climb.create(attributes: expectedClimbAttributes2)
-                    var actualClimbLists: [[Climb]] = []
-                    let expectation = self.expectation(description: "published first list")
-                    self.viewModel.$createdClimbs.dropFirst().sink {
-                        actualClimbLists.append($0)
-                        if actualClimbLists.count == 2 {
-                            expectation.fulfill()
-                        }
-                    }.store(in: &self.cancellables)
-
+                        eventEnvelope2 = Climb.create(attributes: expectedClimbAttributes2),
+                        recorder = self.viewModel.$createdClimbs.dropFirst().record()
                     self.viewModel.handleClimbEvents(self.eventSubject).store(in: &self.cancellables)
+
+
                     self.eventSubject.send(eventEnvelope1)
                     self.eventSubject.send(eventEnvelope2)
 
-                    self.waitForExpectations(timeout: 2.0) { error in
-                        XCTAssertNil(error)
-                    }
+                    let actualClimbLists = try self.wait(for: recorder.next(2), timeout: 2.0)
 
                     XCTAssertEqual(actualClimbLists.count, 2)
 

@@ -29,6 +29,7 @@
 		BC9C2B9B26A7A2EF00520E04 /* CategoryPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C2B9A26A7A2EF00520E04 /* CategoryPicker.swift */; };
 		BCC05BE026A9C123001B4C42 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC05BDF26A9C122001B4C42 /* Category.swift */; };
 		BCC05BE526A9C1D0001B4C42 /* Grade.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC05BE426A9C1D0001B4C42 /* Grade.swift */; };
+		BCC05BEB26B6D2E1001B4C42 /* CombineExpectations in Frameworks */ = {isa = PBXBuildFile; productRef = BCC05BEA26B6D2E1001B4C42 /* CombineExpectations */; };
 		BCCAEE4D2698FE75006F0707 /* Quick in Frameworks */ = {isa = PBXBuildFile; productRef = BCCAEE4C2698FE75006F0707 /* Quick */; };
 		BCCAEE572698FEA2006F0707 /* Quick in Frameworks */ = {isa = PBXBuildFile; productRef = BCCAEE562698FEA2006F0707 /* Quick */; };
 		BCCAEE5A2698FFAC006F0707 /* ClimbHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCAEE592698FFAC006F0707 /* ClimbHistory.swift */; };
@@ -96,6 +97,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCCAEE4D2698FE75006F0707 /* Quick in Frameworks */,
+				BCC05BEB26B6D2E1001B4C42 /* CombineExpectations in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -285,6 +287,7 @@
 			name = ClimbTrackerTests;
 			packageProductDependencies = (
 				BCCAEE4C2698FE75006F0707 /* Quick */,
+				BCC05BEA26B6D2E1001B4C42 /* CombineExpectations */,
 			);
 			productName = ClimbTrackerTests;
 			productReference = BC467215268FB97100B2CBE7 /* ClimbTrackerTests.xctest */;
@@ -345,6 +348,7 @@
 			mainGroup = BC4671FB268FB96E00B2CBE7;
 			packageReferences = (
 				BCCAEE4B2698FE74006F0707 /* XCRemoteSwiftPackageReference "Quick" */,
+				BCC05BE926B6D2E0001B4C42 /* XCRemoteSwiftPackageReference "CombineExpectations" */,
 			);
 			productRefGroup = BC467205268FB96E00B2CBE7 /* Products */;
 			projectDirPath = "";
@@ -725,6 +729,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		BCC05BE926B6D2E0001B4C42 /* XCRemoteSwiftPackageReference "CombineExpectations" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/groue/CombineExpectations.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.0.0;
+			};
+		};
 		BCCAEE4B2698FE74006F0707 /* XCRemoteSwiftPackageReference "Quick" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Quick/Quick.git";
@@ -736,6 +748,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		BCC05BEA26B6D2E1001B4C42 /* CombineExpectations */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BCC05BE926B6D2E0001B4C42 /* XCRemoteSwiftPackageReference "CombineExpectations" */;
+			productName = CombineExpectations;
+		};
 		BCCAEE4C2698FE75006F0707 /* Quick */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = BCCAEE4B2698FE74006F0707 /* XCRemoteSwiftPackageReference "Quick" */;
