@@ -15,7 +15,7 @@
 		BC43D981269AA146002C984E /* AddClimb.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC43D980269AA146002C984E /* AddClimb.swift */; };
 		BC43D98C269B1CED002C984E /* AddClimbViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC43D98B269B1CED002C984E /* AddClimbViewUITests.swift */; };
 		BC43D993269B3852002C984E /* Climb.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC43D992269B3852002C984E /* Climb.swift */; };
-		BC43D9A4269B3D73002C984E /* BoulderGrade.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC43D9A3269B3D73002C984E /* BoulderGrade.swift */; };
+		BC43D9A4269B3D73002C984E /* HuecoGrade.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC43D9A3269B3D73002C984E /* HuecoGrade.swift */; };
 		BC43D9C6269B5CB5002C984E /* EventEnvelope.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC43D9C5269B5CB5002C984E /* EventEnvelope.swift */; };
 		BC467208268FB96E00B2CBE7 /* ClimbTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC467207268FB96E00B2CBE7 /* ClimbTrackerApp.swift */; };
 		BC46720A268FB96E00B2CBE7 /* ClimbHistoryList.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC467209268FB96E00B2CBE7 /* ClimbHistoryList.swift */; };
@@ -23,7 +23,7 @@
 		BC46720F268FB97000B2CBE7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC46720E268FB97000B2CBE7 /* Preview Assets.xcassets */; };
 		BC467225268FB97100B2CBE7 /* ClimbHistoryUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC467224268FB97100B2CBE7 /* ClimbHistoryUITests.swift */; };
 		BC92708A269B7054002734CD /* ClimbEventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC927089269B7054002734CD /* ClimbEventService.swift */; };
-		BC9C2B8C26A6190B00520E04 /* RopeGrade.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C2B8B26A6190B00520E04 /* RopeGrade.swift */; };
+		BC9C2B8C26A6190B00520E04 /* YosemiteDecimalGrade.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C2B8B26A6190B00520E04 /* YosemiteDecimalGrade.swift */; };
 		BC9C2B9126A61B8400520E04 /* GradePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C2B9026A61B8400520E04 /* GradePicker.swift */; };
 		BC9C2B9626A61BDA00520E04 /* AddClimbViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C2B9526A61BDA00520E04 /* AddClimbViewModel.swift */; };
 		BC9C2B9B26A7A2EF00520E04 /* CategoryPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C2B9A26A7A2EF00520E04 /* CategoryPicker.swift */; };
@@ -60,7 +60,7 @@
 		BC43D980269AA146002C984E /* AddClimb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddClimb.swift; sourceTree = "<group>"; };
 		BC43D98B269B1CED002C984E /* AddClimbViewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddClimbViewUITests.swift; sourceTree = "<group>"; };
 		BC43D992269B3852002C984E /* Climb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Climb.swift; sourceTree = "<group>"; };
-		BC43D9A3269B3D73002C984E /* BoulderGrade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoulderGrade.swift; sourceTree = "<group>"; };
+		BC43D9A3269B3D73002C984E /* HuecoGrade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HuecoGrade.swift; sourceTree = "<group>"; };
 		BC43D9C5269B5CB5002C984E /* EventEnvelope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventEnvelope.swift; sourceTree = "<group>"; };
 		BC467204268FB96E00B2CBE7 /* ClimbTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClimbTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC467207268FB96E00B2CBE7 /* ClimbTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClimbTrackerApp.swift; sourceTree = "<group>"; };
@@ -75,7 +75,7 @@
 		BC467226268FB97100B2CBE7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BC927089269B7054002734CD /* ClimbEventService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClimbEventService.swift; sourceTree = "<group>"; };
 		BC92708E269B71B2002734CD /* ClimbServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClimbServiceTests.swift; sourceTree = "<group>"; };
-		BC9C2B8B26A6190B00520E04 /* RopeGrade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RopeGrade.swift; sourceTree = "<group>"; };
+		BC9C2B8B26A6190B00520E04 /* YosemiteDecimalGrade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YosemiteDecimalGrade.swift; sourceTree = "<group>"; };
 		BC9C2B9026A61B8400520E04 /* GradePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradePicker.swift; sourceTree = "<group>"; };
 		BC9C2B9526A61BDA00520E04 /* AddClimbViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddClimbViewModel.swift; sourceTree = "<group>"; };
 		BC9C2B9A26A7A2EF00520E04 /* CategoryPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPicker.swift; sourceTree = "<group>"; };
@@ -137,8 +137,8 @@
 			children = (
 				BC43D992269B3852002C984E /* Climb.swift */,
 				BC927089269B7054002734CD /* ClimbEventService.swift */,
-				BC43D9A3269B3D73002C984E /* BoulderGrade.swift */,
-				BC9C2B8B26A6190B00520E04 /* RopeGrade.swift */,
+				BC43D9A3269B3D73002C984E /* HuecoGrade.swift */,
+				BC9C2B8B26A6190B00520E04 /* YosemiteDecimalGrade.swift */,
 				BCC05BDF26A9C122001B4C42 /* Category.swift */,
 				BCC05BE426A9C1D0001B4C42 /* Grade.swift */,
 			);
@@ -392,7 +392,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BC43D9A4269B3D73002C984E /* BoulderGrade.swift in Sources */,
+				BC43D9A4269B3D73002C984E /* HuecoGrade.swift in Sources */,
 				BC9C2B9B26A7A2EF00520E04 /* CategoryPicker.swift in Sources */,
 				BC43D9C6269B5CB5002C984E /* EventEnvelope.swift in Sources */,
 				BC46720A268FB96E00B2CBE7 /* ClimbHistoryList.swift in Sources */,
@@ -402,7 +402,7 @@
 				BC43D976269A9E49002C984E /* AddClimbView.swift in Sources */,
 				BCC05BE526A9C1D0001B4C42 /* Grade.swift in Sources */,
 				BC467208268FB96E00B2CBE7 /* ClimbTrackerApp.swift in Sources */,
-				BC9C2B8C26A6190B00520E04 /* RopeGrade.swift in Sources */,
+				BC9C2B8C26A6190B00520E04 /* YosemiteDecimalGrade.swift in Sources */,
 				BC92708A269B7054002734CD /* ClimbEventService.swift in Sources */,
 				BC9C2B9626A61BDA00520E04 /* AddClimbViewModel.swift in Sources */,
 				BC2ECFD8269B852800838466 /* ClimbHistoryViewModel.swift in Sources */,

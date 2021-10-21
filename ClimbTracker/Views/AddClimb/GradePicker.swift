@@ -24,6 +24,6 @@ struct GradePicker<G: Grade>: View {
 
 struct GradePicker_Previews: PreviewProvider {
     static var previews: some View {
-        GradePicker<BoulderGrade>(selectedGrade: .constant(BoulderGrade.easy))
+        GradePicker<HuecoGrade>(selectedGrade: .constant(HuecoGrade.easy))
     }
 }

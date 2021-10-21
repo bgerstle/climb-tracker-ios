@@ -35,7 +35,7 @@ class ClimbHistoryViewModelTests: QuickSpec {
                     let climb = Climb<BoulderCategory>(
                             id: UUID(),
                             climbedAt: Date(),
-                            grade: BoulderGrade.easy
+                            grade: HuecoGrade.easy
                         ),
                         eventEnvelope = EventEnvelope(event: ClimbEvent.created(climb), timestamp: Date()),
                         recorder = self.viewModel.$createdClimbs.dropFirst().record()
@@ -55,12 +55,12 @@ class ClimbHistoryViewModelTests: QuickSpec {
                     let expectedClimb1 = Climb<BoulderCategory>(
                             id: UUID(),
                             climbedAt: Date(),
-                            grade: BoulderGrade.easy
+                            grade: HuecoGrade.easy
                         ),
                         expectedClimb2 = Climb<BoulderCategory>(
                             id: UUID(),
                             climbedAt: Date().addingTimeInterval(1.0),
-                            grade: BoulderGrade.five
+                            grade: HuecoGrade.five
                         ),
                     eventEnvelope1 = EventEnvelope(event: ClimbEvent.created(expectedClimb1), timestamp: Date()),
                         eventEnvelope2 = EventEnvelope(event: ClimbEvent.created(expectedClimb2), timestamp: Date()),

@@ -20,11 +20,11 @@ struct AddClimbView: View {
 
                 switch addClimbViewModel.selectedCategory {
                 case .boulder:
-                    GradePicker<BoulderGrade>(selectedGrade: $addClimbViewModel.selectedBoulderGrade)
+                    GradePicker<HuecoGrade>(selectedGrade: $addClimbViewModel.selectedBoulderGrade)
                 case .topRope:
-                    GradePicker<RopeGrade>(selectedGrade: $addClimbViewModel.selectedRopeGrade)
+                    GradePicker<YosemiteDecimalGrade>(selectedGrade: $addClimbViewModel.selectedRopeGrade)
                 case .sport:
-                    GradePicker<RopeGrade>(selectedGrade: $addClimbViewModel.selectedRopeGrade)
+                    GradePicker<YosemiteDecimalGrade>(selectedGrade: $addClimbViewModel.selectedRopeGrade)
                 }
             }
             .navigationTitle("Add Climb")

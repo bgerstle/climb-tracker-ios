@@ -35,6 +35,6 @@ struct ClimbHistoryRow_Previews: PreviewProvider {
     static var previews: some View {
         ClimbHistoryRow(climb: Climb<BoulderCategory>(id: UUID(),
                                                       climbedAt: Date(),
-                                                      grade: BoulderGrade.easy))
+                                                      grade: HuecoGrade.easy))
     }
 }

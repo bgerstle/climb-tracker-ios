@@ -56,7 +56,7 @@ struct ContentView_Previews: PreviewProvider {
                 climbedAt = Date().addingTimeInterval(TimeInterval.random(in: (-600000...600000)))
 
             if i % 2 == 0 {
-                let ropeGrade = RopeGrade.allCases[Int.random(in: (0..<RopeGrade.allCases.count))]
+                let ropeGrade = YosemiteDecimalGrade.allCases[Int.random(in: (0..<YosemiteDecimalGrade.allCases.count))]
                 if Bool.random() {
                     return Climb<TopRopeCategory>(id: id,
                                                   climbedAt: climbedAt,
@@ -68,7 +68,7 @@ struct ContentView_Previews: PreviewProvider {
                 }
 
             } else {
-                let boulderGrade = BoulderGrade.allCases[Int.random(in: (0..<BoulderGrade.allCases.count))]
+                let boulderGrade = HuecoGrade.allCases[Int.random(in: (0..<HuecoGrade.allCases.count))]
                 return Climb<BoulderCategory>(id: id,
                                               climbedAt: climbedAt,
                                               grade: boulderGrade)

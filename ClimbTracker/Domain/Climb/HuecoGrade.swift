@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum BoulderGrade : String, Grade {
+enum HuecoGrade : String, Grade {
     case easy = "VB",
          zero = "V0",
          one = "V1",
@@ -29,15 +29,15 @@ enum BoulderGrade : String, Grade {
 
     var description: String { self.rawValue }
 
-    var id: BoulderGrade { self }
+    var id: HuecoGrade { self }
 
-    static func < (lhs: BoulderGrade, rhs: BoulderGrade) -> Bool {
+    static func < (lhs: HuecoGrade, rhs: HuecoGrade) -> Bool {
         allCases.firstIndex(of: lhs)! < allCases.firstIndex(of: rhs)!
     }
 }
 
 final class BoulderCategory: CategoryType {
-    typealias GradeType = BoulderGrade
+    typealias GradeType = HuecoGrade
 
     static let id = Category.boulder
 }

@@ -29,7 +29,7 @@ class ClimbServiceTests: QuickSpec {
                 it("Then a single climb created event is published") {
                     let recorder = self.eventSubject.record(),
                         climbedAt = Date(),
-                        grade = BoulderGrade.easy
+                        grade = HuecoGrade.easy
 
                     self.service.create(climbedAt: climbedAt,
                                         grade: grade,

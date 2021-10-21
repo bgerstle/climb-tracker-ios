@@ -13,14 +13,14 @@ class AddClimbViewModel: ObservableObject {
 
     @Published var selectedCategory: Category
 
-    @Published var selectedBoulderGrade: BoulderGrade
+    @Published var selectedBoulderGrade: HuecoGrade
 
-    @Published var selectedRopeGrade: RopeGrade
+    @Published var selectedRopeGrade: YosemiteDecimalGrade
 
     init(climbService: ClimbService! = nil,
          selectedCategory: Category = .boulder,
-         selectedBoulderGrade: BoulderGrade = BoulderGrade.easy,
-         selectedRopeGrade: RopeGrade = RopeGrade.nine) {
+         selectedBoulderGrade: HuecoGrade = HuecoGrade.easy,
+         selectedRopeGrade: YosemiteDecimalGrade = YosemiteDecimalGrade.nine) {
         self.climbService = climbService
         self.selectedCategory = selectedCategory
         self.selectedRopeGrade = selectedRopeGrade

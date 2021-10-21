@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum RopeGrade: String, Grade {
+enum YosemiteDecimalGrade: String, Grade {
     case zero = "5.0",
          one = "5.1",
          two = "5.2",
@@ -39,23 +39,23 @@ enum RopeGrade: String, Grade {
         self.rawValue
     }
 
-    var id: RopeGrade {
+    var id: YosemiteDecimalGrade {
         self
     }
 
-    static func < (lhs: RopeGrade, rhs: RopeGrade) -> Bool {
+    static func < (lhs: YosemiteDecimalGrade, rhs: YosemiteDecimalGrade) -> Bool {
         allCases.firstIndex(of: lhs)! < allCases.firstIndex(of: rhs)!
     }
 }
 
 final class TopRopeCategory: CategoryType {
-    typealias GradeType = RopeGrade
+    typealias GradeType = YosemiteDecimalGrade
 
     static let id = Category.topRope
 }
 
 final class SportCategory: CategoryType {
-    typealias GradeType = RopeGrade
+    typealias GradeType = YosemiteDecimalGrade
 
     static let id = Category.sport
 }
