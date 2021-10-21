@@ -12,7 +12,7 @@ import CombineExpectations
 @testable import ClimbTracker
 
 class ClimbHistoryViewModelTests: QuickSpec {
-    typealias TestClimbEventSubject = PassthroughSubject<EventEnvelope<Climb.Event>, Never>
+    typealias TestClimbEventSubject = PassthroughSubject<EventEnvelope<ClimbEvent>, Never>
     var eventSubject: TestClimbEventSubject! = nil
     var viewModel: ClimbHistoryViewModel! = nil
     var cancellables: [AnyCancellable] = []
@@ -32,12 +32,12 @@ class ClimbHistoryViewModelTests: QuickSpec {
         describe("Handling climb created events") {
             context("When a climb created event is published") {
                 it("Then it publishes the new climb list with one element") {
-                    let expectedClimbAttributes = Climb.Attributes(
+                    let climb = Climb<BoulderCategory>(
+                            id: UUID(),
                             climbedAt: Date(),
-                            grade: BoulderGrade.easy,
-                            category: BoulderCategory.self
+                            grade: BoulderGrade.easy
                         ),
-                        eventEnvelope = Climb.create(attributes: expectedClimbAttributes),
+                        eventEnvelope = EventEnvelope(event: ClimbEvent.created(climb), timestamp: Date()),
                         recorder = self.viewModel.$createdClimbs.dropFirst().record()
 
                     self.viewModel.handleClimbEvents(self.eventSubject).store(in: &self.cancellables)
@@ -46,24 +46,24 @@ class ClimbHistoryViewModelTests: QuickSpec {
                     let actualClimbList = try self.wait(for: recorder.next(), timeout: 2.0)
 
                     XCTAssertEqual(actualClimbList.count, 1)
-                    XCTAssertEqual(actualClimbList.first?.attributes, expectedClimbAttributes)
+                    XCTAssertEqual(actualClimbList.first as! Climb<BoulderCategory>, climb)
                 }
             }
 
             context("When multiple climb created events are published") {
                 it("Then it publishes the new climb lists as elements are added") {
-                    let expectedClimbAttributes1 = Climb.Attributes(
-                        climbedAt: Date(),
-                        grade: BoulderGrade.easy,
-                        category: BoulderCategory.self
-                    ),
-                        expectedClimbAttributes2 = Climb.Attributes(
-                            climbedAt: Date().addingTimeInterval(1.0),
-                            grade: BoulderGrade.five,
-                            category: BoulderCategory.self
+                    let expectedClimb1 = Climb<BoulderCategory>(
+                            id: UUID(),
+                            climbedAt: Date(),
+                            grade: BoulderGrade.easy
                         ),
-                        eventEnvelope1 = Climb.create(attributes: expectedClimbAttributes1),
-                        eventEnvelope2 = Climb.create(attributes: expectedClimbAttributes2),
+                        expectedClimb2 = Climb<BoulderCategory>(
+                            id: UUID(),
+                            climbedAt: Date().addingTimeInterval(1.0),
+                            grade: BoulderGrade.five
+                        ),
+                    eventEnvelope1 = EventEnvelope(event: ClimbEvent.created(expectedClimb1), timestamp: Date()),
+                        eventEnvelope2 = EventEnvelope(event: ClimbEvent.created(expectedClimb2), timestamp: Date()),
                         recorder = self.viewModel.$createdClimbs.dropFirst().record()
                     self.viewModel.handleClimbEvents(self.eventSubject).store(in: &self.cancellables)
 
@@ -76,11 +76,11 @@ class ClimbHistoryViewModelTests: QuickSpec {
                     XCTAssertEqual(actualClimbLists.count, 2)
 
                     let firstList = actualClimbLists[0]
-                    XCTAssertEqual(firstList.first?.attributes, expectedClimbAttributes1)
+                    XCTAssertEqual(firstList.first as! Climb<BoulderCategory>, expectedClimb1)
 
                     let secondList = actualClimbLists[1]
-                    XCTAssertEqual(secondList.first?.attributes, expectedClimbAttributes2)
-                    XCTAssertEqual(secondList[1].attributes, expectedClimbAttributes1)
+                    XCTAssertEqual(secondList.first as! Climb<BoulderCategory>, expectedClimb2)
+                    XCTAssertEqual(secondList[1] as! Climb<BoulderCategory>, expectedClimb1)
                 }
             }
         }

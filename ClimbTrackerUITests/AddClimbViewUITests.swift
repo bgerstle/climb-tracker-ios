@@ -61,6 +61,7 @@ class AddClimbViewUITests: QuickSpec {
 
                         self.addClimb.gradePicker.tap()
                         self.addClimb.pickerOption(forRawValue: rawGradeValue).tap()
+                        XCTAssertTrue(self.addClimb.submitButton.isHittable)
                         self.addClimb.submitButton.tap()
 
                         XCTAssertTrue(self.climbHistory.view
@@ -68,10 +69,9 @@ class AddClimbViewUITests: QuickSpec {
 
                         XCTAssertEqual(self.climbHistory.rows.count, 1)
 
-                        let firstRow = self.climbHistory.rows.first!
-                        XCTAssertTrue(firstRow.cellText.contains(rawGradeValue))
-
-                        XCTAssertTrue(firstRow.cellText.contains(defaultCategory))
+                        let firstRowText = self.climbHistory.rows.first.map(\.cellText) ?? ""
+                        XCTAssertTrue(firstRowText.contains(rawGradeValue))
+                        XCTAssertTrue(firstRowText.contains(defaultCategory))
                     }
                 }
 
@@ -82,6 +82,7 @@ class AddClimbViewUITests: QuickSpec {
 
                         self.addClimb.categoryPicker.tap()
                         self.addClimb.pickerOption(forRawValue: rawCategoryValue).tap()
+                        XCTAssertTrue(self.addClimb.submitButton.isHittable)
                         self.addClimb.submitButton.tap()
 
                         XCTAssertTrue(self.climbHistory.view
@@ -89,10 +90,10 @@ class AddClimbViewUITests: QuickSpec {
 
                         XCTAssertEqual(self.climbHistory.rows.count, 1)
 
-                        let firstRow = self.climbHistory.rows.first!
-                        XCTAssertTrue(firstRow.cellText.contains(defaultGrade))
+                        let firstRowText = self.climbHistory.rows.first?.cellText ?? ""
+                        XCTAssertTrue(firstRowText.contains(defaultGrade))
 
-                        XCTAssertTrue(firstRow.cellText.contains(rawCategoryValue))
+                        XCTAssertTrue(firstRowText.contains(rawCategoryValue))
                     }
                 }
 
@@ -103,10 +104,9 @@ class AddClimbViewUITests: QuickSpec {
 
                         self.addClimb.categoryPicker.tap()
                         self.addClimb.pickerOption(forRawValue: rawCategoryValue).tap()
-
                         self.addClimb.gradePicker.tap()
                         self.addClimb.pickerOption(forRawValue: rawGradeValue).tap()
-
+                        XCTAssertTrue(self.addClimb.submitButton.isHittable)
                         self.addClimb.submitButton.tap()
 
                         XCTAssertTrue(self.climbHistory.view
@@ -114,10 +114,10 @@ class AddClimbViewUITests: QuickSpec {
 
                         XCTAssertEqual(self.climbHistory.rows.count, 1)
 
-                        let firstRow = self.climbHistory.rows.first!
-                        XCTAssertTrue(firstRow.cellText.contains(rawGradeValue))
+                        let firstRowText = self.climbHistory.rows.first?.cellText ?? ""
+                        XCTAssertTrue(firstRowText.contains(rawGradeValue))
 
-                        XCTAssertTrue(firstRow.cellText.contains(rawCategoryValue))
+                        XCTAssertTrue(firstRowText.contains(rawCategoryValue))
                     }
                 }
             }

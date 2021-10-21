@@ -25,8 +25,8 @@ struct ClimbHistoryList: View {
         NavigationView {
             ScrollView {
                 LazyVStack(alignment:.leading) {
-                    ForEach(viewModel.createdClimbs) { climb in
-                        ClimbHistoryRow(climbAttributes: climb.attributes)
+                    ForEach(viewModel.createdClimbs, id: \.id) { climb in
+                        ClimbHistoryRow(climb: climb)
                         Divider()
                     }
                 }
@@ -58,23 +58,20 @@ struct ContentView_Previews: PreviewProvider {
             if i % 2 == 0 {
                 let ropeGrade = RopeGrade.allCases[Int.random(in: (0..<RopeGrade.allCases.count))]
                 if Bool.random() {
-                    return Climb(id: id,
-                                 attributes: Climb.Attributes(climbedAt: climbedAt,
-                                                              grade: ropeGrade,
-                                                              category: TopRopeCategory.self))
+                    return Climb<TopRopeCategory>(id: id,
+                                                  climbedAt: climbedAt,
+                                                  grade: ropeGrade)
                 } else {
-                    return Climb(id: id,
-                                 attributes: Climb.Attributes(climbedAt: climbedAt,
-                                                              grade: ropeGrade,
-                                                              category: SportCategory.self))
+                    return Climb<SportCategory>(id: id,
+                                                climbedAt: climbedAt,
+                                                grade: ropeGrade)
                 }
 
             } else {
                 let boulderGrade = BoulderGrade.allCases[Int.random(in: (0..<BoulderGrade.allCases.count))]
-                return Climb(id: id,
-                             attributes: Climb.Attributes(climbedAt: climbedAt,
-                                                          grade: boulderGrade,
-                                                          category: BoulderCategory.self))
+                return Climb<BoulderCategory>(id: id,
+                                              climbedAt: climbedAt,
+                                              grade: boulderGrade)
             }
         }
         let addClimbView = AddClimbView(addClimbViewModel: AddClimbViewModel())

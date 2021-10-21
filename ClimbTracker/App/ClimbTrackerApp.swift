@@ -17,16 +17,16 @@ struct ClimbTrackerApp: App {
 
     var body: some Scene {
         // do I even need NotificationCenter?....
-        let subject = PassthroughSubject<EventEnvelope<Climb.Event>, Never>()
+        let subject = PassthroughSubject<EventEnvelope<ClimbEvent>, Never>()
 
-        // let climbEventPublisher = NotificationCenter.default.publisher(topic: Climb.Event.self)
+        // let climbEventPublisher = NotificationCenter.default.publisher(topic: ClimbEvent.self)
         let historyViewModel = ClimbHistoryViewModel()
 
         // FIXME: put these cancellables somewhere, or defer their creation?
         let viewModelCancellable = historyViewModel.handleClimbEvents(subject)
         cancelContainer.cancellables.append(viewModelCancellable)
 
-        let climbService = ClimbEventService<PassthroughSubject<EventEnvelope<Climb.Event>, Never>>(subject: subject)
+        let climbService = ClimbEventService<PassthroughSubject<EventEnvelope<ClimbEvent>, Never>>(subject: subject)
 
         let addClimbViewModel = AddClimbViewModel(climbService: climbService)
 

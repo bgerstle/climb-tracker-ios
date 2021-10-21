@@ -32,17 +32,17 @@ class AddClimbViewModel: ObservableObject {
 
         switch self.selectedCategory {
         case .boulder:
-            climbService.create(climb: Climb.Attributes(climbedAt: climbedAt,
-                                                        grade: selectedBoulderGrade,
-                                                        category: BoulderCategory.self))
+            climbService.create(climbedAt: climbedAt,
+                                grade: selectedBoulderGrade,
+                                category: BoulderCategory.self)
         case .topRope:
-            climbService.create(climb: Climb.Attributes(climbedAt: climbedAt,
-                                                        grade: selectedRopeGrade,
-                                                        category: TopRopeCategory.self))
+            climbService.create(climbedAt: climbedAt,
+                                grade: selectedRopeGrade,
+                                category: TopRopeCategory.self)
         case .sport:
-            climbService.create(climb: Climb.Attributes(climbedAt: climbedAt,
-                                                        grade: selectedRopeGrade,
-                                                        category: SportCategory.self))
+            climbService.create(climbedAt: climbedAt,
+                                grade: selectedRopeGrade,
+                                category: SportCategory.self)
         }
     }
 }

@@ -13,7 +13,7 @@ import CombineExpectations
 @testable import ClimbTracker
 
 class ClimbServiceTests: QuickSpec {
-    typealias TestClimbEventSubject = PassthroughSubject<EventEnvelope<Climb.Event>, Never>
+    typealias TestClimbEventSubject = PassthroughSubject<EventEnvelope<ClimbEvent>, Never>
     var eventSubject: TestClimbEventSubject! = nil
     var service: ClimbEventService<TestClimbEventSubject>! = nil
 
@@ -28,19 +28,20 @@ class ClimbServiceTests: QuickSpec {
             context("When the service creates a climb") {
                 it("Then a single climb created event is published") {
                     let recorder = self.eventSubject.record(),
-                        expectedClimbAttributes = Climb.Attributes(
-                            climbedAt: Date(),
-                            grade: BoulderGrade.easy,
-                            category: BoulderCategory.self
-                        )
+                        climbedAt = Date(),
+                        grade = BoulderGrade.easy
 
-                    self.service.create(climb: expectedClimbAttributes)
+                    self.service.create(climbedAt: climbedAt,
+                                        grade: grade,
+                                        category: BoulderCategory.self)
 
-                    let publishedEvent: EventEnvelope<Climb.Event> =
+                    let publishedEvent: EventEnvelope<ClimbEvent> =
                         try self.wait(for: recorder.next(), timeout: 2.0)
 
                     if case .created(let climb) = publishedEvent.event {
-                        XCTAssertEqual(climb.attributes, expectedClimbAttributes)
+                        let actualClimb = climb as! Climb<BoulderCategory>
+                        XCTAssertEqual(actualClimb.systemicGrade, grade)
+                        XCTAssertEqual(actualClimb.climbedAt, climbedAt)
                     } else {
                         XCTFail("Unexpected case: \(publishedEvent)")
                     }

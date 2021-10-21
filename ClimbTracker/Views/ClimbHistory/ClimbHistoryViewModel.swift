@@ -10,12 +10,12 @@ import Combine
 import SwiftUI
 
 class ClimbHistoryViewModel: ObservableObject {
-    @Published var createdClimbs: [Climb] = []
+    @Published var createdClimbs: [AnyClimb] = []
     var cancellable: AnyCancellable?
 
     func handleClimbEvents<P: Publisher>(_ publisher: P)
         -> AnyCancellable
-        where P.Output == EventEnvelope<Climb.Event>, P.Failure == Never
+        where P.Output == EventEnvelope<ClimbEvent>, P.Failure == Never
     {
         return publisher.sink { climbEvent in
             switch climbEvent.event {

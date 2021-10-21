@@ -7,38 +7,34 @@
 
 import Foundation
 
-class Climb: Identifiable {
-    typealias ID = UUID
+// Type-erased Climb.
+// Cannot conform to Identifiable since that introduces "Self" requirements that prevent specifying
+// mixed collections of climbs (e.g. [BoulderClimb, RopeClimb...])
+protocol AnyClimb {
+    var climbedAt: Date { get }
+    var category: Category { get }
+    var grade: String { get }
+    var id: UUID { get }
+}
 
-    struct Attributes: Hashable {
-        let climbedAt: Date
-        let category: Category
-        let grade: String
+enum ClimbEvent {
+    case created(AnyClimb)
+}
 
-        init<CT: CategoryType>(climbedAt: Date, grade: CT.GradeType, category: CT.Type) {
-            self.climbedAt = climbedAt
-            self.category = category.id
-            self.grade = grade.rawValue
-        }
-    }
-
-    init(id: UUID, attributes: Attributes) {
-        self.id = id
-        self.attributes = attributes
-    }
-
-    enum Event {
-        case created(climb: Climb)
-    }
-
+struct Climb<CT: CategoryType>: AnyClimb, Hashable {
     let id: UUID
 
-    let attributes: Attributes
+    let climbedAt: Date
+    var category: Category { CT.id }
 
-    static func create(attributes: Attributes) -> EventEnvelope<Event> {
-        return EventEnvelope(
-            event: .created(climb: Climb(id: UUID(), attributes: attributes)),
-            timestamp: Date()
-        )
+    // TODO: rename rawGrade or something
+    let grade: String
+
+    var systemicGrade: CT.GradeType { CT.GradeType(rawValue: grade)! }
+
+    init(id: UUID, climbedAt: Date, grade: CT.GradeType) {
+        self.id = id
+        self.climbedAt = climbedAt
+        self.grade = grade.rawValue
     }
 }

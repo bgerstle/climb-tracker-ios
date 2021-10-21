@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BC2DE80A27220DDE0015C190 /* ClimbServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC92708E269B71B2002734CD /* ClimbServiceTests.swift */; };
 		BC2ECFD8269B852800838466 /* ClimbHistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2ECFD7269B852800838466 /* ClimbHistoryViewModel.swift */; };
 		BC2ECFDD269B877400838466 /* ClimbHistoryViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2ECFDC269B877400838466 /* ClimbHistoryViewModelTests.swift */; };
 		BC2ECFF0269B9C7200838466 /* ClimbHistoryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2ECFEF269B9C7200838466 /* ClimbHistoryRow.swift */; };
@@ -22,7 +23,6 @@
 		BC46720F268FB97000B2CBE7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC46720E268FB97000B2CBE7 /* Preview Assets.xcassets */; };
 		BC467225268FB97100B2CBE7 /* ClimbHistoryUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC467224268FB97100B2CBE7 /* ClimbHistoryUITests.swift */; };
 		BC92708A269B7054002734CD /* ClimbEventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC927089269B7054002734CD /* ClimbEventService.swift */; };
-		BC92708F269B71B2002734CD /* ClimbServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC92708E269B71B2002734CD /* ClimbServiceTests.swift */; };
 		BC9C2B8C26A6190B00520E04 /* RopeGrade.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C2B8B26A6190B00520E04 /* RopeGrade.swift */; };
 		BC9C2B9126A61B8400520E04 /* GradePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C2B9026A61B8400520E04 /* GradePicker.swift */; };
 		BC9C2B9626A61BDA00520E04 /* AddClimbViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C2B9526A61BDA00520E04 /* AddClimbViewModel.swift */; };
@@ -136,9 +136,9 @@
 			isa = PBXGroup;
 			children = (
 				BC43D992269B3852002C984E /* Climb.swift */,
+				BC927089269B7054002734CD /* ClimbEventService.swift */,
 				BC43D9A3269B3D73002C984E /* BoulderGrade.swift */,
 				BC9C2B8B26A6190B00520E04 /* RopeGrade.swift */,
-				BC927089269B7054002734CD /* ClimbEventService.swift */,
 				BCC05BDF26A9C122001B4C42 /* Category.swift */,
 				BCC05BE426A9C1D0001B4C42 /* Grade.swift */,
 			);
@@ -415,7 +415,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC2ECFDD269B877400838466 /* ClimbHistoryViewModelTests.swift in Sources */,
-				BC92708F269B71B2002734CD /* ClimbServiceTests.swift in Sources */,
+				BC2DE80A27220DDE0015C190 /* ClimbServiceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
