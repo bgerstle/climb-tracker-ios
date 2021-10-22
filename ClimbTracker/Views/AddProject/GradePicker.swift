@@ -18,6 +18,7 @@ struct GradePicker<G: Grade>: View {
                     .accessibility(identifier: grade.rawValue)
             }
         }
+        .pickerStyle(.inline)
         .accessibility(identifier: "gradePicker")
     }
 }

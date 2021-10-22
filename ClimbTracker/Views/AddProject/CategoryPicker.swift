@@ -29,6 +29,7 @@ struct CategoryPicker: View {
                     .accessibility(identifier: category.rawValue)
             }
         }
+        .pickerStyle(.segmented)
         .accessibility(identifier: "categoryPicker")
     }
 }
