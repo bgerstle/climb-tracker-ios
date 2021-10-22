@@ -11,18 +11,18 @@ import Combine
 import CombineExpectations
 @testable import ClimbTracker
 
-class ClimbHistoryViewModelTests: QuickSpec {
-    typealias TestClimbEventSubject = PassthroughSubject<EventEnvelope<ClimbEvent>, Never>
-    var eventSubject: TestClimbEventSubject! = nil
-    var viewModel: ClimbHistoryViewModel! = nil
+class ProjectListViewModelTests: QuickSpec {
+    typealias TestProjectEventSubject = PassthroughSubject<EventEnvelope<ProjectEvent>, Never>
+    var eventSubject: TestProjectEventSubject! = nil
+    var viewModel: ProjectListViewModel! = nil
     var cancellables: [AnyCancellable] = []
 
     override func spec() {
         beforeEach {
             self.continueAfterFailure = false
-            self.eventSubject = TestClimbEventSubject()
+            self.eventSubject = TestProjectEventSubject()
             self.cancellables = []
-            self.viewModel = ClimbHistoryViewModel()
+            self.viewModel = ProjectListViewModel()
         }
 
         afterEach {
@@ -32,13 +32,13 @@ class ClimbHistoryViewModelTests: QuickSpec {
         describe("Handling climb created events") {
             context("When a climb created event is published") {
                 it("Then it publishes the new climb list with one element") {
-                    let climb = Climb<BoulderCategory>(
+                    let climb = Project<BoulderCategory>(
                             id: UUID(),
                             climbedAt: Date(),
                             grade: HuecoGrade.easy
                         ),
-                        eventEnvelope = EventEnvelope(event: ClimbEvent.created(climb), timestamp: Date()),
-                        recorder = self.viewModel.$createdClimbs.dropFirst().record()
+                        eventEnvelope = EventEnvelope(event: ProjectEvent.created(climb), timestamp: Date()),
+                        recorder = self.viewModel.$projects.dropFirst().record()
 
                     self.viewModel.handleClimbEvents(self.eventSubject).store(in: &self.cancellables)
                     self.eventSubject.send(eventEnvelope)
@@ -46,25 +46,25 @@ class ClimbHistoryViewModelTests: QuickSpec {
                     let actualClimbList = try self.wait(for: recorder.next(), timeout: 2.0)
 
                     XCTAssertEqual(actualClimbList.count, 1)
-                    XCTAssertEqual(actualClimbList.first as! Climb<BoulderCategory>, climb)
+                    XCTAssertEqual(actualClimbList.first as! Project<BoulderCategory>, climb)
                 }
             }
 
             context("When multiple climb created events are published") {
                 it("Then it publishes the new climb lists as elements are added") {
-                    let expectedClimb1 = Climb<BoulderCategory>(
+                    let expectedClimb1 = Project<BoulderCategory>(
                             id: UUID(),
                             climbedAt: Date(),
                             grade: HuecoGrade.easy
                         ),
-                        expectedClimb2 = Climb<BoulderCategory>(
+                        expectedClimb2 = Project<BoulderCategory>(
                             id: UUID(),
                             climbedAt: Date().addingTimeInterval(1.0),
                             grade: HuecoGrade.five
                         ),
-                    eventEnvelope1 = EventEnvelope(event: ClimbEvent.created(expectedClimb1), timestamp: Date()),
-                        eventEnvelope2 = EventEnvelope(event: ClimbEvent.created(expectedClimb2), timestamp: Date()),
-                        recorder = self.viewModel.$createdClimbs.dropFirst().record()
+                    eventEnvelope1 = EventEnvelope(event: ProjectEvent.created(expectedClimb1), timestamp: Date()),
+                        eventEnvelope2 = EventEnvelope(event: ProjectEvent.created(expectedClimb2), timestamp: Date()),
+                        recorder = self.viewModel.$projects.dropFirst().record()
                     self.viewModel.handleClimbEvents(self.eventSubject).store(in: &self.cancellables)
 
 
@@ -76,11 +76,11 @@ class ClimbHistoryViewModelTests: QuickSpec {
                     XCTAssertEqual(actualClimbLists.count, 2)
 
                     let firstList = actualClimbLists[0]
-                    XCTAssertEqual(firstList.first as! Climb<BoulderCategory>, expectedClimb1)
+                    XCTAssertEqual(firstList.first as! Project<BoulderCategory>, expectedClimb1)
 
                     let secondList = actualClimbLists[1]
-                    XCTAssertEqual(secondList.first as! Climb<BoulderCategory>, expectedClimb2)
-                    XCTAssertEqual(secondList[1] as! Climb<BoulderCategory>, expectedClimb1)
+                    XCTAssertEqual(secondList.first as! Project<BoulderCategory>, expectedClimb2)
+                    XCTAssertEqual(secondList[1] as! Project<BoulderCategory>, expectedClimb1)
                 }
             }
         }

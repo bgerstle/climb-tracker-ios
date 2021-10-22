@@ -10,21 +10,21 @@ import Foundation
 // Type-erased Climb.
 // Cannot conform to Identifiable since that introduces "Self" requirements that prevent specifying
 // mixed collections of climbs (e.g. [BoulderClimb, RopeClimb...])
-protocol AnyClimb {
-    var climbedAt: Date { get }
+protocol AnyProject {
+    var createdAt: Date { get }
     var category: Category { get }
     var grade: String { get }
     var id: UUID { get }
 }
 
-enum ClimbEvent {
-    case created(AnyClimb)
+enum ProjectEvent {
+    case created(AnyProject)
 }
 
-struct Climb<CT: CategoryType>: AnyClimb, Hashable {
+struct Project<CT: CategoryType>: AnyProject, Hashable {
     let id: UUID
 
-    let climbedAt: Date
+    let createdAt: Date
     var category: Category { CT.id }
 
     // TODO: rename rawGrade or something
@@ -34,7 +34,7 @@ struct Climb<CT: CategoryType>: AnyClimb, Hashable {
 
     init(id: UUID, climbedAt: Date, grade: CT.GradeType) {
         self.id = id
-        self.climbedAt = climbedAt
+        self.createdAt = climbedAt
         self.grade = grade.rawValue
     }
 }

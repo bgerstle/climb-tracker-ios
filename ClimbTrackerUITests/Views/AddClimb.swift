@@ -41,7 +41,7 @@ extension XCUIApplication {
     var addClimb: AddClimb {
         return AddClimb(
             view: descendants(matching: .any)
-                .matching(identifier: "addClimbView")
+                .matching(identifier: "addProjectView")
                 .firstMatch
         )
     }

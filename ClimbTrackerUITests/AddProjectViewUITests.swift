@@ -8,7 +8,7 @@
 import XCTest
 import Quick
 
-class AddClimbViewUITests: QuickSpec {
+class AddProjectViewUITests: QuickSpec {
     var app: XCUIApplication!
 
     var climbHistory: ClimbHistory {

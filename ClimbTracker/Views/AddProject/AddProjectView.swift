@@ -8,10 +8,10 @@
 import SwiftUI
 import Combine
 
-struct AddClimbView: View {
+struct AddProjectView: View {
     @Environment(\.presentationMode) var presentationMode
 
-    @ObservedObject var addClimbViewModel: AddClimbViewModel
+    @ObservedObject var addClimbViewModel: AddProjectViewModel
 
     var body: some View {
         NavigationView {
@@ -27,7 +27,7 @@ struct AddClimbView: View {
                     GradePicker<YosemiteDecimalGrade>(selectedGrade: $addClimbViewModel.selectedRopeGrade)
                 }
             }
-            .navigationTitle("Add Climb")
+            .navigationTitle("New Project")
             .navigationBarItems(trailing:
                 Button("Submit") {
                     presentationMode.wrappedValue.dismiss()
@@ -36,12 +36,12 @@ struct AddClimbView: View {
                 .accessibility(identifier: "submitButton")
             )
         }
-        .accessibility(identifier: "addClimbView")
+        .accessibility(identifier: "addProjectView")
     }
 }
 
 struct NewClimbView_Previews: PreviewProvider {
     static var previews: some View {
-        AddClimbView(addClimbViewModel: AddClimbViewModel(climbService: nil))
+        AddProjectView(addClimbViewModel: AddProjectViewModel(climbService: nil))
     }
 }

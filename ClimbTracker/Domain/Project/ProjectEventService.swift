@@ -8,11 +8,11 @@
 import Foundation
 import Combine
 
-protocol ClimbService {
+protocol ProjectService {
     func create<CT: CategoryType>(climbedAt: Date, grade: CT.GradeType, category: CT.Type)
 }
 
-class ClimbEventService<S: Subject> : ClimbService where S.Output == EventEnvelope<ClimbEvent> {
+class ProjectEventService<S: Subject> : ProjectService where S.Output == EventEnvelope<ProjectEvent> {
     internal init(subject: S) {
         self.subject = subject
     }
@@ -20,9 +20,9 @@ class ClimbEventService<S: Subject> : ClimbService where S.Output == EventEnvelo
     let subject: S
 
     func create<CT: CategoryType>(climbedAt: Date, grade: CT.GradeType, category: CT.Type) {
-        let climb = Climb<CT>(id: UUID(), climbedAt: climbedAt, grade: grade)
+        let climb = Project<CT>(id: UUID(), climbedAt: climbedAt, grade: grade)
         let event = EventEnvelope(
-            event: ClimbEvent.created(climb),
+            event: ProjectEvent.created(climb),
             timestamp: Date()
         )
         subject.send(event)

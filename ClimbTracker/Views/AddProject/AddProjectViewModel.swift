@@ -8,8 +8,8 @@
 import Foundation
 import SwiftUI
 
-class AddClimbViewModel: ObservableObject {
-    let climbService: ClimbService!
+class AddProjectViewModel: ObservableObject {
+    let climbService: ProjectService!
 
     @Published var selectedCategory: Category
 
@@ -17,7 +17,7 @@ class AddClimbViewModel: ObservableObject {
 
     @Published var selectedRopeGrade: YosemiteDecimalGrade
 
-    init(climbService: ClimbService! = nil,
+    init(climbService: ProjectService! = nil,
          selectedCategory: Category = .boulder,
          selectedBoulderGrade: HuecoGrade = HuecoGrade.easy,
          selectedRopeGrade: YosemiteDecimalGrade = YosemiteDecimalGrade.nine) {

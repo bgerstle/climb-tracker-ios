@@ -51,7 +51,7 @@ extension XCUIApplication {
     var climbHistory: ClimbHistory {
         return ClimbHistory(
             view: descendants(matching: .any)
-                .matching(identifier: "climbHistoryList")
+                .matching(identifier: "projectList")
                 .firstMatch
         )
     }

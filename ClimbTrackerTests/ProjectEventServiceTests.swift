@@ -12,16 +12,16 @@ import Combine
 import CombineExpectations
 @testable import ClimbTracker
 
-class ClimbServiceTests: QuickSpec {
-    typealias TestClimbEventSubject = PassthroughSubject<EventEnvelope<ClimbEvent>, Never>
+class ProjectEventServiceTests: QuickSpec {
+    typealias TestClimbEventSubject = PassthroughSubject<EventEnvelope<ProjectEvent>, Never>
     var eventSubject: TestClimbEventSubject! = nil
-    var service: ClimbEventService<TestClimbEventSubject>! = nil
+    var service: ProjectEventService<TestClimbEventSubject>! = nil
 
     override func spec() {
         beforeEach {
             self.continueAfterFailure = false
             self.eventSubject = TestClimbEventSubject()
-            self.service = ClimbEventService(subject: self.eventSubject)
+            self.service = ProjectEventService(subject: self.eventSubject)
         }
 
         describe("Creating climbs") {
@@ -35,13 +35,13 @@ class ClimbServiceTests: QuickSpec {
                                         grade: grade,
                                         category: BoulderCategory.self)
 
-                    let publishedEvent: EventEnvelope<ClimbEvent> =
+                    let publishedEvent: EventEnvelope<ProjectEvent> =
                         try self.wait(for: recorder.next(), timeout: 2.0)
 
                     if case .created(let climb) = publishedEvent.event {
-                        let actualClimb = climb as! Climb<BoulderCategory>
+                        let actualClimb = climb as! Project<BoulderCategory>
                         XCTAssertEqual(actualClimb.systemicGrade, grade)
-                        XCTAssertEqual(actualClimb.climbedAt, climbedAt)
+                        XCTAssertEqual(actualClimb.createdAt, climbedAt)
                     } else {
                         XCTFail("Unexpected case: \(publishedEvent)")
                     }

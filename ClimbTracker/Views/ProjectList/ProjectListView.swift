@@ -7,16 +7,16 @@
 
 import SwiftUI
 
-struct ClimbHistoryList: View {
+struct ProjectListView: View {
     @State private var presentingAddClimb: Bool = false
 
-    typealias AddClimbViewFactory = () -> AddClimbView
+    typealias AddProjectViewFactory = () -> AddProjectView
     // FIXME: remove !
-    private let addClimbViewFactory: AddClimbViewFactory!
-    @ObservedObject private var viewModel: ClimbHistoryViewModel
+    private let addProjectViewFactory: AddProjectViewFactory!
+    @ObservedObject private var viewModel: ProjectListViewModel
 
-    init(addClimbViewFactory: AddClimbViewFactory!, viewModel: ClimbHistoryViewModel!) {
-        self.addClimbViewFactory = addClimbViewFactory
+    init(addProjectViewFactory: AddProjectViewFactory!, viewModel: ProjectListViewModel!) {
+        self.addProjectViewFactory = addProjectViewFactory
         self.viewModel = viewModel
     }
 
@@ -25,58 +25,58 @@ struct ClimbHistoryList: View {
         NavigationView {
             ScrollView {
                 LazyVStack(alignment:.leading) {
-                    ForEach(viewModel.createdClimbs, id: \.id) { climb in
-                        ClimbHistoryRow(climb: climb)
+                    ForEach(viewModel.projects, id: \.id) { project in
+                        ProjectListElementView(project: project)
                         Divider()
                     }
                 }
             }
-            .navigationTitle(Text("Climbs"))
+            .navigationTitle(Text("Projects"))
             .toolbar() {
                 ToolbarItem(placement: .primaryAction) {
-                    Button("Log Climb") {
+                    Button("New Project") {
                         presentingAddClimb.toggle()
                     }
-                    .accessibility(identifier: "addClimbButton")
+                    .accessibility(identifier: "addProjectButton")
                 }
             }
-            .sheet(isPresented: $presentingAddClimb, content: addClimbViewFactory)
+            .sheet(isPresented: $presentingAddClimb, content: addProjectViewFactory)
         }
         // fixes nav bar layout constraint issues: https://stackoverflow.com/a/66299785/600467
         .navigationViewStyle(StackNavigationViewStyle())
-        .accessibility(identifier: "climbHistoryList")
+        .accessibility(identifier: "projectList")
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        let viewModel = ClimbHistoryViewModel()
-        viewModel.createdClimbs = (0...20).map { i in
+        let viewModel = ProjectListViewModel()
+        viewModel.projects = (0...20).map { i in
             let id = UUID(),
                 climbedAt = Date().addingTimeInterval(TimeInterval.random(in: (-600000...600000)))
 
             if i % 2 == 0 {
                 let ropeGrade = YosemiteDecimalGrade.allCases[Int.random(in: (0..<YosemiteDecimalGrade.allCases.count))]
                 if Bool.random() {
-                    return Climb<TopRopeCategory>(id: id,
+                    return Project<TopRopeCategory>(id: id,
                                                   climbedAt: climbedAt,
                                                   grade: ropeGrade)
                 } else {
-                    return Climb<SportCategory>(id: id,
+                    return Project<SportCategory>(id: id,
                                                 climbedAt: climbedAt,
                                                 grade: ropeGrade)
                 }
 
             } else {
                 let boulderGrade = HuecoGrade.allCases[Int.random(in: (0..<HuecoGrade.allCases.count))]
-                return Climb<BoulderCategory>(id: id,
+                return Project<BoulderCategory>(id: id,
                                               climbedAt: climbedAt,
                                               grade: boulderGrade)
             }
         }
-        let addClimbView = AddClimbView(addClimbViewModel: AddClimbViewModel())
-        return ClimbHistoryList(
-            addClimbViewFactory: { addClimbView },
+        let addClimbView = AddProjectView(addClimbViewModel: AddProjectViewModel())
+        return ProjectListView(
+            addProjectViewFactory: { addClimbView },
             viewModel: viewModel
         )
     }
