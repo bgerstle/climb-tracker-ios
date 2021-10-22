@@ -112,6 +112,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BC2DE80C272332380015C190 /* Grade */ = {
+			isa = PBXGroup;
+			children = (
+				BC43D9A3269B3D73002C984E /* HuecoGrade.swift */,
+				BC9C2B8B26A6190B00520E04 /* YosemiteDecimalGrade.swift */,
+				BCC05BE426A9C1D0001B4C42 /* Grade.swift */,
+			);
+			path = Grade;
+			sourceTree = "<group>";
+		};
 		BC43D974269A9E23002C984E /* AddClimb */ = {
 			isa = PBXGroup;
 			children = (
@@ -127,6 +137,7 @@
 			isa = PBXGroup;
 			children = (
 				BC43D9C5269B5CB5002C984E /* EventEnvelope.swift */,
+				BC2DE80C272332380015C190 /* Grade */,
 				BC43D991269B3845002C984E /* Climb */,
 			);
 			path = Domain;
@@ -137,10 +148,7 @@
 			children = (
 				BC43D992269B3852002C984E /* Climb.swift */,
 				BC927089269B7054002734CD /* ClimbEventService.swift */,
-				BC43D9A3269B3D73002C984E /* HuecoGrade.swift */,
-				BC9C2B8B26A6190B00520E04 /* YosemiteDecimalGrade.swift */,
 				BCC05BDF26A9C122001B4C42 /* Category.swift */,
-				BCC05BE426A9C1D0001B4C42 /* Grade.swift */,
 			);
 			path = Climb;
 			sourceTree = "<group>";
