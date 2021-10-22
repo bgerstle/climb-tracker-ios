@@ -7,7 +7,7 @@
 
 import XCTest
 
-class AddClimb {
+class AddProjectPageObject {
     public let view: XCUIElement
     public var navigationBar: XCUIElement {
         view.navigationBars.firstMatch
@@ -38,8 +38,8 @@ class AddClimb {
 }
 
 extension XCUIApplication {
-    var addClimb: AddClimb {
-        return AddClimb(
+    var addClimb: AddProjectPageObject {
+        return AddProjectPageObject(
             view: descendants(matching: .any)
                 .matching(identifier: "addProjectView")
                 .firstMatch

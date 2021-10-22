@@ -11,11 +11,11 @@ import Quick
 class AddProjectViewUITests: QuickSpec {
     var app: XCUIApplication!
 
-    var climbHistory: ClimbHistory {
+    var climbHistory: ProjectListPageObject {
         app.climbHistory
     }
 
-    var addClimb: AddClimb {
+    var addClimb: AddProjectPageObject {
         app.addClimb
     }
 
@@ -29,7 +29,7 @@ class AddProjectViewUITests: QuickSpec {
         describe("Adding a climb") {
             context("Given I am adding a climb") {
                 beforeEach {
-                    self.app.climbHistory.addClimbButton.tap()
+                    self.app.climbHistory.newProjectButton.tap()
                     XCTAssertTrue(self.climbHistory.view
                                     .waitForExistence(timeout: 2))
                 }

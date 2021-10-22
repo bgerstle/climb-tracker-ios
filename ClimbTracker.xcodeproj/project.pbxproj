@@ -12,7 +12,7 @@
 		BC2ECFDD269B877400838466 /* ProjectListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2ECFDC269B877400838466 /* ProjectListViewModelTests.swift */; };
 		BC2ECFF0269B9C7200838466 /* ProjectListElementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2ECFEF269B9C7200838466 /* ProjectListElementView.swift */; };
 		BC43D976269A9E49002C984E /* AddProjectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC43D975269A9E49002C984E /* AddProjectView.swift */; };
-		BC43D981269AA146002C984E /* AddClimb.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC43D980269AA146002C984E /* AddClimb.swift */; };
+		BC43D981269AA146002C984E /* AddProjectPageObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC43D980269AA146002C984E /* AddProjectPageObject.swift */; };
 		BC43D98C269B1CED002C984E /* AddProjectViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC43D98B269B1CED002C984E /* AddProjectViewUITests.swift */; };
 		BC43D993269B3852002C984E /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC43D992269B3852002C984E /* Project.swift */; };
 		BC43D9A4269B3D73002C984E /* HuecoGrade.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC43D9A3269B3D73002C984E /* HuecoGrade.swift */; };
@@ -21,7 +21,7 @@
 		BC46720A268FB96E00B2CBE7 /* ProjectListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC467209268FB96E00B2CBE7 /* ProjectListView.swift */; };
 		BC46720C268FB97000B2CBE7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC46720B268FB97000B2CBE7 /* Assets.xcassets */; };
 		BC46720F268FB97000B2CBE7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC46720E268FB97000B2CBE7 /* Preview Assets.xcassets */; };
-		BC467225268FB97100B2CBE7 /* ClimbHistoryUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC467224268FB97100B2CBE7 /* ClimbHistoryUITests.swift */; };
+		BC467225268FB97100B2CBE7 /* ProjectListViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC467224268FB97100B2CBE7 /* ProjectListViewUITests.swift */; };
 		BC92708A269B7054002734CD /* ProjectEventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC927089269B7054002734CD /* ProjectEventService.swift */; };
 		BC9C2B8C26A6190B00520E04 /* YosemiteDecimalGrade.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C2B8B26A6190B00520E04 /* YosemiteDecimalGrade.swift */; };
 		BC9C2B9126A61B8400520E04 /* GradePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C2B9026A61B8400520E04 /* GradePicker.swift */; };
@@ -31,7 +31,7 @@
 		BCC05BEB26B6D2E1001B4C42 /* CombineExpectations in Frameworks */ = {isa = PBXBuildFile; productRef = BCC05BEA26B6D2E1001B4C42 /* CombineExpectations */; };
 		BCCAEE4D2698FE75006F0707 /* Quick in Frameworks */ = {isa = PBXBuildFile; productRef = BCCAEE4C2698FE75006F0707 /* Quick */; };
 		BCCAEE572698FEA2006F0707 /* Quick in Frameworks */ = {isa = PBXBuildFile; productRef = BCCAEE562698FEA2006F0707 /* Quick */; };
-		BCCAEE5A2698FFAC006F0707 /* ClimbHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCAEE592698FFAC006F0707 /* ClimbHistory.swift */; };
+		BCCAEE5A2698FFAC006F0707 /* ProjectListPageObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCAEE592698FFAC006F0707 /* ProjectListPageObject.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,7 +56,7 @@
 		BC2ECFDC269B877400838466 /* ProjectListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectListViewModelTests.swift; sourceTree = "<group>"; };
 		BC2ECFEF269B9C7200838466 /* ProjectListElementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectListElementView.swift; sourceTree = "<group>"; };
 		BC43D975269A9E49002C984E /* AddProjectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProjectView.swift; sourceTree = "<group>"; };
-		BC43D980269AA146002C984E /* AddClimb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddClimb.swift; sourceTree = "<group>"; };
+		BC43D980269AA146002C984E /* AddProjectPageObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProjectPageObject.swift; sourceTree = "<group>"; };
 		BC43D98B269B1CED002C984E /* AddProjectViewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProjectViewUITests.swift; sourceTree = "<group>"; };
 		BC43D992269B3852002C984E /* Project.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
 		BC43D9A3269B3D73002C984E /* HuecoGrade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HuecoGrade.swift; sourceTree = "<group>"; };
@@ -70,7 +70,7 @@
 		BC467215268FB97100B2CBE7 /* ClimbTrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClimbTrackerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC46721B268FB97100B2CBE7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BC467220268FB97100B2CBE7 /* ClimbTrackerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClimbTrackerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		BC467224268FB97100B2CBE7 /* ClimbHistoryUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClimbHistoryUITests.swift; sourceTree = "<group>"; };
+		BC467224268FB97100B2CBE7 /* ProjectListViewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectListViewUITests.swift; sourceTree = "<group>"; };
 		BC467226268FB97100B2CBE7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BC927089269B7054002734CD /* ProjectEventService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectEventService.swift; sourceTree = "<group>"; };
 		BC92708E269B71B2002734CD /* ProjectEventServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectEventServiceTests.swift; sourceTree = "<group>"; };
@@ -79,7 +79,7 @@
 		BC9C2B9526A61BDA00520E04 /* AddProjectViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProjectViewModel.swift; sourceTree = "<group>"; };
 		BC9C2B9A26A7A2EF00520E04 /* CategoryPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPicker.swift; sourceTree = "<group>"; };
 		BCC05BE426A9C1D0001B4C42 /* Grade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grade.swift; sourceTree = "<group>"; };
-		BCCAEE592698FFAC006F0707 /* ClimbHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClimbHistory.swift; sourceTree = "<group>"; };
+		BCCAEE592698FFAC006F0707 /* ProjectListPageObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectListPageObject.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -213,8 +213,8 @@
 		BC467223268FB97100B2CBE7 /* ClimbTrackerUITests */ = {
 			isa = PBXGroup;
 			children = (
-				BCCAEE582698FF71006F0707 /* Views */,
-				BC467224268FB97100B2CBE7 /* ClimbHistoryUITests.swift */,
+				BCCAEE582698FF71006F0707 /* Page Objects */,
+				BC467224268FB97100B2CBE7 /* ProjectListViewUITests.swift */,
 				BC43D98B269B1CED002C984E /* AddProjectViewUITests.swift */,
 				BC467226268FB97100B2CBE7 /* Info.plist */,
 			);
@@ -237,13 +237,13 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		BCCAEE582698FF71006F0707 /* Views */ = {
+		BCCAEE582698FF71006F0707 /* Page Objects */ = {
 			isa = PBXGroup;
 			children = (
-				BCCAEE592698FFAC006F0707 /* ClimbHistory.swift */,
-				BC43D980269AA146002C984E /* AddClimb.swift */,
+				BCCAEE592698FFAC006F0707 /* ProjectListPageObject.swift */,
+				BC43D980269AA146002C984E /* AddProjectPageObject.swift */,
 			);
-			path = Views;
+			path = "Page Objects";
 			sourceTree = "<group>";
 		};
 		BCCAEE6D269A7F56006F0707 /* ProjectList */ = {
@@ -428,9 +428,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC43D98C269B1CED002C984E /* AddProjectViewUITests.swift in Sources */,
-				BC467225268FB97100B2CBE7 /* ClimbHistoryUITests.swift in Sources */,
-				BC43D981269AA146002C984E /* AddClimb.swift in Sources */,
-				BCCAEE5A2698FFAC006F0707 /* ClimbHistory.swift in Sources */,
+				BC467225268FB97100B2CBE7 /* ProjectListViewUITests.swift in Sources */,
+				BC43D981269AA146002C984E /* AddProjectPageObject.swift in Sources */,
+				BCCAEE5A2698FFAC006F0707 /* ProjectListPageObject.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

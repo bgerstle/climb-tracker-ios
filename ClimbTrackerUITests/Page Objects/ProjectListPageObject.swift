@@ -7,14 +7,14 @@
 
 import XCTest
 
-class ClimbHistory {
+class ProjectListPageObject {
     public let view: XCUIElement
 
     init(view: XCUIElement) {
         self.view = view
     }
 
-    class Row {
+    class Element {
         public let view: XCUIElement
 
         public init(view: XCUIElement) {
@@ -26,12 +26,12 @@ class ClimbHistory {
         }
     }
 
-    var rows: [ClimbHistory.Row] {
+    var rows: [ProjectListPageObject.Element] {
         get {
             view.descendants(matching: .any)
-                .matching(identifier: "climbHistoryRow")
+                .matching(identifier: "projectListElement")
                 .allElementsBoundByIndex
-                .map( { ClimbHistory.Row(view: $0) })
+                .map( { ProjectListPageObject.Element(view: $0) })
         }
     }
 
@@ -39,7 +39,7 @@ class ClimbHistory {
         view.navigationBars.firstMatch
     }
     
-    var addClimbButton: XCUIElement {
+    var newProjectButton: XCUIElement {
         navigationBar
             // FIXME: accessibility identifier isn't being set for some reason
             .buttons
@@ -48,8 +48,8 @@ class ClimbHistory {
 }
 
 extension XCUIApplication {
-    var climbHistory: ClimbHistory {
-        return ClimbHistory(
+    var climbHistory: ProjectListPageObject {
+        return ProjectListPageObject(
             view: descendants(matching: .any)
                 .matching(identifier: "projectList")
                 .firstMatch

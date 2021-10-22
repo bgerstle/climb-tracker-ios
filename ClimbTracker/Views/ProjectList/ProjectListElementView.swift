@@ -25,7 +25,7 @@ struct ProjectListElementView: View {
         HStack {
             Text("\(project.category.displayTitle) \(project.grade) at \(formattedCreationTime)")
         }
-        .accessibility(identifier: "climbHistoryRow")
+        .accessibility(identifier: "projectListElement")
         .fixedSize(horizontal: false, vertical: true)
         .padding(Edge.Set(arrayLiteral: .vertical, .leading))
     }

@@ -8,10 +8,10 @@
 import XCTest
 import Quick
 
-class ClimbTrackerUITests: QuickSpec {
+class ProjectListViewUITests: QuickSpec {
     var app: XCUIApplication!
 
-    var climbHistory: ClimbHistory {
+    var climbHistory: ProjectListPageObject {
         app.climbHistory
     }
 
@@ -22,24 +22,24 @@ class ClimbTrackerUITests: QuickSpec {
             self.app.launch()
         }
 
-        describe("Climb history") {
-            context("When this is no history") {
+        describe("Projects") {
+            context("When there are no projects") {
                 it("Then the view is empty") {
                     XCTAssertTrue(self.climbHistory.view.isHittable)
                     XCTAssertEqual(self.climbHistory.rows.count, 0)
                 }
 
-                it("And there should be a log climb button") {
-                    XCTAssertTrue(self.climbHistory.addClimbButton.isHittable)
+                it("And there should be a 'New Project' button") {
+                    XCTAssertTrue(self.climbHistory.newProjectButton.isHittable)
                 }
             }
 
-            context("When I tap the add climb button") {
+            context("When I tap the 'New Project' button") {
                 beforeEach {
-                    self.climbHistory.addClimbButton.tap()
+                    self.climbHistory.newProjectButton.tap()
                 }
 
-                it("Then I should see the add climb view") {
+                it("Then I should see the Add Project view") {
                     XCTAssertTrue(self.app.addClimb.view.exists)
                 }
             }
