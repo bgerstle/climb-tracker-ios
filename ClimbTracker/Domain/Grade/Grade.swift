@@ -21,3 +21,15 @@ protocol CategoryType {
 
     static var id: ProjectCategory { get }
 }
+
+final class BoulderCategory: CategoryType {
+    typealias GradeType = HuecoGrade
+
+    static let id = ProjectCategory.boulder
+}
+
+final class RopeCategory: CategoryType {
+    typealias GradeType = YosemiteDecimalGrade
+
+    static let id = ProjectCategory.route
+}

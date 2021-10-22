@@ -35,9 +35,3 @@ enum HuecoGrade : String, Grade {
         allCases.firstIndex(of: lhs)! < allCases.firstIndex(of: rhs)!
     }
 }
-
-final class BoulderCategory: CategoryType {
-    typealias GradeType = HuecoGrade
-
-    static let id = ProjectCategory.boulder
-}

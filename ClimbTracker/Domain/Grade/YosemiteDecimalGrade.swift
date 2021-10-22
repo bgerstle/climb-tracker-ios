@@ -47,9 +47,3 @@ enum YosemiteDecimalGrade: String, Grade {
         allCases.firstIndex(of: lhs)! < allCases.firstIndex(of: rhs)!
     }
 }
-
-final class TopRopeCategory: CategoryType {
-    typealias GradeType = YosemiteDecimalGrade
-
-    static let id = ProjectCategory.route
-}

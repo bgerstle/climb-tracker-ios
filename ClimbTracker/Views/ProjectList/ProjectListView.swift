@@ -57,7 +57,7 @@ struct ContentView_Previews: PreviewProvider {
 
             if i % 2 == 0 {
                 let ropeGrade = YosemiteDecimalGrade.allCases[Int.random(in: (0..<YosemiteDecimalGrade.allCases.count))]
-                return Project<TopRopeCategory>(id: id,
+                return Project<RopeCategory>(id: id,
                                               climbedAt: climbedAt,
                                               grade: ropeGrade)
             } else {

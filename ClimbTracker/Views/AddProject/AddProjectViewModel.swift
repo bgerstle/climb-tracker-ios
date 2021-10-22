@@ -38,7 +38,7 @@ class AddProjectViewModel: ObservableObject {
         case .route:
             climbService.create(climbedAt: climbedAt,
                                 grade: selectedRopeGrade,
-                                category: TopRopeCategory.self)
+                                category: RopeCategory.self)
         }
     }
 }
