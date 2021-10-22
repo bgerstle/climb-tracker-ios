@@ -7,12 +7,23 @@
 
 import SwiftUI
 
+extension ProjectCategory {
+    var displayTitle: String {
+        switch self {
+        case .boulder:
+            return "Boulder"
+        case .route:
+            return "Route"
+        }
+    }
+}
+
 struct CategoryPicker: View {
-    @Binding var selectedCategory: Category
+    @Binding var selectedCategory: ProjectCategory
 
     var body: some View {
         Picker(selection: $selectedCategory, label: Text("Category")) {
-            List(Category.allCases) { category in
+            List(ProjectCategory.allCases) { category in
                 Text(category.displayTitle)
                     .tag(category)
                     .accessibility(identifier: category.rawValue)

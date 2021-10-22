@@ -57,16 +57,9 @@ struct ContentView_Previews: PreviewProvider {
 
             if i % 2 == 0 {
                 let ropeGrade = YosemiteDecimalGrade.allCases[Int.random(in: (0..<YosemiteDecimalGrade.allCases.count))]
-                if Bool.random() {
-                    return Project<TopRopeCategory>(id: id,
-                                                  climbedAt: climbedAt,
-                                                  grade: ropeGrade)
-                } else {
-                    return Project<SportCategory>(id: id,
-                                                climbedAt: climbedAt,
-                                                grade: ropeGrade)
-                }
-
+                return Project<TopRopeCategory>(id: id,
+                                              climbedAt: climbedAt,
+                                              grade: ropeGrade)
             } else {
                 let boulderGrade = HuecoGrade.allCases[Int.random(in: (0..<HuecoGrade.allCases.count))]
                 return Project<BoulderCategory>(id: id,

@@ -39,5 +39,5 @@ enum HuecoGrade : String, Grade {
 final class BoulderCategory: CategoryType {
     typealias GradeType = HuecoGrade
 
-    static let id = Category.boulder
+    static let id = ProjectCategory.boulder
 }

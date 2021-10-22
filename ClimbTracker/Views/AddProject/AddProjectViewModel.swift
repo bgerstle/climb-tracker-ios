@@ -11,14 +11,14 @@ import SwiftUI
 class AddProjectViewModel: ObservableObject {
     let climbService: ProjectService!
 
-    @Published var selectedCategory: Category
+    @Published var selectedCategory: ProjectCategory
 
     @Published var selectedBoulderGrade: HuecoGrade
 
     @Published var selectedRopeGrade: YosemiteDecimalGrade
 
     init(climbService: ProjectService! = nil,
-         selectedCategory: Category = .boulder,
+         selectedCategory: ProjectCategory = .boulder,
          selectedBoulderGrade: HuecoGrade = HuecoGrade.easy,
          selectedRopeGrade: YosemiteDecimalGrade = YosemiteDecimalGrade.nine) {
         self.climbService = climbService
@@ -35,14 +35,10 @@ class AddProjectViewModel: ObservableObject {
             climbService.create(climbedAt: climbedAt,
                                 grade: selectedBoulderGrade,
                                 category: BoulderCategory.self)
-        case .topRope:
+        case .route:
             climbService.create(climbedAt: climbedAt,
                                 grade: selectedRopeGrade,
                                 category: TopRopeCategory.self)
-        case .sport:
-            climbService.create(climbedAt: climbedAt,
-                                grade: selectedRopeGrade,
-                                category: SportCategory.self)
         }
     }
 }

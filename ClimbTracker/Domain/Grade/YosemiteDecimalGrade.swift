@@ -51,11 +51,5 @@ enum YosemiteDecimalGrade: String, Grade {
 final class TopRopeCategory: CategoryType {
     typealias GradeType = YosemiteDecimalGrade
 
-    static let id = Category.topRope
-}
-
-final class SportCategory: CategoryType {
-    typealias GradeType = YosemiteDecimalGrade
-
-    static let id = Category.sport
+    static let id = ProjectCategory.route
 }

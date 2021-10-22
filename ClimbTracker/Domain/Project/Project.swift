@@ -12,7 +12,7 @@ import Foundation
 // mixed collections of climbs (e.g. [BoulderClimb, RopeClimb...])
 protocol AnyProject {
     var createdAt: Date { get }
-    var category: Category { get }
+    var category: ProjectCategory { get }
     var grade: String { get }
     var id: UUID { get }
 }
@@ -25,7 +25,7 @@ struct Project<CT: CategoryType>: AnyProject, Hashable {
     let id: UUID
 
     let createdAt: Date
-    var category: Category { CT.id }
+    var category: ProjectCategory { CT.id }
 
     // TODO: rename rawGrade or something
     let grade: String
@@ -37,4 +37,11 @@ struct Project<CT: CategoryType>: AnyProject, Hashable {
         self.createdAt = climbedAt
         self.grade = grade.rawValue
     }
+}
+
+enum ProjectCategory: String, Hashable, Equatable, CaseIterable, Identifiable {
+    case boulder = "boulder",
+         route = "rope"
+
+    var id: ProjectCategory { self }
 }

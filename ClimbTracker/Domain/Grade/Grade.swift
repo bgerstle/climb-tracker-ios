@@ -19,5 +19,5 @@ where RawValue == String, AllCases: RandomAccessCollection {
 protocol CategoryType {
     associatedtype GradeType: Grade
 
-    static var id: Category { get }
+    static var id: ProjectCategory { get }
 }

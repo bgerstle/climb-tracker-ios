@@ -77,7 +77,7 @@ class AddProjectViewUITests: QuickSpec {
 
                 describe("When I submit a climb with a custom category and a default grade") {
                     it("Then I see a new top rope climb with the default grade") {
-                        let rawCategoryValue = "Top Rope"
+                        let rawCategoryValue = "Route"
                         let defaultGrade = "5.9"
 
                         self.addClimb.categoryPicker.tap()
@@ -99,7 +99,7 @@ class AddProjectViewUITests: QuickSpec {
 
                 describe("When I submit a climb with a custom category and a custom grade") {
                     it("Then I see a new climb with the custom grade and category") {
-                        let rawCategoryValue = "Sport"
+                        let rawCategoryValue = "Route"
                         let rawGradeValue = "5.11a"
 
                         self.addClimb.categoryPicker.tap()
