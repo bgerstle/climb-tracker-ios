@@ -13,7 +13,7 @@ struct GradePicker<G: Grade>: View {
     var body: some View {
         Picker(selection: $selectedGrade, label: Text("Grade")) {
             List(G.allCases) { grade in
-                Text(grade.description)
+                Text(grade.rawValue)
                     .tag(grade)
                     .accessibility(identifier: grade.rawValue)
             }

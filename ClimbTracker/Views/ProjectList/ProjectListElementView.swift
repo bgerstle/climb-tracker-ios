@@ -23,7 +23,7 @@ struct ProjectListElementView: View {
 
     var body: some View {
         HStack {
-            Text("\(project.category.displayTitle) \(project.grade) at \(formattedCreationTime)")
+            Text("\(project.category.displayTitle) \(project.rawGrade) at \(formattedCreationTime)")
         }
         .accessibility(identifier: "projectListElement")
         .fixedSize(horizontal: false, vertical: true)
@@ -34,7 +34,7 @@ struct ProjectListElementView: View {
 struct ClimbHistoryRow_Previews: PreviewProvider {
     static var previews: some View {
         ProjectListElementView(project: Project<BoulderCategory>(id: UUID(),
-                                                      climbedAt: Date(),
+                                                                 createdAt: Date(),
                                                       grade: HuecoGrade.easy))
     }
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum YosemiteDecimalGrade: String, Grade {
+enum YosemiteDecimalGrade: String, Grade, RopeGrade {
     case zero = "5.0",
          one = "5.1",
          two = "5.2",
@@ -46,4 +46,6 @@ enum YosemiteDecimalGrade: String, Grade {
     static func < (lhs: YosemiteDecimalGrade, rhs: YosemiteDecimalGrade) -> Bool {
         allCases.firstIndex(of: lhs)! < allCases.firstIndex(of: rhs)!
     }
+
+    static var typeID: GradeType { .yosemite }
 }

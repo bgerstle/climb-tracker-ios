@@ -34,7 +34,7 @@ class ProjectListViewModelTests: QuickSpec {
                 it("Then it publishes the new climb list with one element") {
                     let climb = Project<BoulderCategory>(
                             id: UUID(),
-                            climbedAt: Date(),
+                            createdAt: Date(),
                             grade: HuecoGrade.easy
                         ),
                         eventEnvelope = EventEnvelope(event: ProjectEvent.created(climb), timestamp: Date()),
@@ -54,12 +54,12 @@ class ProjectListViewModelTests: QuickSpec {
                 it("Then it publishes the new climb lists as elements are added") {
                     let expectedClimb1 = Project<BoulderCategory>(
                             id: UUID(),
-                            climbedAt: Date(),
+                            createdAt: Date(),
                             grade: HuecoGrade.easy
                         ),
                         expectedClimb2 = Project<BoulderCategory>(
                             id: UUID(),
-                            climbedAt: Date().addingTimeInterval(1.0),
+                            createdAt: Date().addingTimeInterval(1.0),
                             grade: HuecoGrade.five
                         ),
                     eventEnvelope1 = EventEnvelope(event: ProjectEvent.created(expectedClimb1), timestamp: Date()),

@@ -31,7 +31,7 @@ class ProjectEventServiceTests: QuickSpec {
                         climbedAt = Date(),
                         grade = HuecoGrade.easy
 
-                    self.service.create(climbedAt: climbedAt,
+                    self.service.create(createdAt: climbedAt,
                                         grade: grade,
                                         category: BoulderCategory.self)
 
@@ -39,8 +39,8 @@ class ProjectEventServiceTests: QuickSpec {
                         try self.wait(for: recorder.next(), timeout: 2.0)
 
                     if case .created(let climb) = publishedEvent.event {
-                        let actualClimb = climb as! Project<BoulderCategory>
-                        XCTAssertEqual(actualClimb.systemicGrade, grade)
+                        let actualClimb = climb as! Project<BoulderCategory<HuecoGrade>>
+                        XCTAssertEqual(actualClimb.grade, grade)
                         XCTAssertEqual(actualClimb.createdAt, climbedAt)
                     } else {
                         XCTFail("Unexpected case: \(publishedEvent)")

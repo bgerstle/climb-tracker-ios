@@ -7,29 +7,19 @@
 
 import Foundation
 
-// Erased/polymorphic type that can refer to any grade
-protocol AnyGrade: CustomStringConvertible { }
+enum GradeType {
+    case hueco, yosemite
+}
 
 // Concrete grade types should conform to this protocol
-protocol Grade: AnyGrade, Hashable, Identifiable, CaseIterable, RawRepresentable
-where RawValue == String, AllCases: RandomAccessCollection {
+protocol Grade
+    : RawRepresentable, Hashable, Identifiable, CaseIterable
+    where RawValue == String, AllCases: RandomAccessCollection {
+    static var typeID: GradeType { get }
 }
 
-// Type used to enforce which grades & categories can be used together (see Climb.Attributes)
-protocol CategoryType {
-    associatedtype GradeType: Grade
+// Phantom type for tagging Grades that can be used with boulders
+protocol BoulderGrade {}
 
-    static var id: ProjectCategory { get }
-}
-
-final class BoulderCategory: CategoryType {
-    typealias GradeType = HuecoGrade
-
-    static let id = ProjectCategory.boulder
-}
-
-final class RopeCategory: CategoryType {
-    typealias GradeType = YosemiteDecimalGrade
-
-    static let id = ProjectCategory.route
-}
+// Phantom type for tagging Grades that can be used with routes
+protocol RopeGrade {}

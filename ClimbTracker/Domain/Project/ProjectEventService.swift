@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 protocol ProjectService {
-    func create<CT: CategoryType>(climbedAt: Date, grade: CT.GradeType, category: CT.Type)
+    func create<CT: ProjectCategoryType>(createdAt: Date, grade: CT.ProjectGradeType, category: CT.Type)
 }
 
 class ProjectEventService<S: Subject> : ProjectService where S.Output == EventEnvelope<ProjectEvent> {
@@ -19,8 +19,8 @@ class ProjectEventService<S: Subject> : ProjectService where S.Output == EventEn
 
     let subject: S
 
-    func create<CT: CategoryType>(climbedAt: Date, grade: CT.GradeType, category: CT.Type) {
-        let climb = Project<CT>(id: UUID(), climbedAt: climbedAt, grade: grade)
+    func create<CT: ProjectCategoryType>(createdAt: Date, grade: CT.ProjectGradeType, category: CT.Type) {
+        let climb = Project<CT>(id: UUID(), createdAt: createdAt, grade: grade)
         let event = EventEnvelope(
             event: ProjectEvent.created(climb),
             timestamp: Date()

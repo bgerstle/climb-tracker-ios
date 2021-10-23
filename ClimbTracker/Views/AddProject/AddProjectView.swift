@@ -21,7 +21,7 @@ struct AddProjectView: View {
                 switch addClimbViewModel.selectedCategory {
                 case .boulder:
                     GradePicker<HuecoGrade>(selectedGrade: $addClimbViewModel.selectedBoulderGrade)
-                case .route:
+                case .rope:
                     GradePicker<YosemiteDecimalGrade>(selectedGrade: $addClimbViewModel.selectedRopeGrade)
                 }
             }

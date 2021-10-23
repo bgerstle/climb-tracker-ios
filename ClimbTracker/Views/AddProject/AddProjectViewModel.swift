@@ -32,11 +32,11 @@ class AddProjectViewModel: ObservableObject {
 
         switch self.selectedCategory {
         case .boulder:
-            climbService.create(climbedAt: climbedAt,
+            climbService.create(createdAt: climbedAt,
                                 grade: selectedBoulderGrade,
                                 category: BoulderCategory.self)
-        case .route:
-            climbService.create(climbedAt: climbedAt,
+        case .rope:
+            climbService.create(createdAt: climbedAt,
                                 grade: selectedRopeGrade,
                                 category: RopeCategory.self)
         }

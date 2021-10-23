@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum HuecoGrade : String, Grade {
+enum HuecoGrade : String, Grade, BoulderGrade {
     case easy = "VB",
          zero = "V0",
          one = "V1",
@@ -34,4 +34,6 @@ enum HuecoGrade : String, Grade {
     static func < (lhs: HuecoGrade, rhs: HuecoGrade) -> Bool {
         allCases.firstIndex(of: lhs)! < allCases.firstIndex(of: rhs)!
     }
+
+    static var typeID: GradeType { .hueco }
 }

@@ -12,8 +12,8 @@ extension ProjectCategory {
         switch self {
         case .boulder:
             return "Boulder"
-        case .route:
-            return "Route"
+        case .rope:
+            return "Rope"
         }
     }
 }

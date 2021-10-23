@@ -113,9 +113,9 @@
 		BC2DE80C272332380015C190 /* Grade */ = {
 			isa = PBXGroup;
 			children = (
+				BCC05BE426A9C1D0001B4C42 /* Grade.swift */,
 				BC43D9A3269B3D73002C984E /* HuecoGrade.swift */,
 				BC9C2B8B26A6190B00520E04 /* YosemiteDecimalGrade.swift */,
-				BCC05BE426A9C1D0001B4C42 /* Grade.swift */,
 			);
 			path = Grade;
 			sourceTree = "<group>";

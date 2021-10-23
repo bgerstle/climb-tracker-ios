@@ -53,17 +53,17 @@ struct ContentView_Previews: PreviewProvider {
         let viewModel = ProjectListViewModel()
         viewModel.projects = (0...20).map { i in
             let id = UUID(),
-                climbedAt = Date().addingTimeInterval(TimeInterval.random(in: (-600000...600000)))
+                createdAt = Date().addingTimeInterval(TimeInterval.random(in: (-600000...600000)))
 
             if i % 2 == 0 {
                 let ropeGrade = YosemiteDecimalGrade.allCases[Int.random(in: (0..<YosemiteDecimalGrade.allCases.count))]
                 return Project<RopeCategory>(id: id,
-                                              climbedAt: climbedAt,
+                                             createdAt: createdAt,
                                               grade: ropeGrade)
             } else {
                 let boulderGrade = HuecoGrade.allCases[Int.random(in: (0..<HuecoGrade.allCases.count))]
                 return Project<BoulderCategory>(id: id,
-                                              climbedAt: climbedAt,
+                                                createdAt: createdAt,
                                               grade: boulderGrade)
             }
         }
