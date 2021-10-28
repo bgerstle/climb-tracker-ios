@@ -32,10 +32,11 @@ class ProjectListViewModelTests: QuickSpec {
         describe("Handling climb created events") {
             context("When a climb created event is published") {
                 it("Then it publishes the new climb list with one element") {
-                    let climb = Project<BoulderCategory>(
+                    let climb = Project<BoulderClimb>(
                             id: UUID(),
                             createdAt: Date(),
-                            grade: HuecoGrade.easy
+                            grade: HuecoGrade.easy,
+                            climbs: []
                         ),
                         eventEnvelope = EventEnvelope(event: ProjectEvent.created(climb), timestamp: Date()),
                         recorder = self.viewModel.$projects.dropFirst().record()
@@ -46,21 +47,23 @@ class ProjectListViewModelTests: QuickSpec {
                     let actualClimbList = try self.wait(for: recorder.next(), timeout: 2.0)
 
                     XCTAssertEqual(actualClimbList.count, 1)
-                    XCTAssertEqual(actualClimbList.first as! Project<BoulderCategory>, climb)
+                    XCTAssertEqual(actualClimbList.first as! Project<BoulderClimb<HuecoGrade>>, climb)
                 }
             }
 
             context("When multiple climb created events are published") {
                 it("Then it publishes the new climb lists as elements are added") {
-                    let expectedClimb1 = Project<BoulderCategory>(
+                    let expectedClimb1 = Project<BoulderClimb>(
                             id: UUID(),
                             createdAt: Date(),
-                            grade: HuecoGrade.easy
+                            grade: HuecoGrade.easy,
+                            climbs: []
                         ),
-                        expectedClimb2 = Project<BoulderCategory>(
+                        expectedClimb2 = Project<BoulderClimb>(
                             id: UUID(),
                             createdAt: Date().addingTimeInterval(1.0),
-                            grade: HuecoGrade.five
+                            grade: HuecoGrade.five,
+                            climbs: []
                         ),
                     eventEnvelope1 = EventEnvelope(event: ProjectEvent.created(expectedClimb1), timestamp: Date()),
                         eventEnvelope2 = EventEnvelope(event: ProjectEvent.created(expectedClimb2), timestamp: Date()),
@@ -76,11 +79,11 @@ class ProjectListViewModelTests: QuickSpec {
                     XCTAssertEqual(actualClimbLists.count, 2)
 
                     let firstList = actualClimbLists[0]
-                    XCTAssertEqual(firstList.first as! Project<BoulderCategory>, expectedClimb1)
+                    XCTAssertEqual(firstList.first as! Project<BoulderClimb<HuecoGrade>>, expectedClimb1)
 
                     let secondList = actualClimbLists[1]
-                    XCTAssertEqual(secondList.first as! Project<BoulderCategory>, expectedClimb2)
-                    XCTAssertEqual(secondList[1] as! Project<BoulderCategory>, expectedClimb1)
+                    XCTAssertEqual(secondList.first as! Project<BoulderClimb<HuecoGrade>>, expectedClimb2)
+                    XCTAssertEqual(secondList[1] as! Project<BoulderClimb<HuecoGrade>>, expectedClimb1)
                 }
             }
         }

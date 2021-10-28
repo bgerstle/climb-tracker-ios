@@ -28,17 +28,11 @@ class AddProjectViewModel: ObservableObject {
     }
 
     func submit() {
-        let climbedAt = Date()
-
         switch self.selectedCategory {
         case .boulder:
-            climbService.create(createdAt: climbedAt,
-                                grade: selectedBoulderGrade,
-                                category: BoulderCategory.self)
+            climbService.create(BoulderClimb.self, grade: selectedBoulderGrade)
         case .rope:
-            climbService.create(createdAt: climbedAt,
-                                grade: selectedRopeGrade,
-                                category: RopeCategory.self)
+            climbService.create(RopeClimb.self, grade: selectedRopeGrade)
         }
     }
 }

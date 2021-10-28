@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum YosemiteDecimalGrade: String, Grade, RopeGrade {
+enum YosemiteDecimalGrade: String, RopeGrade {
     case zero = "5.0",
          one = "5.1",
          two = "5.2",
@@ -47,5 +47,5 @@ enum YosemiteDecimalGrade: String, Grade, RopeGrade {
         allCases.firstIndex(of: lhs)! < allCases.firstIndex(of: rhs)!
     }
 
-    static var typeID: GradeType { .yosemite }
+    var system: GradingSystem { .yosemite(self) }
 }

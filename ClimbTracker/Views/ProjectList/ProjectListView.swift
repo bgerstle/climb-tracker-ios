@@ -57,14 +57,16 @@ struct ContentView_Previews: PreviewProvider {
 
             if i % 2 == 0 {
                 let ropeGrade = YosemiteDecimalGrade.allCases[Int.random(in: (0..<YosemiteDecimalGrade.allCases.count))]
-                return Project<RopeCategory>(id: id,
-                                             createdAt: createdAt,
-                                              grade: ropeGrade)
+                return Project<RopeClimb>(id: id,
+                                          createdAt: createdAt,
+                                          grade: ropeGrade,
+                                          climbs: [])
             } else {
                 let boulderGrade = HuecoGrade.allCases[Int.random(in: (0..<HuecoGrade.allCases.count))]
-                return Project<BoulderCategory>(id: id,
-                                                createdAt: createdAt,
-                                              grade: boulderGrade)
+                return Project<BoulderClimb>(id: id,
+                                             createdAt: createdAt,
+                                             grade: boulderGrade,
+                                             climbs: [])
             }
         }
         let addClimbView = AddProjectView(addClimbViewModel: AddProjectViewModel())

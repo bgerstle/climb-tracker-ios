@@ -33,8 +33,9 @@ struct ProjectListElementView: View {
 
 struct ClimbHistoryRow_Previews: PreviewProvider {
     static var previews: some View {
-        ProjectListElementView(project: Project<BoulderCategory>(id: UUID(),
-                                                                 createdAt: Date(),
-                                                      grade: HuecoGrade.easy))
+        ProjectListElementView(project: Project<BoulderClimb>(id: UUID(),
+                                                              createdAt: Date(),
+                                                              grade: HuecoGrade.easy,
+                                                              climbs: []))
     }
 }

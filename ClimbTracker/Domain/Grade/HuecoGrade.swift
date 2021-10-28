@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum HuecoGrade : String, Grade, BoulderGrade {
+enum HuecoGrade : String, BoulderGrade {
     case easy = "VB",
          zero = "V0",
          one = "V1",
@@ -35,5 +35,5 @@ enum HuecoGrade : String, Grade, BoulderGrade {
         allCases.firstIndex(of: lhs)! < allCases.firstIndex(of: rhs)!
     }
 
-    static var typeID: GradeType { .hueco }
+    var system: GradingSystem { .hueco(self) }
 }

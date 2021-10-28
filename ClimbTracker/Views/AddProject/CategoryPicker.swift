@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-extension ProjectCategory {
+extension ProjectCategory : Identifiable {
     var displayTitle: String {
         switch self {
         case .boulder:
@@ -16,6 +16,8 @@ extension ProjectCategory {
             return "Rope"
         }
     }
+
+    var id: ProjectCategory { self }
 }
 
 struct CategoryPicker: View {
