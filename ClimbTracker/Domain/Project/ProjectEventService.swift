@@ -12,7 +12,7 @@ protocol ProjectService {
     // Need to add climbType to fn signature, otherwise compiler complains that C isn't used.
     // Could also return Project<C>, but that requires callers to assign the return value to a variable
     // with a type annotation, which is tedious.
-    func create<C: ClimbType>(_ climbType: C.Type, grade: C.GradeType)
+    func create<A: AttemptType>(_ climbType: A.Type, grade: A.GradeType)
 }
 
 class ProjectEventService<S: Subject> : ProjectService where S.Output == EventEnvelope<ProjectEvent> {
@@ -22,8 +22,8 @@ class ProjectEventService<S: Subject> : ProjectService where S.Output == EventEn
 
     let subject: S
 
-    func create<C: ClimbType>(_ climbType: C.Type, grade: C.GradeType) {
-        let project = Project<C>(id: UUID(), createdAt: Date(), grade: grade, climbs: []),
+    func create<A: AttemptType>(_ climbType: A.Type, grade: A.GradeType) {
+        let project = Project<A>(id: UUID(), createdAt: Date(), grade: grade, climbs: []),
             event = EventEnvelope(
             event: ProjectEvent.created(project),
             timestamp: Date()

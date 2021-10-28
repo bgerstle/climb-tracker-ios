@@ -30,13 +30,13 @@ class ProjectEventServiceTests: QuickSpec {
                     let recorder = self.eventSubject.record(),
                         grade = HuecoGrade.easy
 
-                    self.service.create(BoulderClimb.self, grade: grade)
+                    self.service.create(BoulderAttempt.self, grade: grade)
 
                     let publishedEvent: EventEnvelope<ProjectEvent> =
                         try self.wait(for: recorder.next(), timeout: 2.0)
 
                     if case .created(let climb) = publishedEvent.event {
-                        let actualClimb = climb as! Project<BoulderClimb<HuecoGrade>>
+                        let actualClimb = climb as! Project<BoulderAttempt<HuecoGrade>>
                         XCTAssertEqual(actualClimb.grade, grade)
                         // FIXME: inject current time for testing
                         // XCTAssertEqual(actualClimb.createdAt, climbedAt)

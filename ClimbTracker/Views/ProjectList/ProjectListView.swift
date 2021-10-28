@@ -57,13 +57,13 @@ struct ContentView_Previews: PreviewProvider {
 
             if i % 2 == 0 {
                 let ropeGrade = YosemiteDecimalGrade.allCases[Int.random(in: (0..<YosemiteDecimalGrade.allCases.count))]
-                return Project<RopeClimb>(id: id,
+                return Project<RopeAttempt>(id: id,
                                           createdAt: createdAt,
                                           grade: ropeGrade,
                                           climbs: [])
             } else {
                 let boulderGrade = HuecoGrade.allCases[Int.random(in: (0..<HuecoGrade.allCases.count))]
-                return Project<BoulderClimb>(id: id,
+                return Project<BoulderAttempt>(id: id,
                                              createdAt: createdAt,
                                              grade: boulderGrade,
                                              climbs: [])

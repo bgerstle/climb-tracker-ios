@@ -7,37 +7,37 @@
 
 import Foundation
 
-protocol AnyClimb {
-    var result: ClimbResult { get }
+protocol AnyAttempt {
+    var result: AttemptResult { get }
 }
 
-enum ClimbResult {
+enum AttemptResult {
     case flash, onsight, send, fall
 }
 
-protocol ClimbType: AnyClimb, Hashable {
+protocol AttemptType: AnyAttempt, Hashable {
     associatedtype GradeType: Grade
 
     static var projectCategory: ProjectCategory { get }
 }
 
-struct BoulderClimb<G: BoulderGrade>: ClimbType  {
+struct BoulderAttempt<G: BoulderGrade>: AttemptType  {
     typealias GradeType = G
     
-    let result: ClimbResult
+    let result: AttemptResult
 
     static var projectCategory: ProjectCategory { .boulder }
 }
 
-enum RopeClimbCategory {
+enum RopeSubcategory {
     case topRope, sport
 }
 
-struct RopeClimb<G: RopeGrade>: ClimbType {
+struct RopeAttempt<G: RopeGrade>: AttemptType {
     typealias GradeType = G
 
-    let result: ClimbResult
-    let ropeCategory: RopeClimbCategory
+    let result: AttemptResult
+    let ropeSubcategory: RopeSubcategory
 
     static var projectCategory: ProjectCategory { .rope }
 }

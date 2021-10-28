@@ -32,7 +32,7 @@ class ProjectListViewModelTests: QuickSpec {
         describe("Handling climb created events") {
             context("When a climb created event is published") {
                 it("Then it publishes the new climb list with one element") {
-                    let climb = Project<BoulderClimb>(
+                    let climb = Project<BoulderAttempt>(
                             id: UUID(),
                             createdAt: Date(),
                             grade: HuecoGrade.easy,
@@ -47,19 +47,19 @@ class ProjectListViewModelTests: QuickSpec {
                     let actualClimbList = try self.wait(for: recorder.next(), timeout: 2.0)
 
                     XCTAssertEqual(actualClimbList.count, 1)
-                    XCTAssertEqual(actualClimbList.first as! Project<BoulderClimb<HuecoGrade>>, climb)
+                    XCTAssertEqual(actualClimbList.first as! Project<BoulderAttempt<HuecoGrade>>, climb)
                 }
             }
 
             context("When multiple climb created events are published") {
                 it("Then it publishes the new climb lists as elements are added") {
-                    let expectedClimb1 = Project<BoulderClimb>(
+                    let expectedClimb1 = Project<BoulderAttempt>(
                             id: UUID(),
                             createdAt: Date(),
                             grade: HuecoGrade.easy,
                             climbs: []
                         ),
-                        expectedClimb2 = Project<BoulderClimb>(
+                        expectedClimb2 = Project<BoulderAttempt>(
                             id: UUID(),
                             createdAt: Date().addingTimeInterval(1.0),
                             grade: HuecoGrade.five,
@@ -79,11 +79,11 @@ class ProjectListViewModelTests: QuickSpec {
                     XCTAssertEqual(actualClimbLists.count, 2)
 
                     let firstList = actualClimbLists[0]
-                    XCTAssertEqual(firstList.first as! Project<BoulderClimb<HuecoGrade>>, expectedClimb1)
+                    XCTAssertEqual(firstList.first as! Project<BoulderAttempt<HuecoGrade>>, expectedClimb1)
 
                     let secondList = actualClimbLists[1]
-                    XCTAssertEqual(secondList.first as! Project<BoulderClimb<HuecoGrade>>, expectedClimb2)
-                    XCTAssertEqual(secondList[1] as! Project<BoulderClimb<HuecoGrade>>, expectedClimb1)
+                    XCTAssertEqual(secondList.first as! Project<BoulderAttempt<HuecoGrade>>, expectedClimb2)
+                    XCTAssertEqual(secondList[1] as! Project<BoulderAttempt<HuecoGrade>>, expectedClimb1)
                 }
             }
         }

@@ -25,17 +25,17 @@ protocol AnyProject {
     var id: UUID { get }
 }
 
-struct Project<C: ClimbType> : Identifiable, AnyProject {
+struct Project<AttemptT: AttemptType> : Identifiable, AnyProject {
     typealias ID = UUID
 
     let id: UUID
     let createdAt: Date
-    let grade: C.GradeType
-    let climbs: [C]
+    let grade: AttemptT.GradeType
+    let climbs: [AttemptT]
 
     var rawGrade: String { grade.rawValue }
-    var category: ProjectCategory { C.projectCategory }
+    var category: ProjectCategory { AttemptT.projectCategory }
 }
 
-extension Project: Equatable where C: Equatable {}
-extension Project: Hashable where C: Hashable {}
+extension Project: Equatable where AttemptT: Equatable {}
+extension Project: Hashable where AttemptT: Hashable {}
