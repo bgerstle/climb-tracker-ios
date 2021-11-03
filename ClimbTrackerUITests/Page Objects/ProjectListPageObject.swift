@@ -26,6 +26,14 @@ class ProjectListPageObject {
         }
     }
 
+    var addAttemptSwipeAction: XCUIElement {
+        view.descendants(matching: .any).matching(identifier: "addProjectAttemptAction").element
+    }
+
+    var addSendSwipeAction: XCUIElement {
+        view.descendants(matching: .any).matching(identifier: "addProjectSendAction").element
+    }
+
     var rows: [ProjectListPageObject.Element] {
         get {
             view.descendants(matching: .any)

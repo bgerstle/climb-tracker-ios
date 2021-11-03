@@ -14,6 +14,10 @@ class ProjectListViewModel: ObservableObject {
     @Published var projects: [AnyProject] = []
     var cancellable: AnyCancellable?
 
+    func logAttempt(didSend: Bool, project: UUID) {
+        
+    }
+
     func handleClimbEvents<P: Publisher>(_ publisher: P)
         -> AnyCancellable
         where P.Output == EventEnvelope<ProjectEvent>, P.Failure == Never

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BC1F5205272B244000702432 /* AddProjectAttemptViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1F5204272B244000702432 /* AddProjectAttemptViewUITests.swift */; };
 		BC2DE80A27220DDE0015C190 /* ProjectEventServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC92708E269B71B2002734CD /* ProjectEventServiceTests.swift */; };
 		BC2DE80E2724C3870015C190 /* Climb.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2DE80D2724C3870015C190 /* Climb.swift */; };
 		BC2ECFD8269B852800838466 /* ProjectListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2ECFD7269B852800838466 /* ProjectListViewModel.swift */; };
@@ -53,6 +54,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BC1F5204272B244000702432 /* AddProjectAttemptViewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProjectAttemptViewUITests.swift; sourceTree = "<group>"; };
 		BC2DE80D2724C3870015C190 /* Climb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Climb.swift; sourceTree = "<group>"; };
 		BC2ECFD7269B852800838466 /* ProjectListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectListViewModel.swift; sourceTree = "<group>"; };
 		BC2ECFDC269B877400838466 /* ProjectListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectListViewModelTests.swift; sourceTree = "<group>"; };
@@ -218,6 +220,7 @@
 			children = (
 				BCCAEE582698FF71006F0707 /* Page Objects */,
 				BC467224268FB97100B2CBE7 /* ProjectListViewUITests.swift */,
+				BC1F5204272B244000702432 /* AddProjectAttemptViewUITests.swift */,
 				BC43D98B269B1CED002C984E /* AddProjectViewUITests.swift */,
 				BC467226268FB97100B2CBE7 /* Info.plist */,
 			);
@@ -435,6 +438,7 @@
 				BC467225268FB97100B2CBE7 /* ProjectListViewUITests.swift in Sources */,
 				BC43D981269AA146002C984E /* AddProjectPageObject.swift in Sources */,
 				BCCAEE5A2698FFAC006F0707 /* ProjectListPageObject.swift in Sources */,
+				BC1F5205272B244000702432 /* AddProjectAttemptViewUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -505,7 +509,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -560,7 +564,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

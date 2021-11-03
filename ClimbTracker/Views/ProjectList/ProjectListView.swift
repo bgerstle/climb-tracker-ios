@@ -21,13 +21,29 @@ struct ProjectListView: View {
     }
 
     var body: some View {
-        // TODO: fix constraint complaints
         NavigationView {
-            ScrollView {
-                LazyVStack(alignment:.leading) {
-                    ForEach(viewModel.projects, id: \.id) { project in
-                        ProjectListElementView(project: project)
-                        Divider()
+            List {
+                ForEach(viewModel.projects, id: \.id) { project in
+                    if #available(iOS 15.0, *) {
+                        ProjectListElementView(project: project).swipeActions() {
+                            Button {
+                                viewModel.logAttempt(didSend: false, project: project.id)
+                            } label: {
+                                Label("Send", systemImage: "checkmark")
+                            }
+                            .accessibilityIdentifier("addProjectSendAction")
+                            .tint(.green)
+
+                            Button {
+                                viewModel.logAttempt(didSend: false, project: project.id)
+                            } label: {
+                                Label("Attempt", systemImage: "plus")
+                            }
+                            .accessibilityIdentifier("addProjectAttemptAction")
+                            .tint(.gray)
+                        }
+                    } else {
+                        fatalError("Shouldn't happen. Xcode requires this check even though deployment target is iOS 15.")
                     }
                 }
             }

@@ -8,11 +8,7 @@
 import Foundation
 
 protocol AnyAttempt {
-    var result: AttemptResult { get }
-}
-
-enum AttemptResult {
-    case flash, onsight, send, fall
+    var didSend: Bool { get }
 }
 
 protocol AttemptType: AnyAttempt, Hashable {
@@ -24,7 +20,7 @@ protocol AttemptType: AnyAttempt, Hashable {
 struct BoulderAttempt<G: BoulderGrade>: AttemptType  {
     typealias GradeType = G
     
-    let result: AttemptResult
+    let didSend: Bool
 
     static var projectCategory: ProjectCategory { .boulder }
 }
@@ -36,7 +32,7 @@ enum RopeSubcategory {
 struct RopeAttempt<G: RopeGrade>: AttemptType {
     typealias GradeType = G
 
-    let result: AttemptResult
+    let didSend: Bool
     let ropeSubcategory: RopeSubcategory
 
     static var projectCategory: ProjectCategory { .rope }
