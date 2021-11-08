@@ -27,7 +27,7 @@ struct AddProjectView: View {
             }
             .navigationTitle("New Project")
             .navigationBarItems(trailing:
-                Button("Submit") {
+                Button("Create") {
                     presentationMode.wrappedValue.dismiss()
                     addClimbViewModel.submit()
                 }

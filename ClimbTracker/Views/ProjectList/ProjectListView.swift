@@ -50,8 +50,10 @@ struct ProjectListView: View {
             .navigationTitle(Text("Projects"))
             .toolbar() {
                 ToolbarItem(placement: .primaryAction) {
-                    Button("New Project") {
+                    Button {
                         presentingAddClimb.toggle()
+                    } label: {
+                        Label("New", systemImage: "plus")
                     }
                     .accessibility(identifier: "addProjectButton")
                 }
