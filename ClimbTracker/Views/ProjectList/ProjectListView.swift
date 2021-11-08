@@ -70,21 +70,12 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         let viewModel = ProjectListViewModel()
         viewModel.projects = (0...20).map { i in
-            let id = UUID(),
-                createdAt = Date().addingTimeInterval(TimeInterval.random(in: (-600000...600000)))
-
             if i % 2 == 0 {
                 let ropeGrade = YosemiteDecimalGrade.allCases[Int.random(in: (0..<YosemiteDecimalGrade.allCases.count))]
-                return Project<RopeAttempt>(id: id,
-                                          createdAt: createdAt,
-                                          grade: ropeGrade,
-                                          climbs: [])
+                return ProjectSummary(id: UUID(), didSend: true, attemptCount: 1, title: "Title", grade: ropeGrade.rawValue)
             } else {
                 let boulderGrade = HuecoGrade.allCases[Int.random(in: (0..<HuecoGrade.allCases.count))]
-                return Project<BoulderAttempt>(id: id,
-                                             createdAt: createdAt,
-                                             grade: boulderGrade,
-                                             climbs: [])
+                return ProjectSummary(id: UUID(), didSend: true, attemptCount: 1, title: "Title", grade: boulderGrade.rawValue)
             }
         }
         let addClimbView = AddProjectView(addClimbViewModel: AddProjectViewModel())

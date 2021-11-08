@@ -8,22 +8,13 @@
 import SwiftUI
 
 struct ProjectListElementView: View {
-    var projectCreatedAtFormatter: DateFormatter {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .short
-        formatter.timeStyle = .short
-        return formatter
-    }
-
-    let project: AnyProject
-
-    var formattedCreationTime: String {
-        projectCreatedAtFormatter.string(from: project.createdAt)
-    }
+    let project: ProjectSummary
 
     var body: some View {
         HStack {
-            Text("\(project.category.displayTitle) \(project.rawGrade) at \(formattedCreationTime)")
+            Text(project.title)
+            Spacer()
+            Text(project.grade)
         }
         .accessibility(identifier: "projectListElement")
         .fixedSize(horizontal: false, vertical: true)
@@ -33,9 +24,10 @@ struct ProjectListElementView: View {
 
 struct ClimbHistoryRow_Previews: PreviewProvider {
     static var previews: some View {
-        ProjectListElementView(project: Project<BoulderAttempt>(id: UUID(),
-                                                              createdAt: Date(),
-                                                              grade: HuecoGrade.easy,
-                                                              climbs: []))
+        ProjectListElementView(project: ProjectSummary(id: UUID(),
+                                                       didSend: false,
+                                                       attemptCount: 0,
+                                                       title: "Example title",
+                                                       grade: "V4"))
     }
 }
