@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		BC1F5205272B244000702432 /* AddProjectAttemptViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1F5204272B244000702432 /* AddProjectAttemptViewUITests.swift */; };
 		BC2DE80A27220DDE0015C190 /* ProjectEventServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC92708E269B71B2002734CD /* ProjectEventServiceTests.swift */; };
-		BC2DE80E2724C3870015C190 /* Climb.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2DE80D2724C3870015C190 /* Climb.swift */; };
+		BC2DE80E2724C3870015C190 /* Attempt.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2DE80D2724C3870015C190 /* Attempt.swift */; };
 		BC2ECFD8269B852800838466 /* ProjectListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2ECFD7269B852800838466 /* ProjectListViewModel.swift */; };
 		BC2ECFDD269B877400838466 /* ProjectListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2ECFDC269B877400838466 /* ProjectListViewModelTests.swift */; };
 		BC2ECFF0269B9C7200838466 /* ProjectListElementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2ECFEF269B9C7200838466 /* ProjectListElementView.swift */; };
@@ -55,7 +55,7 @@
 
 /* Begin PBXFileReference section */
 		BC1F5204272B244000702432 /* AddProjectAttemptViewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProjectAttemptViewUITests.swift; sourceTree = "<group>"; };
-		BC2DE80D2724C3870015C190 /* Climb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Climb.swift; sourceTree = "<group>"; };
+		BC2DE80D2724C3870015C190 /* Attempt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Attempt.swift; sourceTree = "<group>"; };
 		BC2ECFD7269B852800838466 /* ProjectListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectListViewModel.swift; sourceTree = "<group>"; };
 		BC2ECFDC269B877400838466 /* ProjectListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectListViewModelTests.swift; sourceTree = "<group>"; };
 		BC2ECFEF269B9C7200838466 /* ProjectListElementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectListElementView.swift; sourceTree = "<group>"; };
@@ -149,7 +149,7 @@
 			isa = PBXGroup;
 			children = (
 				BC43D992269B3852002C984E /* Project.swift */,
-				BC2DE80D2724C3870015C190 /* Climb.swift */,
+				BC2DE80D2724C3870015C190 /* Attempt.swift */,
 				BC927089269B7054002734CD /* ProjectEventService.swift */,
 			);
 			path = Project;
@@ -404,7 +404,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC43D9A4269B3D73002C984E /* HuecoGrade.swift in Sources */,
-				BC2DE80E2724C3870015C190 /* Climb.swift in Sources */,
+				BC2DE80E2724C3870015C190 /* Attempt.swift in Sources */,
 				BC9C2B9B26A7A2EF00520E04 /* CategoryPicker.swift in Sources */,
 				BC43D9C6269B5CB5002C984E /* EventEnvelope.swift in Sources */,
 				BC46720A268FB96E00B2CBE7 /* ProjectListView.swift in Sources */,

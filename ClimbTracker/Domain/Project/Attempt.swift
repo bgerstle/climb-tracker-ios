@@ -1,5 +1,5 @@
 //
-//  Climb.swift
+//  Attempt.swift
 //  ClimbTracker
 //
 //  Created by Brian Gerstle on 10/23/21.
