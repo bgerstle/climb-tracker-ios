@@ -47,7 +47,7 @@ class ProjectListViewModelTests: QuickSpec {
                     let actualClimbList = try self.wait(for: recorder.next(), timeout: 2.0)
 
                     XCTAssertEqual(actualClimbList.count, 1)
-                    XCTAssertEqual(actualClimbList.first as! Project<BoulderAttempt<HuecoGrade>>, climb)
+                    XCTAssertEqual(actualClimbList.first!.id, climb.id)
                 }
             }
 
@@ -79,11 +79,11 @@ class ProjectListViewModelTests: QuickSpec {
                     XCTAssertEqual(actualClimbLists.count, 2)
 
                     let firstList = actualClimbLists[0]
-                    XCTAssertEqual(firstList.first as! Project<BoulderAttempt<HuecoGrade>>, expectedClimb1)
+                    XCTAssertEqual(firstList.first!.id, expectedClimb1.id)
 
                     let secondList = actualClimbLists[1]
-                    XCTAssertEqual(secondList.first as! Project<BoulderAttempt<HuecoGrade>>, expectedClimb2)
-                    XCTAssertEqual(secondList[1] as! Project<BoulderAttempt<HuecoGrade>>, expectedClimb1)
+                    XCTAssertEqual(secondList.first!.id, expectedClimb2.id)
+                    XCTAssertEqual(secondList[1].id, expectedClimb1.id)
                 }
             }
         }
