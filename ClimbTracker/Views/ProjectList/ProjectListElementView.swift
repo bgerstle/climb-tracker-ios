@@ -11,14 +11,14 @@ struct ProjectListElementView: View {
     let project: ProjectSummary
 
     var body: some View {
-        HStack {
-            Text(project.title)
-            Spacer()
-            Text(project.grade)
+        VStack(alignment: .leading) {
+            HStack(alignment: .firstTextBaseline) {
+                Text(project.grade)
+                Text(project.title)
+            }
         }
         .accessibility(identifier: "projectListElement")
-        .fixedSize(horizontal: false, vertical: true)
-        .padding(Edge.Set(arrayLiteral: .vertical, .leading))
+        .padding(Edge.Set(arrayLiteral: .vertical, .leading, .trailing))
     }
 }
 
