@@ -20,6 +20,34 @@
                ReferencedContainer = "container:ClimbTracker.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "BC467214268FB97000B2CBE7"
+               BuildableName = "ClimbTrackerTests.xctest"
+               BlueprintName = "ClimbTrackerTests"
+               ReferencedContainer = "container:ClimbTracker.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "BC46721F268FB97100B2CBE7"
+               BuildableName = "ClimbTrackerUITests.xctest"
+               BlueprintName = "ClimbTrackerUITests"
+               ReferencedContainer = "container:ClimbTracker.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
