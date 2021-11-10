@@ -14,9 +14,12 @@ struct ProjectListElementView: View {
         VStack(alignment: .leading) {
             HStack(alignment: .firstTextBaseline) {
                 Text(project.grade)
+                    .accessibilityIdentifier("projectListElementGrade")
                 Text(project.title)
+                    .accessibilityIdentifier("projectListElementTitle")
             }
         }
+        .accessibilityElement(children: .contain)
         .accessibility(identifier: "projectListElement")
         .padding(Edge.Set(arrayLiteral: .vertical, .leading, .trailing))
     }

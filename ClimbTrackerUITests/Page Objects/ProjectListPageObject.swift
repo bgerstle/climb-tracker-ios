@@ -21,17 +21,31 @@ class ProjectListPageObject {
             self.view = view
         }
 
-        var cellText: String {
-            view.label
+        var gradeLabelText: String {
+            view.staticTexts
+                .matching(identifier: "projectListElementGrade")
+                .firstMatch
+                .label
+        }
+
+        var titleLabelText: String {
+            view.staticTexts
+                .matching(identifier: "projectListElementTitle")
+                .firstMatch
+                .label
         }
     }
 
     var addAttemptSwipeAction: XCUIElement {
-        view.descendants(matching: .any).matching(identifier: "addProjectAttemptAction").element
+        view.descendants(matching: .any)
+            .matching(identifier: "addProjectAttemptAction")
+            .element
     }
 
     var addSendSwipeAction: XCUIElement {
-        view.descendants(matching: .any).matching(identifier: "addProjectSendAction").element
+        view.descendants(matching: .any)
+            .matching(identifier: "addProjectSendAction")
+            .element
     }
 
     var rows: [ProjectListPageObject.Element] {

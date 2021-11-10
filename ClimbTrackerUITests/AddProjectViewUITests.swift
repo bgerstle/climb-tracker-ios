@@ -40,8 +40,8 @@ class AddProjectViewUITests: QuickSpec {
                         
                         XCTAssertEqual(self.climbHistory.rows.count, 1)
                         let firstRow = self.climbHistory.rows.first!
-                        XCTAssertTrue(firstRow.cellText.contains("VB"))
-                        XCTAssertTrue(firstRow.cellText.contains("Boulder"))
+                        XCTAssertTrue(firstRow.gradeLabelText.contains("VB"))
+                        XCTAssertTrue(firstRow.titleLabelText.contains("Boulder"))
                     }
                 }
 
@@ -69,9 +69,10 @@ class AddProjectViewUITests: QuickSpec {
 
                         XCTAssertEqual(self.climbHistory.rows.count, 1)
 
-                        let firstRowText = self.climbHistory.rows.first.map(\.cellText) ?? ""
-                        XCTAssertTrue(firstRowText.contains(rawGradeValue))
-                        XCTAssertTrue(firstRowText.contains(defaultCategory))
+                        let firstRow = self.climbHistory.rows.first
+                        XCTAssertTrue((firstRow?.gradeLabelText ?? "").contains(rawGradeValue))
+
+                        XCTAssertTrue((firstRow?.titleLabelText ?? "").contains(defaultCategory))
                     }
                 }
 
@@ -90,10 +91,10 @@ class AddProjectViewUITests: QuickSpec {
 
                         XCTAssertEqual(self.climbHistory.rows.count, 1)
 
-                        let firstRowText = self.climbHistory.rows.first?.cellText ?? ""
-                        XCTAssertTrue(firstRowText.contains(defaultGrade))
+                        let firstRow = self.climbHistory.rows.first
+                        XCTAssertTrue((firstRow?.gradeLabelText ?? "").contains(defaultGrade))
 
-                        XCTAssertTrue(firstRowText.contains(rawCategoryValue))
+                        XCTAssertTrue((firstRow?.titleLabelText ?? "").contains(rawCategoryValue))
                     }
                 }
 
@@ -114,10 +115,10 @@ class AddProjectViewUITests: QuickSpec {
 
                         XCTAssertEqual(self.climbHistory.rows.count, 1)
 
-                        let firstRowText = self.climbHistory.rows.first?.cellText ?? ""
-                        XCTAssertTrue(firstRowText.contains(rawGradeValue))
+                        let firstRow = self.climbHistory.rows.first
+                        XCTAssertTrue((firstRow?.gradeLabelText ?? "").contains(rawGradeValue))
 
-                        XCTAssertTrue(firstRowText.contains(rawCategoryValue))
+                        XCTAssertTrue((firstRow?.titleLabelText ?? "").contains(rawCategoryValue))
                     }
                 }
             }
