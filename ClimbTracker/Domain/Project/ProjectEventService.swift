@@ -8,26 +8,46 @@
 import Foundation
 import Combine
 
-protocol ProjectService {
-    // Need to add climbType to fn signature, otherwise compiler complains that C isn't used.
-    // Could also return Project<C>, but that requires callers to assign the return value to a variable
-    // with a type annotation, which is tedious.
-    func create<A: AttemptType>(_ climbType: A.Type, grade: A.GradeType)
+protocol RopeProjectService {
+    func create<G: RopeGrade>(grade: G)
 }
 
-class ProjectEventService<S: Subject> : ProjectService where S.Output == EventEnvelope<ProjectEvent> {
+protocol BoulderProjectService {
+    func create<G: BoulderGrade>(grade: G)
+}
+
+class BoulderProjectEventService<S: Subject> : BoulderProjectService where S.Output == EventEnvelope<BoulderProject.Event> {
     internal init(subject: S) {
         self.subject = subject
     }
 
     let subject: S
 
-    func create<A: AttemptType>(_ climbType: A.Type, grade: A.GradeType) {
-        let project = Project<A>(id: UUID(), createdAt: Date(), grade: grade, climbs: []),
-            event = EventEnvelope(
-            event: ProjectEvent.created(project),
-            timestamp: Date()
-        )
-        subject.send(event)
+    func create<G: BoulderGrade>(grade: G) {
+        let envelope = EventEnvelope(
+            event: BoulderProject.Event.created(BoulderProject.Created(id: UUID(),
+                                                                       createdAt: Date(),
+                                                                       grade: grade.any)),
+            timestamp: Date())
+
+        self.subject.send(envelope)
+    }
+}
+
+class RopeProjectEventService<S: Subject> : RopeProjectService where S.Output == EventEnvelope<RopeProject.Event> {
+    internal init(subject: S) {
+        self.subject = subject
+    }
+
+    let subject: S
+
+    func create<G: RopeGrade>(grade: G) {
+        let envelope = EventEnvelope(
+            event: RopeProject.Event.created(RopeProject.Created(id: UUID(),
+                                                                 createdAt: Date(),
+                                                                 grade: grade.any)),
+            timestamp: Date())
+
+        self.subject.send(envelope)
     }
 }

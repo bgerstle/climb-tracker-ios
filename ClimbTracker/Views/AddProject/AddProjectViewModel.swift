@@ -9,7 +9,8 @@ import Foundation
 import SwiftUI
 
 class AddProjectViewModel: ObservableObject {
-    let climbService: ProjectService!
+    let boulderProjectService: BoulderProjectService!
+    let ropeProjectService: RopeProjectService!
 
     @Published var selectedCategory: ProjectCategory
 
@@ -17,11 +18,13 @@ class AddProjectViewModel: ObservableObject {
 
     @Published var selectedRopeGrade: YosemiteDecimalGrade
 
-    init(climbService: ProjectService! = nil,
+    init(boulderProjectService: BoulderProjectService! = nil,
+         ropeProjectService: RopeProjectService! = nil,
          selectedCategory: ProjectCategory = .boulder,
          selectedBoulderGrade: HuecoGrade = HuecoGrade.easy,
          selectedRopeGrade: YosemiteDecimalGrade = YosemiteDecimalGrade.nine) {
-        self.climbService = climbService
+        self.boulderProjectService = boulderProjectService
+        self.ropeProjectService = ropeProjectService
         self.selectedCategory = selectedCategory
         self.selectedRopeGrade = selectedRopeGrade
         self.selectedBoulderGrade = selectedBoulderGrade
@@ -30,9 +33,9 @@ class AddProjectViewModel: ObservableObject {
     func submit() {
         switch self.selectedCategory {
         case .boulder:
-            climbService.create(BoulderAttempt.self, grade: selectedBoulderGrade)
+            boulderProjectService.create(grade: selectedBoulderGrade)
         case .rope:
-            climbService.create(RopeAttempt.self, grade: selectedRopeGrade)
+            ropeProjectService.create(grade: selectedRopeGrade)
         }
     }
 }

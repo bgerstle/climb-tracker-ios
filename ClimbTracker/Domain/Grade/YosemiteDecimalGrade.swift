@@ -8,6 +8,8 @@
 import Foundation
 
 enum YosemiteDecimalGrade: String, RopeGrade {
+    typealias ID = YosemiteDecimalGrade
+
     case zero = "5.0",
          one = "5.1",
          two = "5.2",
@@ -39,13 +41,9 @@ enum YosemiteDecimalGrade: String, RopeGrade {
         self.rawValue
     }
 
-    var id: YosemiteDecimalGrade {
-        self
-    }
-
     static func < (lhs: YosemiteDecimalGrade, rhs: YosemiteDecimalGrade) -> Bool {
         allCases.firstIndex(of: lhs)! < allCases.firstIndex(of: rhs)!
     }
 
-    var system: GradingSystem { .yosemite(self) }
+    var any: AnyRopeGrade { .yosemite(self) }
 }

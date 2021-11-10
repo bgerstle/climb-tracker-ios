@@ -15,6 +15,10 @@ struct ProjectSummary : Identifiable, Hashable {
     let attemptCount: UInt
     let title: String
     let grade: String
+
+    enum Event {
+        case created(ProjectSummary)
+    }
 }
 
 class ProjectSummarizer {
@@ -31,16 +35,44 @@ class ProjectSummarizer {
         self.dateFormatter = dateFormatter
     }
 
-    func summarize(_ project: AnyProject) -> ProjectSummary {
-        return ProjectSummary(id: project.id,
-                              didSend: false,
-                              attemptCount: 0,
-                              title: formattedTitle(project),
-                              grade: project.rawGrade)
+    func summarizeProjectEvents<PB: Publisher, PR: Publisher>(boulder: PB, rope: PR) -> AnyPublisher<EventEnvelope<ProjectSummary.Event>, Never>
+    where PB.Output == EventEnvelope<BoulderProject.Event>,
+          PB.Failure == Never,
+          PR.Output == EventEnvelope<RopeProject.Event>,
+          PR.Failure == Never
+    {
+        let boulderSummaries = boulder.map(summarize),
+            ropeSummaries = rope.map(summarize),
+            allSummaries = boulderSummaries.merge(with: ropeSummaries)
+        return allSummaries.eraseToAnyPublisher()
     }
 
-    func formattedTitle(_ project: AnyProject) -> String {
-        return "\(project.category.displayTitle) \(dateFormatter.string(from: project.createdAt))"
+    private func summarize(_ envelope: EventEnvelope<BoulderProject.Event>) -> EventEnvelope<ProjectSummary.Event> {
+        switch envelope.event {
+        case .created(let event):
+            let summary = ProjectSummary(id: event.id,
+                                         didSend: false,
+                                         attemptCount: 0,
+                                         title: formattedTitle(.boulder, createdAt: event.createdAt),
+                                         grade: event.grade.rawValue)
+            return EventEnvelope(event: .created(summary), timestamp: Date())
+        }
+    }
+
+    private func summarize(_ envelope: EventEnvelope<RopeProject.Event>) -> EventEnvelope<ProjectSummary.Event> {
+        switch envelope.event {
+        case .created(let event):
+            let summary = ProjectSummary(id: event.id,
+                                         didSend: false,
+                                         attemptCount: 0,
+                                         title: formattedTitle(.boulder, createdAt: event.createdAt),
+                                         grade: event.grade.rawValue)
+            return EventEnvelope(event: .created(summary), timestamp: Date())
+        }
+    }
+
+    private func formattedTitle(_ category: ProjectCategory, createdAt: Date) -> String {
+        return "\(category.displayTitle) \(dateFormatter.string(from: createdAt))"
     }
 }
 
@@ -49,20 +81,18 @@ class ProjectListViewModel: ObservableObject {
     @Published var projects: [ProjectSummary] = []
     var cancellable: AnyCancellable?
 
-    let summarizer: ProjectSummarizer = ProjectSummarizer()
-
     func logAttempt(didSend: Bool, project: UUID) {
         
     }
 
     func handleClimbEvents<P: Publisher>(_ publisher: P)
         -> AnyCancellable
-        where P.Output == EventEnvelope<ProjectEvent>, P.Failure == Never
+    where P.Output == EventEnvelope<ProjectSummary.Event>, P.Failure == Never
     {
-        return publisher.sink { projectEvent in
-            switch projectEvent.event {
-            case .created(let project):
-                self.projects.insert(self.summarizer.summarize(project), at: 0)
+        return publisher.sink { summaryEventEnvelope in
+            switch summaryEventEnvelope.event {
+            case .created(let summary):
+                self.projects.insert(summary, at: 0)
             }
         }
     }

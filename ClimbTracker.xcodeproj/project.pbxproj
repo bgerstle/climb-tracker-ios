@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BC0B37A1273C3EF70069B575 /* FontGrade.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0B37A0273C3EF70069B575 /* FontGrade.swift */; };
+		BC0B37A3273C3EFE0069B575 /* FrenchGrade.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0B37A2273C3EFE0069B575 /* FrenchGrade.swift */; };
 		BC1F5205272B244000702432 /* AddProjectAttemptViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1F5204272B244000702432 /* AddProjectAttemptViewUITests.swift */; };
-		BC2DE80A27220DDE0015C190 /* ProjectEventServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC92708E269B71B2002734CD /* ProjectEventServiceTests.swift */; };
 		BC2DE80E2724C3870015C190 /* Attempt.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2DE80D2724C3870015C190 /* Attempt.swift */; };
 		BC2ECFD8269B852800838466 /* ProjectListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2ECFD7269B852800838466 /* ProjectListViewModel.swift */; };
-		BC2ECFDD269B877400838466 /* ProjectListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2ECFDC269B877400838466 /* ProjectListViewModelTests.swift */; };
 		BC2ECFF0269B9C7200838466 /* ProjectListElementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2ECFEF269B9C7200838466 /* ProjectListElementView.swift */; };
 		BC43D976269A9E49002C984E /* AddProjectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC43D975269A9E49002C984E /* AddProjectView.swift */; };
 		BC43D981269AA146002C984E /* AddProjectPageObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC43D980269AA146002C984E /* AddProjectPageObject.swift */; };
@@ -54,6 +54,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BC0B37A0273C3EF70069B575 /* FontGrade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontGrade.swift; sourceTree = "<group>"; };
+		BC0B37A2273C3EFE0069B575 /* FrenchGrade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrenchGrade.swift; sourceTree = "<group>"; };
 		BC1F5204272B244000702432 /* AddProjectAttemptViewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProjectAttemptViewUITests.swift; sourceTree = "<group>"; };
 		BC2DE80D2724C3870015C190 /* Attempt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Attempt.swift; sourceTree = "<group>"; };
 		BC2ECFD7269B852800838466 /* ProjectListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectListViewModel.swift; sourceTree = "<group>"; };
@@ -118,6 +120,8 @@
 			isa = PBXGroup;
 			children = (
 				BCC05BE426A9C1D0001B4C42 /* Grade.swift */,
+				BC0B37A0273C3EF70069B575 /* FontGrade.swift */,
+				BC0B37A2273C3EFE0069B575 /* FrenchGrade.swift */,
 				BC43D9A3269B3D73002C984E /* HuecoGrade.swift */,
 				BC9C2B8B26A6190B00520E04 /* YosemiteDecimalGrade.swift */,
 			);
@@ -407,6 +411,7 @@
 				BC2DE80E2724C3870015C190 /* Attempt.swift in Sources */,
 				BC9C2B9B26A7A2EF00520E04 /* CategoryPicker.swift in Sources */,
 				BC43D9C6269B5CB5002C984E /* EventEnvelope.swift in Sources */,
+				BC0B37A1273C3EF70069B575 /* FontGrade.swift in Sources */,
 				BC46720A268FB96E00B2CBE7 /* ProjectListView.swift in Sources */,
 				BC43D993269B3852002C984E /* Project.swift in Sources */,
 				BC2ECFF0269B9C7200838466 /* ProjectListElementView.swift in Sources */,
@@ -416,6 +421,7 @@
 				BC467208268FB96E00B2CBE7 /* ClimbTrackerApp.swift in Sources */,
 				BC9C2B8C26A6190B00520E04 /* YosemiteDecimalGrade.swift in Sources */,
 				BC92708A269B7054002734CD /* ProjectEventService.swift in Sources */,
+				BC0B37A3273C3EFE0069B575 /* FrenchGrade.swift in Sources */,
 				BC9C2B9626A61BDA00520E04 /* AddProjectViewModel.swift in Sources */,
 				BC2ECFD8269B852800838466 /* ProjectListViewModel.swift in Sources */,
 			);
@@ -425,8 +431,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BC2ECFDD269B877400838466 /* ProjectListViewModelTests.swift in Sources */,
-				BC2DE80A27220DDE0015C190 /* ProjectEventServiceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

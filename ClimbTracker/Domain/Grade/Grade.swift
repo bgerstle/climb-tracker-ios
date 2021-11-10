@@ -7,42 +7,76 @@
 
 import Foundation
 
-enum GradingSystem {
-    case hueco(HuecoGrade), yosemite(YosemiteDecimalGrade)
-}
+enum AnyBoulderGrade : RawRepresentable, Hashable {
+    case hueco(HuecoGrade)
+    case font(FontGrade)
 
-extension GradingSystem : RawRepresentable {
+    typealias RawValue = String
+
     init?(rawValue: RawValue) {
-        guard let grade = HuecoGrade(rawValue: rawValue).map(\.system) ??
-                YosemiteDecimalGrade(rawValue: rawValue).map(\.system) else {
-                    return nil
-                }
-        self = grade
+        if let grade = HuecoGrade(rawValue: rawValue) {
+            self = .hueco(grade)
+        } else if let grade = FontGrade(rawValue: rawValue) {
+            self = .font(grade)
+        } else {
+            return nil
+        }
     }
 
     var rawValue: String {
         switch self {
         case .hueco(let grade):
             return grade.rawValue
+        case .font(let grade):
+            return grade.rawValue
+        }
+    }
+}
+
+enum AnyRopeGrade : RawRepresentable, Hashable {
+    case yosemite(YosemiteDecimalGrade)
+    case french(FrenchGrade)
+
+    typealias RawValue = String
+
+    init?(rawValue: RawValue) {
+        if let grade = YosemiteDecimalGrade(rawValue: rawValue) {
+            self = .yosemite(grade)
+        } else if let grade = FrenchGrade(rawValue: rawValue) {
+            self = .french(grade)
+        } else {
+            return nil
+        }
+    }
+
+    var rawValue: String {
+        switch self {
+        case .french(let grade):
+            return grade.rawValue
         case .yosemite(let grade):
             return grade.rawValue
         }
     }
-
-    typealias RawValue = String
 }
 
 // Phantom type for tagging Grades that can be used with boulders
-protocol Boulder {}
+protocol Boulder {
+    var any: AnyBoulderGrade { get }
+}
 typealias BoulderGrade = Boulder & Grade
 
 // Phantom type for tagging Grades that can be used with routes
-protocol Rope {}
+protocol Rope {
+    var any: AnyRopeGrade { get }
+}
 typealias RopeGrade = Rope & Grade
 
 // Concrete grade types should conform to this protocol
 protocol Grade
     : RawRepresentable, Hashable, Identifiable, CaseIterable
     where RawValue == String, AllCases: RandomAccessCollection {
-    var system: GradingSystem { get }
+}
+
+extension Grade where ID == Self {
+    var id: Self { self }
 }

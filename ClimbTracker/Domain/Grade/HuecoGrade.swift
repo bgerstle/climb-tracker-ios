@@ -8,6 +8,8 @@
 import Foundation
 
 enum HuecoGrade : String, BoulderGrade {
+    typealias ID = HuecoGrade
+
     case easy = "VB",
          zero = "V0",
          one = "V1",
@@ -29,11 +31,9 @@ enum HuecoGrade : String, BoulderGrade {
 
     var description: String { self.rawValue }
 
-    var id: HuecoGrade { self }
-
     static func < (lhs: HuecoGrade, rhs: HuecoGrade) -> Bool {
         allCases.firstIndex(of: lhs)! < allCases.firstIndex(of: rhs)!
     }
 
-    var system: GradingSystem { .hueco(self) }
+    var any: AnyBoulderGrade { .hueco(self) }
 }

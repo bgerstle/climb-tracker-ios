@@ -7,35 +7,99 @@
 
 import Foundation
 
-enum ProjectEvent {
-    case created(AnyProject)
-}
-
-enum ProjectCategory: String, Hashable, CaseIterable {
-    case boulder = "boulder",
-         rope = "rope"
-}
-
 // Cannot conform to Identifiable since that introduces "Self" requirements that prevent specifying
-// mixed collections of climbs (e.g. [Boulder, Rope...])
+// mixed collections of projects (e.g. [Boulder, Rope...])
 protocol AnyProject {
-    var createdAt: Date { get }
-    var category: ProjectCategory { get }
-    var rawGrade: String { get }
     var id: UUID { get }
+    var createdAt: Date { get }
+    var rawGrade: String { get }
+    var attempts: [AnyAttempt] { get }
+
+    // convert from Any to specific Project type
+    var match: Project { get }
 }
 
-struct Project<AttemptT: AttemptType> : Identifiable, AnyProject {
+protocol AnyAttempt {
+    var didSend: Bool { get }
+}
+
+enum Project {
+    case boulder(BoulderProject)
+    case rope(RopeProject)
+}
+
+protocol ProjectType: Identifiable, AnyProject, Hashable { }
+
+struct BoulderProject : ProjectType {
     typealias ID = UUID
 
     let id: UUID
     let createdAt: Date
-    let grade: AttemptT.GradeType
-    let climbs: [AttemptT]
+    let grade: AnyBoulderGrade
+
+    struct Attempt: AnyAttempt, Hashable {
+        let didSend: Bool
+    }
+    let boulderAttempts: [Attempt]
 
     var rawGrade: String { grade.rawValue }
-    var category: ProjectCategory { AttemptT.projectCategory }
+    var attempts: [AnyAttempt] { boulderAttempts }
+    var match: Project { .boulder(self) }
+
+    struct Created {
+        let id: UUID
+        let createdAt: Date
+        let grade: AnyBoulderGrade
+    }
+
+    enum Event {
+        case created(Created)
+    }
+
+    init(_ event: Created) {
+        self.id = event.id
+        self.createdAt = event.createdAt
+        self.grade = event.grade
+        self.boulderAttempts = []
+    }
 }
 
-extension Project: Equatable where AttemptT: Equatable {}
-extension Project: Hashable where AttemptT: Hashable {}
+struct RopeProject : Identifiable, AnyProject, Hashable {
+    typealias ID = UUID
+
+    let id: UUID
+    let createdAt: Date
+    let grade: AnyRopeGrade
+
+    enum Subcategory {
+        case topRope, sport
+    }
+
+    struct Attempt: AnyAttempt, Hashable {
+        let didSend: Bool
+        let subcategory: Subcategory
+    }
+
+    let ropeAttempts: [Attempt]
+
+    var rawGrade: String { grade.rawValue }
+    var attempts: [AnyAttempt] { ropeAttempts }
+    var match: Project { .rope(self) }
+
+    struct Created {
+        let id: UUID
+        let createdAt: Date
+        let grade: AnyRopeGrade
+    }
+
+    enum Event {
+        case created(Created)
+    }
+
+    init(_ event: Created) {
+        self.id = event.id
+        self.createdAt = event.createdAt
+        self.grade = event.grade
+        self.ropeAttempts = []
+    }
+}

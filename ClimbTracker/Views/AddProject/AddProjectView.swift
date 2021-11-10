@@ -8,6 +8,11 @@
 import SwiftUI
 import Combine
 
+enum ProjectCategory: String, Hashable, CaseIterable {
+    case boulder = "boulder",
+         rope = "rope"
+}
+
 struct AddProjectView: View {
     @Environment(\.presentationMode) var presentationMode
 
@@ -40,6 +45,6 @@ struct AddProjectView: View {
 
 struct NewClimbView_Previews: PreviewProvider {
     static var previews: some View {
-        AddProjectView(addClimbViewModel: AddProjectViewModel(climbService: nil))
+        AddProjectView(addClimbViewModel: AddProjectViewModel(boulderProjectService: nil, ropeProjectService: nil))
     }
 }
