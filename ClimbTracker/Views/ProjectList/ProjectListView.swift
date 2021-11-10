@@ -23,11 +23,11 @@ struct ProjectListView: View {
     var body: some View {
         NavigationView {
             List {
-                ForEach(viewModel.projects, id: \.id) { project in
+                ForEach(viewModel.projects, id: \.id) { projectSummary in
                     if #available(iOS 15.0, *) {
-                        ProjectListElementView(project: project).swipeActions() {
+                        ProjectListElementView(project: projectSummary).swipeActions() {
                             Button {
-                                viewModel.logAttempt(didSend: false, project: project.id)
+                                viewModel.logAttempt(didSend: false, project: projectSummary.id)
                             } label: {
                                 Label("Send", systemImage: "checkmark")
                             }
@@ -35,7 +35,7 @@ struct ProjectListView: View {
                             .tint(.green)
 
                             Button {
-                                viewModel.logAttempt(didSend: false, project: project.id)
+                                viewModel.logAttempt(didSend: false, project: projectSummary.id)
                             } label: {
                                 Label("Attempt", systemImage: "plus")
                             }
