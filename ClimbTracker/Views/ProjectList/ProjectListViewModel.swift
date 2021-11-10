@@ -85,8 +85,7 @@ class ProjectListViewModel: ObservableObject {
         
     }
 
-    func handleClimbEvents<P: Publisher>(_ publisher: P)
-        -> AnyCancellable
+    func handleSummaryEvents<P: Publisher>(_ publisher: P) -> AnyCancellable
     where P.Output == EventEnvelope<ProjectSummary.Event>, P.Failure == Never
     {
         return publisher.sink { summaryEventEnvelope in

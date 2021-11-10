@@ -26,7 +26,7 @@ struct ClimbTrackerApp: App {
         let historyViewModel = ProjectListViewModel()
 
         // FIXME: put these cancellables somewhere, or defer their creation?
-        let viewModelCancellable = historyViewModel.handleClimbEvents(summaryEventPublisher)
+        let viewModelCancellable = historyViewModel.handleSummaryEvents(summaryEventPublisher)
         cancelContainer.cancellables.append(viewModelCancellable)
 
         let ropeProjectService = RopeProjectEventService(subject: ropeSubject),
