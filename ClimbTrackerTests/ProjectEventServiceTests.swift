@@ -13,36 +13,49 @@ import CombineExpectations
 @testable import ClimbTracker
 
 class ProjectEventServiceTests: QuickSpec {
-    typealias TestClimbEventSubject = PassthroughSubject<EventEnvelope<ProjectEvent>, Never>
+    typealias TestClimbEventSubject = PassthroughSubject<EventEnvelope<BoulderProject.Event>, Never>
     var eventSubject: TestClimbEventSubject! = nil
-    var service: ProjectEventService<TestClimbEventSubject>! = nil
+    var service: BoulderProjectEventService<TestClimbEventSubject>! = nil
 
     override func spec() {
         beforeEach {
             self.continueAfterFailure = false
             self.eventSubject = TestClimbEventSubject()
-            self.service = ProjectEventService(subject: self.eventSubject)
+            self.service = BoulderProjectEventService(subject: self.eventSubject)
         }
 
         describe("Creating climbs") {
-            context("When the service creates a climb") {
-                it("Then a single climb created event is published") {
-                    let recorder = self.eventSubject.record(),
-                        grade = HuecoGrade.easy
+            it("It emits a boulder project created event with a hueco grade") {
+                let recorder = self.eventSubject.record(),
+                    expectedGrade = HuecoGrade.easy
 
-                    self.service.create(BoulderAttempt.self, grade: grade)
+                self.service.create(grade: expectedGrade)
 
-                    let publishedEvent: EventEnvelope<ProjectEvent> =
-                        try self.wait(for: recorder.next(), timeout: 2.0)
+                let publishedEventEnvelope: EventEnvelope<BoulderProject.Event> =
+                    try self.wait(for: recorder.next(), timeout: 2.0)
 
-                    if case .created(let climb) = publishedEvent.event {
-                        let actualClimb = climb as! Project<BoulderAttempt<HuecoGrade>>
-                        XCTAssertEqual(actualClimb.grade, grade)
-                        // FIXME: inject current time for testing
-                        // XCTAssertEqual(actualClimb.createdAt, climbedAt)
-                    } else {
-                        XCTFail("Unexpected case: \(publishedEvent)")
-                    }
+                if case .created(let event) = publishedEventEnvelope.event {
+                    XCTAssertEqual(event.grade, expectedGrade.any)
+                    // FIXME: inject current time for testing
+                    // XCTAssertEqual(actualClimb.createdAt, climbedAt)
+                } else {
+                    XCTFail("Unexpected case: \(publishedEventEnvelope)")
+                }
+            }
+
+            it("It emits a boulder project created event with a font grade") {
+                let recorder = self.eventSubject.record(),
+                    expectedGrade = FontGrade.sixAPlus
+
+                self.service.create(grade: expectedGrade)
+
+                let publishedEventEnvelope: EventEnvelope<BoulderProject.Event> =
+                    try self.wait(for: recorder.next(), timeout: 2.0)
+
+                if case .created(let event) = publishedEventEnvelope.event {
+                    XCTAssertEqual(event.grade, expectedGrade.any)
+                } else {
+                    XCTFail("Unexpected case: \(publishedEventEnvelope)")
                 }
             }
         }
