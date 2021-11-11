@@ -10,11 +10,6 @@ import Combine
 
 @main
 struct ClimbTrackerApp: App {
-    class CancelContainer {
-        var cancellables: [AnyCancellable] = []
-    }
-    let cancelContainer = CancelContainer()
-
     var body: some Scene {
         // do I even need NotificationCenter?....
         let boulderSubject = PassthroughSubject<EventEnvelope<BoulderProject.Event>, Never>(),
@@ -31,9 +26,7 @@ struct ClimbTrackerApp: App {
                 ropeProjectService: ropeProjectService
             )
 
-        // FIXME: put these cancellables somewhere, or defer their creation?
-        let viewModelCancellable = historyViewModel.handleSummaryEvents(summaryEventPublisher)
-        cancelContainer.cancellables.append(viewModelCancellable)
+        historyViewModel.handleSummaryEvents(summaryEventPublisher)
 
         return WindowGroup {
             ProjectListView(

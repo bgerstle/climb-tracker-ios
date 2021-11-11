@@ -14,6 +14,8 @@ class ProjectListViewModel: ObservableObject {
     let ropeProjectService: RopeProjectService
     let boulderProjectService: BoulderProjectService
 
+    var summaryEventSubscription: AnyCancellable?
+
     static var defaultFormatter: DateFormatter {
         let formatter = DateFormatter()
         formatter.dateStyle = .short
@@ -71,10 +73,11 @@ class ProjectListViewModel: ObservableObject {
         }
     }
 
-    func handleSummaryEvents<P: Publisher>(_ publisher: P) -> AnyCancellable
-    where P.Output == EventEnvelope<ProjectSummary.Event>, P.Failure == Never
-    {
-        return publisher.sink(receiveValue: handle)
+    func handleSummaryEvents<P: Publisher>(_ publisher: P)
+    where P.Output == EventEnvelope<ProjectSummary.Event>, P.Failure == Never {
+        summaryEventSubscription = publisher.sink { [weak self] (summaryEventEnvelope) in
+            self?.handle(summaryEventEnvelope)
+        }
     }
 
     private func formattedTitle(_ category: ProjectCategory, createdAt: Date) -> String {
