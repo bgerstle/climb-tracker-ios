@@ -52,8 +52,15 @@ struct BoulderProject : ProjectType {
         let grade: AnyBoulderGrade
     }
 
+    struct Attempted {
+        let projectId: UUID
+        let attemptId: UUID
+        let didSend: Bool
+    }
+
     enum Event {
         case created(Created)
+        case attempted(Attempted)
     }
 
     init(_ event: Created) {
@@ -92,8 +99,16 @@ struct RopeProject : Identifiable, AnyProject, Hashable {
         let grade: AnyRopeGrade
     }
 
+    struct Attempted {
+        let projectId: UUID
+        let attemptId: UUID
+        let didSend: Bool
+        let subcategory: Subcategory
+    }
+
     enum Event {
         case created(Created)
+        case attempted(Attempted)
     }
 
     init(_ event: Created) {

@@ -18,6 +18,7 @@ struct ProjectListElementView: View {
                 Text(project.title)
                     .accessibilityIdentifier("projectListElementTitle")
             }
+            Text("\(project.didSend ? "Sended!" : "Still projecting.") \(project.attemptCount) total attempts.")
         }
         .accessibilityElement(children: .contain)
         .accessibility(identifier: "projectListElement")
@@ -28,9 +29,10 @@ struct ProjectListElementView: View {
 struct ClimbHistoryRow_Previews: PreviewProvider {
     static var previews: some View {
         ProjectListElementView(project: ProjectSummary(id: UUID(),
+                                                       category: .boulder,
+                                                       grade: HuecoGrade.easy.rawValue,
                                                        didSend: false,
-                                                       attemptCount: 0,
-                                                       title: "Example title",
-                                                       grade: "V4"))
+                                                       attemptCount: 1,
+                                                       title: "Title"))
     }
 }

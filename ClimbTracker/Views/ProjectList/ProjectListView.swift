@@ -27,7 +27,8 @@ struct ProjectListView: View {
                     if #available(iOS 15.0, *) {
                         ProjectListElementView(project: projectSummary).swipeActions() {
                             Button {
-                                viewModel.logAttempt(didSend: false, project: projectSummary.id)
+                                viewModel.logAttempt(project: projectSummary,
+                                                     didSend: true)
                             } label: {
                                 Label("Send", systemImage: "checkmark")
                             }
@@ -35,7 +36,8 @@ struct ProjectListView: View {
                             .tint(.green)
 
                             Button {
-                                viewModel.logAttempt(didSend: false, project: projectSummary.id)
+                                viewModel.logAttempt(project: projectSummary,
+                                                     didSend: false)
                             } label: {
                                 Label("Attempt", systemImage: "plus")
                             }
@@ -67,15 +69,36 @@ struct ProjectListView: View {
 }
 
 struct ContentView_Previews: PreviewProvider {
+    class DummyServices : RopeProjectService, BoulderProjectService {
+        func create<G: BoulderGrade>(grade: G) {}
+
+        func create<G: RopeGrade>(grade: G) {}
+
+        func attempt(projectId: UUID, at: Date, didSend: Bool, subcategory: RopeProject.Subcategory) {}
+
+        func attempt(projectId: UUID, at: Date, didSend: Bool) {}
+    }
+
     static var previews: some View {
-        let viewModel = ProjectListViewModel()
+        let viewModel = ProjectListViewModel(ropeProjectService: DummyServices(),
+                                             boulderProjectService: DummyServices())
         viewModel.projects = (0...20).map { i in
             if i % 2 == 0 {
                 let ropeGrade = YosemiteDecimalGrade.allCases[Int.random(in: (0..<YosemiteDecimalGrade.allCases.count))]
-                return ProjectSummary(id: UUID(), didSend: true, attemptCount: 1, title: "Title", grade: ropeGrade.rawValue)
+                return ProjectSummary(id: UUID(),
+                                      category: .rope,
+                                      grade: ropeGrade.rawValue,
+                                      didSend: true,
+                                      attemptCount: 1,
+                                      title: "Title")
             } else {
                 let boulderGrade = HuecoGrade.allCases[Int.random(in: (0..<HuecoGrade.allCases.count))]
-                return ProjectSummary(id: UUID(), didSend: true, attemptCount: 1, title: "Title", grade: boulderGrade.rawValue)
+                return ProjectSummary(id: UUID(),
+                                      category: .boulder,
+                                      grade: boulderGrade.rawValue,
+                                      didSend: true,
+                                      attemptCount: 1,
+                                      title: "Title")
             }
         }
         let addClimbView = AddProjectView(addClimbViewModel: AddProjectViewModel())

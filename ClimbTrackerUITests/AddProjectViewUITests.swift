@@ -47,9 +47,16 @@ class AddProjectViewUITests: QuickSpec {
 
                 describe("When I swipe down") {
                     it("Then I am taken back to climb history") {
-                        self.app.swipeDown()
+                        XCTAssertTrue(self.addClimb.view
+                                        .waitForExistence(timeout: 2))
+
+                        self.app.swipeDown(velocity: .fast)
 
                         XCTAssertFalse(self.addClimb.view.isHittable)
+
+                        XCTAssertTrue(self.climbHistory.view
+                                        .waitForExistence(timeout: 2))
+
                         XCTAssertTrue(self.app.climbHistory.view.isHittable)
                     }
                 }
