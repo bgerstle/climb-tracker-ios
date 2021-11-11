@@ -24,28 +24,24 @@ struct ProjectListView: View {
         NavigationView {
             List {
                 ForEach(viewModel.projects, id: \.id) { projectSummary in
-                    if #available(iOS 15.0, *) {
-                        ProjectListElementView(project: projectSummary).swipeActions() {
-                            Button {
-                                viewModel.logAttempt(project: projectSummary,
-                                                     didSend: true)
-                            } label: {
-                                Label("Send", systemImage: "checkmark")
-                            }
-                            .accessibilityIdentifier("addProjectSendAction")
-                            .tint(.green)
-
-                            Button {
-                                viewModel.logAttempt(project: projectSummary,
-                                                     didSend: false)
-                            } label: {
-                                Label("Attempt", systemImage: "plus")
-                            }
-                            .accessibilityIdentifier("addProjectAttemptAction")
-                            .tint(.gray)
+                    ProjectListElementView(project: projectSummary).swipeActions() {
+                        Button {
+                            viewModel.logAttempt(project: projectSummary,
+                                                 didSend: true)
+                        } label: {
+                            Label("Send", systemImage: "checkmark")
                         }
-                    } else {
-                        fatalError("Shouldn't happen. Xcode requires this check even though deployment target is iOS 15.")
+                        .accessibilityIdentifier("addProjectSendAction")
+                        .tint(.green)
+
+                        Button {
+                            viewModel.logAttempt(project: projectSummary,
+                                                 didSend: false)
+                        } label: {
+                            Label("Attempt", systemImage: "plus")
+                        }
+                        .accessibilityIdentifier("addProjectAttemptAction")
+                        .tint(.gray)
                     }
                 }
             }
