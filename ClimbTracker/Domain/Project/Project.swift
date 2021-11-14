@@ -58,7 +58,9 @@ struct BoulderProject : ProjectType {
         let didSend: Bool
     }
 
-    enum Event {
+    enum Event : TopicEvent {
+        static var namespace: String { "boulder-projects" }
+
         case created(Created)
         case attempted(Attempted)
     }
@@ -106,7 +108,9 @@ struct RopeProject : Identifiable, AnyProject, Hashable {
         let subcategory: Subcategory
     }
 
-    enum Event {
+    enum Event : TopicEvent {
+        static var namespace: String { "rope-projects" }
+        
         case created(Created)
         case attempted(Attempted)
     }

@@ -9,35 +9,42 @@ import Foundation
 import Combine
 
 protocol RopeProjectService {
-    func create<G: RopeGrade>(grade: G)
+    func create<G: RopeGrade>(grade: G) //async throws
 
-    func attempt(projectId: UUID, at: Date, didSend: Bool, subcategory: RopeProject.Subcategory)
+    func attempt(projectId: UUID, at: Date, didSend: Bool, subcategory: RopeProject.Subcategory) // async throws
 }
 
 protocol BoulderProjectService {
-    func create<G: BoulderGrade>(grade: G)
+    func create<G: BoulderGrade>(grade: G) async throws
 
-    func attempt(projectId: UUID, at: Date, didSend: Bool)
+    func attempt(projectId: UUID, at: Date, didSend: Bool) async throws
 }
 
-class BoulderProjectEventService<S: Subject> : BoulderProjectService where S.Output == EventEnvelope<BoulderProject.Event> {
-    internal init(subject: S) {
-        self.subject = subject
+struct ProjectNotFound : Error {
+    let id: UUID
+}
+
+class BoulderProjectEventService : BoulderProjectService {
+    let eventStore: EventStore
+
+    internal init(eventStore: EventStore) {
+        self.eventStore = eventStore
     }
 
-    let subject: S
-
-    func create<G: BoulderGrade>(grade: G) {
-        let envelope = EventEnvelope(
-            event: BoulderProject.Event.created(BoulderProject.Created(id: UUID(),
+    func create<G: BoulderGrade>(grade: G) async throws {
+        let projectId = UUID(),
+            envelope = EventEnvelope(
+            event: BoulderProject.Event.created(BoulderProject.Created(id: projectId,
                                                                        createdAt: Date(),
                                                                        grade: grade.any)),
             timestamp: Date())
 
-        self.subject.send(envelope)
+        let topic = try await eventStore.createTopic(id: projectId.uuidString,
+                                                     eventType: BoulderProject.Event.self)
+        try await topic.write(envelope)
     }
 
-    func attempt(projectId: UUID, at: Date, didSend: Bool) {
+    func attempt(projectId: UUID, at: Date, didSend: Bool) async throws {
         let envelope = EventEnvelope(
             event: BoulderProject.Event.attempted(BoulderProject.Attempted(
                 projectId: projectId,
@@ -45,7 +52,11 @@ class BoulderProjectEventService<S: Subject> : BoulderProjectService where S.Out
                 didSend: didSend)),
             timestamp: Date())
 
-        self.subject.send(envelope)
+        guard let topic = try await eventStore.findTopic(id: projectId.uuidString,
+                                                         eventType: BoulderProject.Event.self) else {
+            throw ProjectNotFound(id: projectId)
+        }
+        try await topic.write(envelope)
     }
 }
 

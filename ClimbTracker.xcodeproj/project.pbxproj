@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BC00EE4E273F163E00A480A6 /* XCTestCase+Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC00EE4D273F163E00A480A6 /* XCTestCase+Async.swift */; };
+		BC00EE512741A89400A480A6 /* TestEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC00EE502741A89400A480A6 /* TestEvent.swift */; };
 		BC0B37A1273C3EF70069B575 /* FontGrade.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0B37A0273C3EF70069B575 /* FontGrade.swift */; };
 		BC0B37A3273C3EFE0069B575 /* FrenchGrade.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0B37A2273C3EFE0069B575 /* FrenchGrade.swift */; };
 		BC1F5205272B244000702432 /* AddProjectAttemptViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1F5204272B244000702432 /* AddProjectAttemptViewUITests.swift */; };
@@ -34,9 +36,11 @@
 		BCCAEE4D2698FE75006F0707 /* Quick in Frameworks */ = {isa = PBXBuildFile; productRef = BCCAEE4C2698FE75006F0707 /* Quick */; };
 		BCCAEE572698FEA2006F0707 /* Quick in Frameworks */ = {isa = PBXBuildFile; productRef = BCCAEE562698FEA2006F0707 /* Quick */; };
 		BCCAEE5A2698FFAC006F0707 /* ProjectListPageObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCAEE592698FFAC006F0707 /* ProjectListPageObject.swift */; };
-		BCDFE903273C64CE00DD35F7 /* ProjectEventServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC92708E269B71B2002734CD /* ProjectEventServiceTests.swift */; };
 		BCDFE905273C684100DD35F7 /* ProjectSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDFE904273C684100DD35F7 /* ProjectSummary.swift */; };
 		BCDFE907273D73E600DD35F7 /* DummyProjectService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDFE906273D73E600DD35F7 /* DummyProjectService.swift */; };
+		BCDFE90B273DA12F00DD35F7 /* EventStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDFE90A273DA12F00DD35F7 /* EventStore.swift */; };
+		BCDFE90E273DD2A000DD35F7 /* EphemeralTopicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDFE90D273DD2A000DD35F7 /* EphemeralTopicTests.swift */; };
+		BCDFE910273EE30A00DD35F7 /* EphemeralEventStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDFE90F273EE30A00DD35F7 /* EphemeralEventStoreTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +61,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BC00EE4D273F163E00A480A6 /* XCTestCase+Async.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+Async.swift"; sourceTree = "<group>"; };
+		BC00EE502741A89400A480A6 /* TestEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestEvent.swift; sourceTree = "<group>"; };
 		BC0B37A0273C3EF70069B575 /* FontGrade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontGrade.swift; sourceTree = "<group>"; };
 		BC0B37A2273C3EFE0069B575 /* FrenchGrade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrenchGrade.swift; sourceTree = "<group>"; };
 		BC1F5204272B244000702432 /* AddProjectAttemptViewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProjectAttemptViewUITests.swift; sourceTree = "<group>"; };
@@ -91,6 +97,9 @@
 		BCCAEE592698FFAC006F0707 /* ProjectListPageObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectListPageObject.swift; sourceTree = "<group>"; };
 		BCDFE904273C684100DD35F7 /* ProjectSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSummary.swift; sourceTree = "<group>"; };
 		BCDFE906273D73E600DD35F7 /* DummyProjectService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyProjectService.swift; sourceTree = "<group>"; };
+		BCDFE90A273DA12F00DD35F7 /* EventStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventStore.swift; sourceTree = "<group>"; };
+		BCDFE90D273DD2A000DD35F7 /* EphemeralTopicTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EphemeralTopicTests.swift; sourceTree = "<group>"; };
+		BCDFE90F273EE30A00DD35F7 /* EphemeralEventStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EphemeralEventStoreTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +130,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BC00EE4F2741A87F00A480A6 /* EventStore */ = {
+			isa = PBXGroup;
+			children = (
+				BCDFE90D273DD2A000DD35F7 /* EphemeralTopicTests.swift */,
+				BCDFE90F273EE30A00DD35F7 /* EphemeralEventStoreTests.swift */,
+				BC00EE502741A89400A480A6 /* TestEvent.swift */,
+			);
+			path = EventStore;
+			sourceTree = "<group>";
+		};
 		BC2DE80C272332380015C190 /* Grade */ = {
 			isa = PBXGroup;
 			children = (
@@ -147,7 +166,6 @@
 		BC43D990269B380E002C984E /* Domain */ = {
 			isa = PBXGroup;
 			children = (
-				BC43D9C5269B5CB5002C984E /* EventEnvelope.swift */,
 				BC2DE80C272332380015C190 /* Grade */,
 				BC43D991269B3845002C984E /* Project */,
 			);
@@ -159,7 +177,6 @@
 			children = (
 				BC43D992269B3852002C984E /* Project.swift */,
 				BC2DE80D2724C3870015C190 /* Attempt.swift */,
-				BC927089269B7054002734CD /* ProjectEventService.swift */,
 			);
 			path = Project;
 			sourceTree = "<group>";
@@ -168,6 +185,7 @@
 			isa = PBXGroup;
 			children = (
 				BC467207268FB96E00B2CBE7 /* ClimbTrackerApp.swift */,
+				BCDFE90C273DAB0300DD35F7 /* Event */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -197,6 +215,7 @@
 			isa = PBXGroup;
 			children = (
 				BC43D99F269B3D5B002C984E /* App */,
+				BC927089269B7054002734CD /* ProjectEventService.swift */,
 				BC43D990269B380E002C984E /* Domain */,
 				BCCAEDEF26948E85006F0707 /* Views */,
 				BC46720B268FB97000B2CBE7 /* Assets.xcassets */,
@@ -220,6 +239,8 @@
 				BC46721B268FB97100B2CBE7 /* Info.plist */,
 				BC92708E269B71B2002734CD /* ProjectEventServiceTests.swift */,
 				BC2ECFDC269B877400838466 /* ProjectListViewModelTests.swift */,
+				BC00EE4F2741A87F00A480A6 /* EventStore */,
+				BC00EE4D273F163E00A480A6 /* XCTestCase+Async.swift */,
 			);
 			path = ClimbTrackerTests;
 			sourceTree = "<group>";
@@ -271,6 +292,15 @@
 				BCDFE904273C684100DD35F7 /* ProjectSummary.swift */,
 			);
 			path = ProjectList;
+			sourceTree = "<group>";
+		};
+		BCDFE90C273DAB0300DD35F7 /* Event */ = {
+			isa = PBXGroup;
+			children = (
+				BCDFE90A273DA12F00DD35F7 /* EventStore.swift */,
+				BC43D9C5269B5CB5002C984E /* EventEnvelope.swift */,
+			);
+			path = Event;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -424,6 +454,7 @@
 				BC2ECFF0269B9C7200838466 /* ProjectListElementView.swift in Sources */,
 				BCDFE905273C684100DD35F7 /* ProjectSummary.swift in Sources */,
 				BC9C2B9126A61B8400520E04 /* GradePicker.swift in Sources */,
+				BCDFE90B273DA12F00DD35F7 /* EventStore.swift in Sources */,
 				BC43D976269A9E49002C984E /* AddProjectView.swift in Sources */,
 				BCC05BE526A9C1D0001B4C42 /* Grade.swift in Sources */,
 				BCDFE907273D73E600DD35F7 /* DummyProjectService.swift in Sources */,
@@ -440,7 +471,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BCDFE903273C64CE00DD35F7 /* ProjectEventServiceTests.swift in Sources */,
+				BC00EE512741A89400A480A6 /* TestEvent.swift in Sources */,
+				BC00EE4E273F163E00A480A6 /* XCTestCase+Async.swift in Sources */,
+				BCDFE910273EE30A00DD35F7 /* EphemeralEventStoreTests.swift in Sources */,
+				BCDFE90E273DD2A000DD35F7 /* EphemeralTopicTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -597,7 +631,6 @@
 				DEVELOPMENT_ASSET_PATHS = "\"ClimbTracker/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = ClimbTracker/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -618,7 +651,6 @@
 				DEVELOPMENT_ASSET_PATHS = "\"ClimbTracker/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = ClimbTracker/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -638,7 +670,6 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = ClimbTrackerTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -661,7 +692,6 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = ClimbTrackerTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

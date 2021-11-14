@@ -12,12 +12,12 @@ import Combine
 struct ClimbTrackerApp: App {
     var body: some Scene {
         // do I even need NotificationCenter?....
-        let boulderSubject = PassthroughSubject<EventEnvelope<BoulderProject.Event>, Never>(),
+        let eventStore = EphemeralEventStore(),
             ropeSubject = PassthroughSubject<EventEnvelope<RopeProject.Event>, Never>(),
             ropeProjectService = RopeProjectEventService(subject: ropeSubject),
-            boulderProjectService = BoulderProjectEventService(subject: boulderSubject),
+            boulderProjectService = BoulderProjectEventService(eventStore: eventStore),
             summarizer: ProjectSummarizer = ProjectSummarizer(),
-            summaryEventPublisher = summarizer.summarizeProjectEvents(boulder: boulderSubject,
+            summaryEventPublisher = summarizer.summarizeProjectEvents(boulder: eventStore.namespaceEvents(),
                                                                       rope: ropeSubject),
             historyViewModel = ProjectListViewModel(ropeProjectService: ropeProjectService,
                                                     boulderProjectService: boulderProjectService),

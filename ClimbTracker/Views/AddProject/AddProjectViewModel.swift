@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 
+@MainActor
 class AddProjectViewModel: ObservableObject {
     let boulderProjectService: BoulderProjectService!
     let ropeProjectService: RopeProjectService!
@@ -30,10 +31,10 @@ class AddProjectViewModel: ObservableObject {
         self.selectedBoulderGrade = selectedBoulderGrade
     }
 
-    func submit() {
+    func submit() async throws {
         switch self.selectedCategory {
         case .boulder:
-            boulderProjectService.create(grade: selectedBoulderGrade)
+            try await boulderProjectService.create(grade: selectedBoulderGrade)
         case .rope:
             ropeProjectService.create(grade: selectedRopeGrade)
         }

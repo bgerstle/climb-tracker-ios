@@ -26,8 +26,10 @@ struct ProjectListView: View {
                 ForEach(viewModel.projects, id: \.id) { projectSummary in
                     ProjectListElementView(project: projectSummary).swipeActions() {
                         Button {
-                            viewModel.logAttempt(project: projectSummary,
-                                                 didSend: true)
+                            Task {
+                                try await viewModel.logAttempt(project: projectSummary,
+                                                               didSend: true)
+                            }
                         } label: {
                             Label("Send", systemImage: "checkmark")
                         }
@@ -35,8 +37,10 @@ struct ProjectListView: View {
                         .tint(.green)
 
                         Button {
-                            viewModel.logAttempt(project: projectSummary,
-                                                 didSend: false)
+                            Task {
+                                try await viewModel.logAttempt(project: projectSummary,
+                                                               didSend: false)
+                            }
                         } label: {
                             Label("Attempt", systemImage: "plus")
                         }

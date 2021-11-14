@@ -35,12 +35,12 @@ class ProjectListViewModel: ObservableObject {
     @Published var projects: [ProjectSummary] = []
     var cancellable: AnyCancellable?
 
-    func logAttempt(project: ProjectSummary, didSend: Bool) {
+    func logAttempt(project: ProjectSummary, didSend: Bool) async throws {
         switch project.category {
         case .boulder:
-            boulderProjectService.attempt(projectId: project.id,
-                                          at: Date(),
-                                          didSend: didSend)
+            try await boulderProjectService.attempt(projectId: project.id,
+                                                    at: Date(),
+                                                    didSend: didSend)
         case .rope:
             ropeProjectService.attempt(projectId: project.id,
                                        at: Date(),
@@ -64,7 +64,7 @@ class ProjectListViewModel: ObservableObject {
             projects.insert(summary, at: 0)
         case .attempted(let event):
             guard let summaryIndex = projects.firstIndex(where: { $0.id == event.id }) else {
-                fatalError("Expected summary \(event.id) to have be created, but was not found.")
+                fatalError("Expected summary \(event.id) to have been created, but was not found.")
             }
             var summary = projects[summaryIndex]
             summary.didSend = summary.didSend || event.didSend
