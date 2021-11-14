@@ -120,9 +120,9 @@ actor EphemeralEventStore : EventStore {
         let matchingNamespace = namespaces.filter { namespaces in
             namespaces[E.namespace] != nil
         }
-        // only get first event with a matching namespace (indicating it has been created)
+            // only get first event with a matching namespace (indicating it has been created)
             .first()
-        // extract matching namespace from map
+            // extract matching namespace from map
             .map { $0[E.namespace]! },
             // flatten to stream of topics in that namespace
             elementsInMatchingNamespace = matchingNamespace.flatMap { namespace in
@@ -135,13 +135,6 @@ actor EphemeralEventStore : EventStore {
             // flatten to stream of events in topics in that namesapce
             eventsFromTopicsInMatchingNamespace = topicsInMatchingNamespace.flatMap { topic in
                 topic.read()
-//                Future { promise in
-//                    Task.detached(priority: Task.currentPriority) {
-//                        // I don't know why, but using read() here causes race conditions 😱
-//                        // So we do the Future/Task dance
-//                        promise(.success(await topic.readAsync()))
-//                    }
-//                }.flatMap { $0 }
             }
         // erase to match return type
         return eventsFromTopicsInMatchingNamespace.eraseToAnyPublisher()

@@ -47,4 +47,39 @@ class EphemeralEventStoreTests: XCTestCase {
         let actualEvent = try self.wait(for: namespaceRecorder.next(), timeout: 2.0)
         XCTAssertEqual(actualEvent, testEventEnvelope)
     }
+
+    func testNamespaceEvents_GivenTopicInNameSpace_WhenTwoEventsAreWritten_TheTwoNamespaceEventIsPublished() throws {
+        let events: AnyPublisher<EventEnvelope<TestEvent>, Never> = eventStore.namespaceEvents(),
+            namespaceRecorder = events.record(),
+            testEventEnvelope1 = EventEnvelope<TestEvent>(event: .test, timestamp: Date()),
+        testEventEnvelope2 = EventEnvelope<TestEvent>(event: .test, timestamp: Date().addingTimeInterval(1))
+
+
+        try expectAsync {
+            let topic = try await self.eventStore.createTopic(id: "foo", eventType: TestEvent.self)
+            try await topic.write(testEventEnvelope1)
+            try await topic.write(testEventEnvelope2)
+        }
+
+        let actualEvents = try self.wait(for: namespaceRecorder.availableElements, timeout: 1.0)
+        XCTAssertEqual(actualEvents, [testEventEnvelope1, testEventEnvelope2])
+    }
+
+    func testNamespaceEvents_GivenTwoTopicsInNameSpace_WhenOneEventPerTopicIsWritten_TheTwoNamespaceEventIsPublished() throws {
+        let events: AnyPublisher<EventEnvelope<TestEvent>, Never> = eventStore.namespaceEvents(),
+            namespaceRecorder = events.record(),
+            testEventEnvelope1 = EventEnvelope<TestEvent>(event: .test, timestamp: Date()),
+        testEventEnvelope2 = EventEnvelope<TestEvent>(event: .test, timestamp: Date().addingTimeInterval(1))
+
+
+        try expectAsync {
+            let topic1 = try await self.eventStore.createTopic(id: "foo", eventType: TestEvent.self)
+            let topic2 = try await self.eventStore.createTopic(id: "bar", eventType: TestEvent.self)
+            try await topic1.write(testEventEnvelope1)
+            try await topic2.write(testEventEnvelope2)
+        }
+
+        let actualEvents = try self.wait(for: namespaceRecorder.availableElements, timeout: 1.0)
+        XCTAssertEqual(actualEvents, [testEventEnvelope1, testEventEnvelope2])
+    }
 }
