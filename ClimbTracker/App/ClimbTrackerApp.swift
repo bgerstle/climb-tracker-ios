@@ -11,7 +11,6 @@ import Combine
 @main
 struct ClimbTrackerApp: App {
     var body: some Scene {
-        // do I even need NotificationCenter?....
         let eventStore = EphemeralEventStore(),
             ropeSubject = PassthroughSubject<EventEnvelope<RopeProject.Event>, Never>(),
             ropeProjectService = RopeProjectEventService(subject: ropeSubject),
