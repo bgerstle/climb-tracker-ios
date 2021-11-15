@@ -47,7 +47,7 @@ struct BoulderProject : ProjectType {
     var match: Project { .boulder(self) }
 
     struct Created {
-        let id: UUID
+        let projectId: UUID
         let createdAt: Date
         let grade: AnyBoulderGrade
     }
@@ -67,7 +67,7 @@ struct BoulderProject : ProjectType {
     }
 
     init(_ event: Created) {
-        self.id = event.id
+        self.id = event.projectId
         self.createdAt = event.createdAt
         self.grade = event.grade
         self.boulderAttempts = []
@@ -97,7 +97,7 @@ struct RopeProject : Identifiable, AnyProject, Hashable {
     var match: Project { .rope(self) }
 
     struct Created {
-        let id: UUID
+        let projectId: UUID
         let createdAt: Date
         let grade: AnyRopeGrade
     }
@@ -118,7 +118,7 @@ struct RopeProject : Identifiable, AnyProject, Hashable {
     }
 
     init(_ event: Created) {
-        self.id = event.id
+        self.id = event.projectId
         self.createdAt = event.createdAt
         self.grade = event.grade
         self.ropeAttempts = []

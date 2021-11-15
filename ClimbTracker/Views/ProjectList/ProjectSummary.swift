@@ -52,7 +52,7 @@ class ProjectSummarizer {
         switch envelope.event {
         case .created(let event):
             return EventEnvelope(
-                event: .created(ProjectSummary.Created(id: event.id,
+                event: .created(ProjectSummary.Created(id: event.projectId,
                                                        createdAt: event.createdAt,
                                                        grade: event.grade.rawValue,
                                                        category: .boulder)),
@@ -69,7 +69,7 @@ class ProjectSummarizer {
         switch envelope.event {
         case .created(let event):
             return EventEnvelope(
-                event: .created(ProjectSummary.Created(id: event.id,
+                event: .created(ProjectSummary.Created(id: event.projectId,
                                                        createdAt: event.createdAt,
                                                        grade: event.grade.rawValue,
                                                        category: .rope)),

@@ -32,7 +32,7 @@ class ProjectEventService : ProjectService {
     func create<G: BoulderGrade>(grade: G) async throws {
         let projectId = UUID(),
             envelope = EventEnvelope(
-            event: BoulderProject.Event.created(BoulderProject.Created(id: projectId,
+            event: BoulderProject.Event.created(BoulderProject.Created(projectId: projectId,
                                                                        createdAt: Date(),
                                                                        grade: grade.any)),
             timestamp: Date())
@@ -61,7 +61,7 @@ class ProjectEventService : ProjectService {
     func create<G: RopeGrade>(grade: G) async throws {
         let projectId = UUID(),
         envelope = EventEnvelope(
-            event: RopeProject.Event.created(RopeProject.Created(id: projectId,
+            event: RopeProject.Event.created(RopeProject.Created(projectId: projectId,
                                                                  createdAt: Date(),
                                                                  grade: grade.any)),
             timestamp: Date())

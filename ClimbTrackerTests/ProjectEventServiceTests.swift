@@ -125,7 +125,7 @@ class ProjectEventServiceTests: QuickSpec {
                     XCTFail("Unexpected case: \(publishedEventEnvelope)")
                     return
                 }
-                projectId = event.id
+                projectId = event.projectId
 
                 let attemptedAt = Date(),
                     didSend = true,
@@ -164,7 +164,7 @@ class ProjectEventServiceTests: QuickSpec {
                     XCTFail("Unexpected case: \(publishedEventEnvelope)")
                     return
                 }
-                projectId = event.id
+                projectId = event.projectId
 
                 let attemptedAt = Date(),
                     didSend = true
