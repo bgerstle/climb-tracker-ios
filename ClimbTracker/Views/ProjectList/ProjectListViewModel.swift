@@ -67,8 +67,8 @@ class ProjectListViewModel: ObservableObject {
             )
             projects.insert(summary, at: 0)
         case .attempted(let event):
-            guard let summaryIndex = projects.firstIndex(where: { $0.id == event.id }) else {
-                fatalError("Expected summary \(event.id) to have been created, but was not found.")
+            guard let summaryIndex = projects.firstIndex(where: { $0.id == event.projectId }) else {
+                fatalError("Expected summary \(event.projectId) to have been created, but was not found.")
             }
             var summary = projects[summaryIndex]
             summary.didSend = summary.didSend || event.didSend

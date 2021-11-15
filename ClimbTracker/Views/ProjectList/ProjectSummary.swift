@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 struct ProjectSummary : Identifiable, Hashable {
-    let id: UUID
+    let id: ProjectID
     let category: ProjectCategory
     
     var grade: String
@@ -18,14 +18,14 @@ struct ProjectSummary : Identifiable, Hashable {
     var title: String
 
     struct Created {
-        let id: UUID
+        let id: ProjectID
         let createdAt: Date
         let grade: String
         let category: ProjectCategory
     }
 
     struct Attempted {
-        let id: UUID
+        let projectId: ProjectID
         let didSend: Bool
     }
 
@@ -59,7 +59,7 @@ class ProjectSummarizer {
                 timestamp: Date())
         case .attempted(let event):
             return EventEnvelope(
-                event: .attempted(ProjectSummary.Attempted(id: event.projectId,
+                event: .attempted(ProjectSummary.Attempted(projectId: event.projectId,
                                                            didSend: event.didSend)),
                 timestamp: Date())
         }
@@ -76,7 +76,7 @@ class ProjectSummarizer {
                 timestamp: Date())
         case .attempted(let event):
             return EventEnvelope(
-                event: .attempted(ProjectSummary.Attempted(id: event.projectId,
+                event: .attempted(ProjectSummary.Attempted(projectId: event.projectId,
                                                            didSend: event.didSend)),
                 timestamp: Date())
         }
