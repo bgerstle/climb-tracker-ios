@@ -13,8 +13,8 @@ import CombineExpectations
 @testable import ClimbTracker
 
 class ProjectEventServiceTests: QuickSpec {
-    typealias BoulderEventRecorder = Recorder<EventEnvelope<BoulderProject.Event>, Never>
-    typealias RopeEventRecorder = Recorder<EventEnvelope<RopeProject.Event>, Never>
+    typealias BoulderEventRecorder = Recorder<EventEnvelope<BoulderProject.Event>, Error>
+    typealias RopeEventRecorder = Recorder<EventEnvelope<RopeProject.Event>, Error>
 
     var service: ProjectEventService! = nil
     var eventStore: EphemeralEventStore! = nil

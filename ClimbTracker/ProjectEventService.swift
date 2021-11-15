@@ -23,7 +23,7 @@ struct ProjectNotFound : Error {
 }
 
 class ProjectEventService : ProjectService {
-    let eventStore: EventStore
+    private let eventStore: EventStore
 
     internal init(eventStore: EventStore) {
         self.eventStore = eventStore

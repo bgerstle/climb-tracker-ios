@@ -36,11 +36,11 @@ struct ProjectSummary : Identifiable, Hashable {
 }
 
 class ProjectSummarizer {
-    func summarizeProjectEvents<PB: Publisher, PR: Publisher>(boulder: PB, rope: PR) -> AnyPublisher<EventEnvelope<ProjectSummary.Event>, Never>
+    func summarizeProjectEvents<PB: Publisher, PR: Publisher>(boulder: PB, rope: PR) -> AnyPublisher<EventEnvelope<ProjectSummary.Event>, Error>
     where PB.Output == EventEnvelope<BoulderProject.Event>,
-          PB.Failure == Never,
+          PB.Failure == Error,
           PR.Output == EventEnvelope<RopeProject.Event>,
-          PR.Failure == Never
+          PR.Failure == Error
     {
         let boulderSummaries = boulder.map(summarize),
             ropeSummaries = rope.map(summarize),

@@ -10,6 +10,9 @@
 		BC00EE4E273F163E00A480A6 /* XCTestCase+Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC00EE4D273F163E00A480A6 /* XCTestCase+Async.swift */; };
 		BC00EE512741A89400A480A6 /* TestEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC00EE502741A89400A480A6 /* TestEvent.swift */; };
 		BC00EE522742BDAE00A480A6 /* ProjectEventServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC92708E269B71B2002734CD /* ProjectEventServiceTests.swift */; };
+		BC00EE572742CFCA00A480A6 /* ProjectNameEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC00EE562742CFCA00A480A6 /* ProjectNameEvent.swift */; };
+		BC00EE592742CFEE00A480A6 /* ProjectNameService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC00EE582742CFEE00A480A6 /* ProjectNameService.swift */; };
+		BC00EE5B2742F71000A480A6 /* ProjectNameEventServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC00EE5A2742F71000A480A6 /* ProjectNameEventServiceTests.swift */; };
 		BC0B37A1273C3EF70069B575 /* FontGrade.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0B37A0273C3EF70069B575 /* FontGrade.swift */; };
 		BC0B37A3273C3EFE0069B575 /* FrenchGrade.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0B37A2273C3EFE0069B575 /* FrenchGrade.swift */; };
 		BC1F5205272B244000702432 /* AddProjectAttemptViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1F5204272B244000702432 /* AddProjectAttemptViewUITests.swift */; };
@@ -64,6 +67,9 @@
 /* Begin PBXFileReference section */
 		BC00EE4D273F163E00A480A6 /* XCTestCase+Async.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+Async.swift"; sourceTree = "<group>"; };
 		BC00EE502741A89400A480A6 /* TestEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestEvent.swift; sourceTree = "<group>"; };
+		BC00EE562742CFCA00A480A6 /* ProjectNameEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectNameEvent.swift; sourceTree = "<group>"; };
+		BC00EE582742CFEE00A480A6 /* ProjectNameService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectNameService.swift; sourceTree = "<group>"; };
+		BC00EE5A2742F71000A480A6 /* ProjectNameEventServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectNameEventServiceTests.swift; sourceTree = "<group>"; };
 		BC0B37A0273C3EF70069B575 /* FontGrade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontGrade.swift; sourceTree = "<group>"; };
 		BC0B37A2273C3EFE0069B575 /* FrenchGrade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrenchGrade.swift; sourceTree = "<group>"; };
 		BC1F5204272B244000702432 /* AddProjectAttemptViewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProjectAttemptViewUITests.swift; sourceTree = "<group>"; };
@@ -141,6 +147,15 @@
 			path = EventStore;
 			sourceTree = "<group>";
 		};
+		BC00EE532742CF0D00A480A6 /* Project Name */ = {
+			isa = PBXGroup;
+			children = (
+				BC00EE562742CFCA00A480A6 /* ProjectNameEvent.swift */,
+				BC00EE582742CFEE00A480A6 /* ProjectNameService.swift */,
+			);
+			path = "Project Name";
+			sourceTree = "<group>";
+		};
 		BC2DE80C272332380015C190 /* Grade */ = {
 			isa = PBXGroup;
 			children = (
@@ -167,6 +182,7 @@
 		BC43D990269B380E002C984E /* Domain */ = {
 			isa = PBXGroup;
 			children = (
+				BC00EE532742CF0D00A480A6 /* Project Name */,
 				BC2DE80C272332380015C190 /* Grade */,
 				BC43D991269B3845002C984E /* Project */,
 			);
@@ -242,6 +258,7 @@
 				BC2ECFDC269B877400838466 /* ProjectListViewModelTests.swift */,
 				BC00EE4F2741A87F00A480A6 /* EventStore */,
 				BC00EE4D273F163E00A480A6 /* XCTestCase+Async.swift */,
+				BC00EE5A2742F71000A480A6 /* ProjectNameEventServiceTests.swift */,
 			);
 			path = ClimbTrackerTests;
 			sourceTree = "<group>";
@@ -449,6 +466,7 @@
 				BC2DE80E2724C3870015C190 /* Attempt.swift in Sources */,
 				BC9C2B9B26A7A2EF00520E04 /* CategoryPicker.swift in Sources */,
 				BC43D9C6269B5CB5002C984E /* EventEnvelope.swift in Sources */,
+				BC00EE592742CFEE00A480A6 /* ProjectNameService.swift in Sources */,
 				BC0B37A1273C3EF70069B575 /* FontGrade.swift in Sources */,
 				BC46720A268FB96E00B2CBE7 /* ProjectListView.swift in Sources */,
 				BC43D993269B3852002C984E /* Project.swift in Sources */,
@@ -457,6 +475,7 @@
 				BC9C2B9126A61B8400520E04 /* GradePicker.swift in Sources */,
 				BCDFE90B273DA12F00DD35F7 /* EventStore.swift in Sources */,
 				BC43D976269A9E49002C984E /* AddProjectView.swift in Sources */,
+				BC00EE572742CFCA00A480A6 /* ProjectNameEvent.swift in Sources */,
 				BCC05BE526A9C1D0001B4C42 /* Grade.swift in Sources */,
 				BCDFE907273D73E600DD35F7 /* DummyProjectService.swift in Sources */,
 				BC467208268FB96E00B2CBE7 /* ClimbTrackerApp.swift in Sources */,
@@ -473,6 +492,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC00EE512741A89400A480A6 /* TestEvent.swift in Sources */,
+				BC00EE5B2742F71000A480A6 /* ProjectNameEventServiceTests.swift in Sources */,
 				BC00EE4E273F163E00A480A6 /* XCTestCase+Async.swift in Sources */,
 				BC00EE522742BDAE00A480A6 /* ProjectEventServiceTests.swift in Sources */,
 				BCDFE910273EE30A00DD35F7 /* EphemeralEventStoreTests.swift in Sources */,

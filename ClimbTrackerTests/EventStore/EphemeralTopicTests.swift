@@ -19,7 +19,7 @@ class EphemeralTopicTests: XCTestCase {
 
     func testRead_GivenEmpty_WhenWritingElement_ThenOneEventPublished() throws {
         let testEventEnvelope = EventEnvelope<TestEvent>(event: .test, timestamp: Date()),
-            recorder = topic.read().record()
+            recorder = topic.eventPublisher.record()
 
         try expectAsync {
             try await self.topic.write(testEventEnvelope)
@@ -32,7 +32,7 @@ class EphemeralTopicTests: XCTestCase {
     func testRead_GivenEmpty_WhenWritingTwoElements_ThenTwoEventsPublished() throws {
         let testEventEnvelope1 = EventEnvelope<TestEvent>(event: .test, timestamp: Date()),
             testEventEnvelope2 = EventEnvelope<TestEvent>(event: .test, timestamp: Date().addingTimeInterval(1)),
-            recorder = topic.read().record()
+            recorder = topic.eventPublisher.record()
 
         try expectAsync {
             try await self.topic.write(testEventEnvelope1)
@@ -46,7 +46,7 @@ class EphemeralTopicTests: XCTestCase {
     func testReadAsync_GivenPriorElement_WhenWritingAnotherElement_ThenBothEventsPublished() throws {
         let testEventEnvelope1 = EventEnvelope<TestEvent>(event: .test, timestamp: Date()),
             testEventEnvelope2 = EventEnvelope<TestEvent>(event: .test, timestamp: Date().addingTimeInterval(1)),
-            recorder = topic.read().record()
+            recorder = topic.eventPublisher.record()
 
         try expectAsync {
             try await self.topic.write(testEventEnvelope1)
@@ -58,16 +58,15 @@ class EphemeralTopicTests: XCTestCase {
         XCTAssertEqual(actualEvents, [testEventEnvelope1, testEventEnvelope2])
     }
 
-    func testReadAsync_BehavesLikeRead() throws {
+    func testEvents_ReturnsSnapshotOfWrittenEvents() throws {
         let testEventEnvelope = EventEnvelope<TestEvent>(event: .test, timestamp: Date())
 
-        let recorder: TestEventRecorder = try expectAsync {
-            let recorder = await self.topic.readAsync().record()
+        let events: [EventEnvelope<TestEvent>] = try expectAsync {
             try await self.topic.write(testEventEnvelope)
-            return recorder
+            return try await self.topic.events()
         }
 
-        let actualEvent = try self.wait(for: recorder.next(), timeout: 2.0)
-        XCTAssertEqual(actualEvent, testEventEnvelope)
+
+        XCTAssertEqual(events, [testEventEnvelope])
     }
 }
