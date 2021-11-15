@@ -9,44 +9,48 @@ import Foundation
 import Combine
 import SwiftUI
 
+@MainActor
 class ProjectListViewModel: ObservableObject {
     let dateFormatter: DateFormatter
-    let ropeProjectService: RopeProjectService
-    let boulderProjectService: BoulderProjectService
+    let projectService: ProjectService
 
     var summaryEventSubscription: AnyCancellable?
 
-    static var defaultFormatter: DateFormatter {
+    private static let defaultFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .short
         formatter.timeStyle = .short
         return formatter
-    }
+    }()
 
     init(dateFormatter: DateFormatter = defaultFormatter,
-         ropeProjectService: RopeProjectService,
-         boulderProjectService: BoulderProjectService) {
+         projectService: ProjectService) {
         self.dateFormatter = dateFormatter
-        self.ropeProjectService = ropeProjectService
-        self.boulderProjectService = boulderProjectService
+        self.projectService = projectService
     }
 
     // TODO: replace w/ project repository
     @Published var projects: [ProjectSummary] = []
     var cancellable: AnyCancellable?
 
-    func logAttempt(project: ProjectSummary, didSend: Bool) async throws {
-        switch project.category {
-        case .boulder:
-            try await boulderProjectService.attempt(projectId: project.id,
-                                                    at: Date(),
-                                                    didSend: didSend)
-        case .rope:
-            ropeProjectService.attempt(projectId: project.id,
-                                       at: Date(),
-                                       didSend: didSend,
-                                       // TODO: pick a default and eventually use a custom form
-                                       subcategory: .sport)
+    func logAttempt(project: ProjectSummary, didSend: Bool) {
+        Task {
+            do {
+                switch project.category {
+                case .boulder:
+                    try await projectService.attempt(projectId: project.id,
+                                                            at: Date(),
+                                                            didSend: didSend)
+                case .rope:
+                    // TODO: pick a default and eventually use a custom form
+                    try await projectService.attempt(projectId: project.id,
+                                                     at: Date(),
+                                                     didSend: didSend,
+                                                     subcategory: .sport)
+                }
+            } catch {
+                print("TODO: show this in the UI! \(error)")
+            }
         }
     }
 
@@ -75,9 +79,11 @@ class ProjectListViewModel: ObservableObject {
 
     func handleSummaryEvents<P: Publisher>(_ publisher: P)
     where P.Output == EventEnvelope<ProjectSummary.Event>, P.Failure == Never {
-        summaryEventSubscription = publisher.sink { [weak self] (summaryEventEnvelope) in
-            self?.handle(summaryEventEnvelope)
-        }
+        summaryEventSubscription = publisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] (summaryEventEnvelope) in
+                self?.handle(summaryEventEnvelope)
+            }
     }
 
     private func formattedTitle(_ category: ProjectCategory, createdAt: Date) -> String {

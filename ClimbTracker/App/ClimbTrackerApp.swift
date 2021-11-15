@@ -12,18 +12,12 @@ import Combine
 struct ClimbTrackerApp: App {
     var body: some Scene {
         let eventStore = EphemeralEventStore(),
-            ropeSubject = PassthroughSubject<EventEnvelope<RopeProject.Event>, Never>(),
-            ropeProjectService = RopeProjectEventService(subject: ropeSubject),
-            boulderProjectService = BoulderProjectEventService(eventStore: eventStore),
+            projectService = ProjectEventService(eventStore: eventStore),
             summarizer: ProjectSummarizer = ProjectSummarizer(),
             summaryEventPublisher = summarizer.summarizeProjectEvents(boulder: eventStore.namespaceEvents(),
-                                                                      rope: ropeSubject),
-            historyViewModel = ProjectListViewModel(ropeProjectService: ropeProjectService,
-                                                    boulderProjectService: boulderProjectService),
-            addClimbViewModel = AddProjectViewModel(
-                boulderProjectService: boulderProjectService,
-                ropeProjectService: ropeProjectService
-            )
+                                                                      rope: eventStore.namespaceEvents()),
+            historyViewModel = ProjectListViewModel(projectService: projectService),
+            addClimbViewModel = AddProjectViewModel(projectService: projectService)
 
         historyViewModel.handleSummaryEvents(summaryEventPublisher)
 

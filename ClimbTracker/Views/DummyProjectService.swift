@@ -9,14 +9,14 @@ import Foundation
 import SwiftUI
 
 // Dummy services that can only be used in previews
-class DummyProjectService : RopeProjectService, BoulderProjectService {
-    func create<G: BoulderGrade>(grade: G) {}
+class DummyProjectService : ProjectService {
+    func create<G: BoulderGrade>(grade: G) async throws {}
 
-    func create<G: RopeGrade>(grade: G) {}
+    func create<G: RopeGrade>(grade: G) async throws {}
 
-    func attempt(projectId: UUID, at: Date, didSend: Bool, subcategory: RopeProject.Subcategory) {}
+    func attempt(projectId: UUID, at: Date, didSend: Bool, subcategory: RopeProject.Subcategory) async throws {}
 
-    func attempt(projectId: UUID, at: Date, didSend: Bool) {}
+    func attempt(projectId: UUID, at: Date, didSend: Bool) async throws {}
 
     init<P: PreviewProvider>(_ _: P.Type) { }
 }

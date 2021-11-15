@@ -26,10 +26,8 @@ struct ProjectListView: View {
                 ForEach(viewModel.projects, id: \.id) { projectSummary in
                     ProjectListElementView(project: projectSummary).swipeActions() {
                         Button {
-                            Task {
-                                try await viewModel.logAttempt(project: projectSummary,
-                                                               didSend: true)
-                            }
+                            viewModel.logAttempt(project: projectSummary,
+                                                           didSend: true)
                         } label: {
                             Label("Send", systemImage: "checkmark")
                         }
@@ -37,10 +35,8 @@ struct ProjectListView: View {
                         .tint(.green)
 
                         Button {
-                            Task {
-                                try await viewModel.logAttempt(project: projectSummary,
-                                                               didSend: false)
-                            }
+                            viewModel.logAttempt(project: projectSummary,
+                                                           didSend: false)
                         } label: {
                             Label("Attempt", systemImage: "plus")
                         }
@@ -70,8 +66,7 @@ struct ProjectListView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        let viewModel = ProjectListViewModel(ropeProjectService: dummyProjectService,
-                                             boulderProjectService: dummyProjectService)
+        let viewModel = ProjectListViewModel(projectService: dummyProjectService)
         viewModel.projects = (0...20).map { i in
             if i % 2 == 0 {
                 let ropeGrade = YosemiteDecimalGrade.allCases[Int.random(in: (0..<YosemiteDecimalGrade.allCases.count))]

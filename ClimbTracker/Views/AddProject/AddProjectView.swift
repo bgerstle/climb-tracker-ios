@@ -47,6 +47,6 @@ struct AddProjectView: View {
 
 struct NewClimbView_Previews: PreviewProvider {
     static var previews: some View {
-        AddProjectView(addClimbViewModel: AddProjectViewModel(boulderProjectService: nil, ropeProjectService: nil))
+        AddProjectView(addClimbViewModel: AddProjectViewModel(projectService: nil))
     }
 }

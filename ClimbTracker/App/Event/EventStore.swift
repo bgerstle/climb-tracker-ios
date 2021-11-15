@@ -89,6 +89,10 @@ actor EphemeralEventStore : EventStore {
     var namespaces = CurrentValueSubject<TopicNamespaceMap, Never>([:])
 
     func findTopic<E: TopicEvent>(id topicId: TopicIdentifier, eventType: E.Type) async throws -> AnyTopic<E>? {
+        return try _findTopic(id: topicId, eventType: eventType)
+    }
+
+    private func _findTopic<E: TopicEvent>(id topicId: TopicIdentifier, eventType: E.Type) throws -> AnyTopic<E>? {
         guard let namespace = namespaces.value[E.namespace],
               let someTopic = namespace.value.first(where: { $0.id == topicId }) else {
                   return nil
@@ -103,7 +107,7 @@ actor EphemeralEventStore : EventStore {
     func createTopic<E>(id topicId: TopicIdentifier, eventType: E.Type) async throws -> AnyTopic<E> where E : TopicEvent {
         let namespace = namespaces.value[E.namespace, default: CurrentValueSubject(TopicNamespace())]
 
-        if namespace.value.first(where: { $0.id == topicId }) != nil {
+        if try _findTopic(id: topicId, eventType: eventType) != nil {
             throw TopicAlreadyExists(namespace: E.namespace, id: topicId)
         }
 

@@ -13,23 +13,27 @@ import CombineExpectations
 @testable import ClimbTracker
 
 class ProjectEventServiceTests: QuickSpec {
-    typealias TestClimbEventSubject = PassthroughSubject<EventEnvelope<BoulderProject.Event>, Never>
-    var eventSubject: TestClimbEventSubject! = nil
-    var service: BoulderProjectEventService<TestClimbEventSubject>! = nil
+    typealias BoulderEventRecorder = Recorder<EventEnvelope<BoulderProject.Event>, Never>
+    typealias RopeEventRecorder = Recorder<EventEnvelope<RopeProject.Event>, Never>
+
+    var service: ProjectEventService! = nil
+    var eventStore: EphemeralEventStore! = nil
 
     override func spec() {
         beforeEach {
             self.continueAfterFailure = false
-            self.eventSubject = TestClimbEventSubject()
-            self.service = BoulderProjectEventService(subject: self.eventSubject)
+            self.eventStore = EphemeralEventStore()
+            self.service = ProjectEventService(eventStore: self.eventStore)
         }
 
-        describe("Creating climbs") {
+        describe("Creating boulder projects") {
             it("It emits a boulder project created event with a hueco grade") {
-                let recorder = self.eventSubject.record(),
+                let recorder: BoulderEventRecorder = self.eventStore.namespaceEvents().record(),
                     expectedGrade = HuecoGrade.easy
 
-                self.service.create(grade: expectedGrade)
+                try self.expectAsync {
+                    try await self.service.create(grade: expectedGrade)
+                }
 
                 let publishedEventEnvelope: EventEnvelope<BoulderProject.Event> =
                     try self.wait(for: recorder.next(), timeout: 2.0)
@@ -44,10 +48,12 @@ class ProjectEventServiceTests: QuickSpec {
             }
 
             it("It emits a boulder project created event with a font grade") {
-                let recorder = self.eventSubject.record(),
+                let recorder: BoulderEventRecorder = self.eventStore.namespaceEvents().record(),
                     expectedGrade = FontGrade.sixAPlus
 
-                self.service.create(grade: expectedGrade)
+                try self.expectAsync {
+                    try await self.service.create(grade: expectedGrade)
+                }
 
                 let publishedEventEnvelope: EventEnvelope<BoulderProject.Event> =
                     try self.wait(for: recorder.next(), timeout: 2.0)

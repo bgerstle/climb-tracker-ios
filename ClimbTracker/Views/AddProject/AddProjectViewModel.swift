@@ -10,8 +10,7 @@ import SwiftUI
 
 @MainActor
 class AddProjectViewModel: ObservableObject {
-    let boulderProjectService: BoulderProjectService!
-    let ropeProjectService: RopeProjectService!
+    let projectService: ProjectService!
 
     @Published var selectedCategory: ProjectCategory
 
@@ -19,13 +18,11 @@ class AddProjectViewModel: ObservableObject {
 
     @Published var selectedRopeGrade: YosemiteDecimalGrade
 
-    init(boulderProjectService: BoulderProjectService! = nil,
-         ropeProjectService: RopeProjectService! = nil,
+    init(projectService: ProjectService! = nil,
          selectedCategory: ProjectCategory = .boulder,
          selectedBoulderGrade: HuecoGrade = HuecoGrade.easy,
          selectedRopeGrade: YosemiteDecimalGrade = YosemiteDecimalGrade.nine) {
-        self.boulderProjectService = boulderProjectService
-        self.ropeProjectService = ropeProjectService
+        self.projectService = projectService
         self.selectedCategory = selectedCategory
         self.selectedRopeGrade = selectedRopeGrade
         self.selectedBoulderGrade = selectedBoulderGrade
@@ -34,9 +31,9 @@ class AddProjectViewModel: ObservableObject {
     func submit() async throws {
         switch self.selectedCategory {
         case .boulder:
-            try await boulderProjectService.create(grade: selectedBoulderGrade)
+            try await projectService.create(grade: selectedBoulderGrade)
         case .rope:
-            ropeProjectService.create(grade: selectedRopeGrade)
+            try await projectService.create(grade: selectedRopeGrade)
         }
     }
 }

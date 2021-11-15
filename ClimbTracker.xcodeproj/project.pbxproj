@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		BC00EE4E273F163E00A480A6 /* XCTestCase+Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC00EE4D273F163E00A480A6 /* XCTestCase+Async.swift */; };
 		BC00EE512741A89400A480A6 /* TestEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC00EE502741A89400A480A6 /* TestEvent.swift */; };
+		BC00EE522742BDAE00A480A6 /* ProjectEventServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC92708E269B71B2002734CD /* ProjectEventServiceTests.swift */; };
 		BC0B37A1273C3EF70069B575 /* FontGrade.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0B37A0273C3EF70069B575 /* FontGrade.swift */; };
 		BC0B37A3273C3EFE0069B575 /* FrenchGrade.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0B37A2273C3EFE0069B575 /* FrenchGrade.swift */; };
 		BC1F5205272B244000702432 /* AddProjectAttemptViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1F5204272B244000702432 /* AddProjectAttemptViewUITests.swift */; };
@@ -473,6 +474,7 @@
 			files = (
 				BC00EE512741A89400A480A6 /* TestEvent.swift in Sources */,
 				BC00EE4E273F163E00A480A6 /* XCTestCase+Async.swift in Sources */,
+				BC00EE522742BDAE00A480A6 /* ProjectEventServiceTests.swift in Sources */,
 				BCDFE910273EE30A00DD35F7 /* EphemeralEventStoreTests.swift in Sources */,
 				BCDFE90E273DD2A000DD35F7 /* EphemeralTopicTests.swift in Sources */,
 			);
