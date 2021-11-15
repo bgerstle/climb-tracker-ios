@@ -34,9 +34,7 @@ struct AddProjectView: View {
             .navigationBarItems(trailing:
                 Button("Create") {
                     presentationMode.wrappedValue.dismiss()
-                    Task {
-                        try await addClimbViewModel.submit()
-                    }
+                    addClimbViewModel.submit()
                 }
                 .accessibility(identifier: "submitButton")
             )

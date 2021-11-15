@@ -28,12 +28,18 @@ class AddProjectViewModel: ObservableObject {
         self.selectedBoulderGrade = selectedBoulderGrade
     }
 
-    func submit() async throws {
-        switch self.selectedCategory {
-        case .boulder:
-            try await projectService.create(grade: selectedBoulderGrade)
-        case .rope:
-            try await projectService.create(grade: selectedRopeGrade)
+    func submit() {
+        Task {
+            do {
+                switch self.selectedCategory {
+                case .boulder:
+                    try await projectService.create(grade: selectedBoulderGrade)
+                case .rope:
+                    try await projectService.create(grade: selectedRopeGrade)
+                }
+            } catch {
+                print("TODO: put this in the UI! \(error)")
+            }
         }
     }
 }
