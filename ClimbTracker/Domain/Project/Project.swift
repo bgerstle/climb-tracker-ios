@@ -56,6 +56,7 @@ struct BoulderProject : ProjectType {
         let projectId: UUID
         let attemptId: UUID
         let didSend: Bool
+        let attemptedAt: Date
     }
 
     enum Event : TopicEvent {
@@ -105,6 +106,7 @@ struct RopeProject : Identifiable, AnyProject, Hashable {
         let projectId: UUID
         let attemptId: UUID
         let didSend: Bool
+        let attemptedAt: Date
         let subcategory: Subcategory
     }
 

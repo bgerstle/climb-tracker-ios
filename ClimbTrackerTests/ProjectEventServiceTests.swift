@@ -65,5 +65,87 @@ class ProjectEventServiceTests: QuickSpec {
                 }
             }
         }
+
+        describe("Creating rope projects") {
+            it("It emits a rope project created event with a yosemite grade") {
+                let recorder: RopeEventRecorder = self.eventStore.namespaceEvents().record(),
+                    expectedGrade = YosemiteDecimalGrade.tenA
+
+                try self.expectAsync {
+                    try await self.service.create(grade: expectedGrade)
+                }
+
+                let publishedEventEnvelope: EventEnvelope<RopeProject.Event> =
+                    try self.wait(for: recorder.next(), timeout: 2.0)
+
+                if case .created(let event) = publishedEventEnvelope.event {
+                    XCTAssertEqual(event.grade, expectedGrade.any)
+                    // FIXME: inject current time for testing
+                    // XCTAssertEqual(actualClimb.createdAt, climbedAt)
+                } else {
+                    XCTFail("Unexpected case: \(publishedEventEnvelope)")
+                }
+            }
+
+            it("It emits a rope project created event with a french grade") {
+                let recorder: RopeEventRecorder = self.eventStore.namespaceEvents().record(),
+                    expectedGrade = FrenchGrade.sixA
+
+                try self.expectAsync {
+                    try await self.service.create(grade: expectedGrade)
+                }
+
+                let publishedEventEnvelope: EventEnvelope<RopeProject.Event> =
+                    try self.wait(for: recorder.next(), timeout: 2.0)
+
+                if case .created(let event) = publishedEventEnvelope.event {
+                    XCTAssertEqual(event.grade, expectedGrade.any)
+                    // FIXME: inject current time for testing
+                    // XCTAssertEqual(actualClimb.createdAt, climbedAt)
+                } else {
+                    XCTFail("Unexpected case: \(publishedEventEnvelope)")
+                }
+            }
+        }
+
+        describe("Logging rope attempts") {
+            it("Logs an attempted event on the specified rope project") {
+                let recorder: RopeEventRecorder = self.eventStore.namespaceEvents().record(),
+                    expectedGrade = YosemiteDecimalGrade.tenA
+
+                try self.expectAsync {
+                    try await self.service.create(grade: expectedGrade)
+                }
+
+                let publishedEventEnvelope: EventEnvelope<RopeProject.Event> =
+                    try self.wait(for: recorder.next(), timeout: 2.0)
+
+                let projectId: UUID
+                guard case .created(let event) = publishedEventEnvelope.event else {
+                    XCTFail("Unexpected case: \(publishedEventEnvelope)")
+                    return
+                }
+                projectId = event.id
+
+                let attemptedAt = Date(),
+                    didSend = true,
+                    subcategory = RopeProject.Subcategory.sport
+
+                try self.expectAsync {
+                    try await self.service.attempt(projectId: projectId, at: attemptedAt, didSend: didSend, subcategory: subcategory)
+                }
+
+                let publishedAttemptEventEnvelope: EventEnvelope<RopeProject.Event> =
+                try self.wait(for: recorder.next(), timeout: 2.0)
+
+                if case .attempted(let event) = publishedAttemptEventEnvelope.event {
+                    XCTAssertEqual(projectId, event.projectId)
+                    XCTAssertEqual(didSend, event.didSend)
+                    XCTAssertEqual(attemptedAt, event.attemptedAt)
+                    XCTAssertEqual(subcategory, event.subcategory)
+                }
+
+            }
+        }
     }
 }

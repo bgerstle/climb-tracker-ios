@@ -47,7 +47,8 @@ class ProjectEventService : ProjectService {
             event: BoulderProject.Event.attempted(BoulderProject.Attempted(
                 projectId: projectId,
                 attemptId: UUID(),
-                didSend: didSend)),
+                didSend: didSend,
+                attemptedAt: at)),
             timestamp: Date())
 
         guard let topic = try await eventStore.findTopic(id: projectId.uuidString,
@@ -59,11 +60,11 @@ class ProjectEventService : ProjectService {
 
     func create<G: RopeGrade>(grade: G) async throws {
         let projectId = UUID(),
-            envelope = EventEnvelope(
-                event: RopeProject.Event.created(RopeProject.Created(id: projectId,
-                                                                     createdAt: Date(),
-                                                                     grade: grade.any)),
-                timestamp: Date())
+        envelope = EventEnvelope(
+            event: RopeProject.Event.created(RopeProject.Created(id: projectId,
+                                                                 createdAt: Date(),
+                                                                 grade: grade.any)),
+            timestamp: Date())
 
         let topic = try await eventStore.createTopic(id: projectId.uuidString,
                                                      eventType: RopeProject.Event.self)
@@ -76,6 +77,7 @@ class ProjectEventService : ProjectService {
                 projectId: projectId,
                 attemptId: UUID(),
                 didSend: didSend,
+                attemptedAt: at,
                 subcategory: subcategory)),
             timestamp: Date())
 
