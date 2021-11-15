@@ -144,7 +144,6 @@ class ProjectEventServiceTests: QuickSpec {
                     XCTAssertEqual(attemptedAt, event.attemptedAt)
                     XCTAssertEqual(subcategory, event.subcategory)
                 }
-
             }
         }
 
@@ -182,9 +181,7 @@ class ProjectEventServiceTests: QuickSpec {
                     XCTAssertEqual(didSend, event.didSend)
                     XCTAssertEqual(attemptedAt, event.attemptedAt)
                 }
-
             }
         }
-
     }
 }
