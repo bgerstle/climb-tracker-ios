@@ -147,5 +147,44 @@ class ProjectEventServiceTests: QuickSpec {
 
             }
         }
+
+        describe("Logging boulder attempts") {
+            it("Logs an attempted event on the specified boulder project") {
+                let recorder: BoulderEventRecorder = self.eventStore.namespaceEvents().record(),
+                    expectedGrade = HuecoGrade.four
+
+                try self.expectAsync {
+                    try await self.service.create(grade: expectedGrade)
+                }
+
+                let publishedEventEnvelope: EventEnvelope<BoulderProject.Event> =
+                    try self.wait(for: recorder.next(), timeout: 2.0)
+
+                let projectId: UUID
+                guard case .created(let event) = publishedEventEnvelope.event else {
+                    XCTFail("Unexpected case: \(publishedEventEnvelope)")
+                    return
+                }
+                projectId = event.id
+
+                let attemptedAt = Date(),
+                    didSend = true
+
+                try self.expectAsync {
+                    try await self.service.attempt(projectId: projectId, at: attemptedAt, didSend: didSend)
+                }
+
+                let publishedAttemptEventEnvelope: EventEnvelope<BoulderProject.Event> =
+                try self.wait(for: recorder.next(), timeout: 2.0)
+
+                if case .attempted(let event) = publishedAttemptEventEnvelope.event {
+                    XCTAssertEqual(projectId, event.projectId)
+                    XCTAssertEqual(didSend, event.didSend)
+                    XCTAssertEqual(attemptedAt, event.attemptedAt)
+                }
+
+            }
+        }
+
     }
 }
