@@ -10,6 +10,7 @@ import Quick
 import CombineExpectations
 @testable import ClimbTracker
 import XCTest
+import SwiftUI
 
 class ProjectNameEventServiceTests : QuickSpec {
     var eventStore: EventStore!
@@ -49,7 +50,7 @@ class ProjectNameEventServiceTests : QuickSpec {
 
                     let foundProjectId: ProjectID? = try self.expectAsync {
                         try await self.service.name(projectId: projectId, uniqueName)
-                        return try await self.service.find(name: uniqueName)
+                        return try await self.service.getProject(forName: uniqueName)
                     }
 
                     XCTAssertEqual(projectId, foundProjectId)
@@ -76,6 +77,99 @@ class ProjectNameEventServiceTests : QuickSpec {
                     return
                 }
                 XCTAssertTrue(error is NameAlreadyTaken)
+            }
+
+            context("When renaming a project") {
+                it("Then it publishes another named event") {
+                    let projectId = UUID(),
+                        uniqueName1 = "foo",
+                        uniqueName2 = "bar"
+
+                    try self.expectAsync {
+                        try await self.service.name(projectId: projectId, uniqueName1)
+                        try await self.service.name(projectId: projectId, uniqueName2)
+                    }
+
+                    let publishedEventEnvelopes = try self.wait(for: self.recorder.availableElements, timeout: 1.0)
+                    XCTAssertEqual(publishedEventEnvelopes.count, 2)
+
+                    let publishedNamedEventPayloads: [ProjectNameEvent.Named] = publishedEventEnvelopes.compactMap { envelope in
+                        guard case .named(let event) = envelope.event else {
+                            XCTFail("expected named event but got \(publishedEventEnvelopes)")
+                            return nil
+                        }
+                        return event
+                    }
+
+                    XCTAssertEqual(publishedNamedEventPayloads.map(\.projectId), [projectId, projectId])
+                    XCTAssertEqual(publishedNamedEventPayloads.map(\.name), [uniqueName1, uniqueName2])
+                }
+
+                it("And it only associates the new name with the project") {
+                    let projectId = UUID(),
+                        uniqueName1 = "foo",
+                        uniqueName2 = "bar"
+
+                    let result: (nameForProject: String?, projectForName1: ProjectID?, projectForName2: ProjectID?) =
+                        try self.expectAsync {
+                        try await self.service.name(projectId: projectId, uniqueName1)
+                        try await self.service.name(projectId: projectId, uniqueName2)
+
+                        async let nameForProject = self.service.getName(forProject: projectId)
+                        async let projectForName1 = self.service.getProject(forName: uniqueName1)
+                        async let projectForName2 = self.service.getProject(forName: uniqueName2)
+
+                        return try await (nameForProject: nameForProject,
+                                          projectForName1: projectForName1,
+                                          projectForName2: projectForName2)
+                    }
+
+                    XCTAssertEqual(result.nameForProject, uniqueName2)
+                    XCTAssertNil(result.projectForName1)
+                    XCTAssertEqual(result.projectForName2, projectId)
+                }
+            }
+
+            it("Maintains name uniqueness despite concurrent naming attempts") {
+                // given N names
+                let countNames = 10,
+                    names: [String] = (0..<countNames).map { "name-\($0)" },
+                    // When M projects try to claim them concurrently
+                    attemptsPerName = 3,
+                    attempts = names.flatMap { id in Array(repeating: id, count: attemptsPerName) }.shuffled()
+
+                try self.expectAsync(timeout: 10) {
+                    await withThrowingTaskGroup(of: Void.self) { group in
+                        attempts.forEach { name in
+                            group.addTask {
+                                do {
+                                    try await self.service.name(projectId: UUID(), name)
+                                } catch is NameAlreadyTaken {
+                                    // suppress valid exceptions thrown by the name already being taken in subsequent attempts
+                                }
+                            }
+                        }
+                    }
+                }
+
+                let nameEventEnvelopes: [EventEnvelope<ProjectNameEvent>] =
+                    try self.wait(for: self.recorder.availableElements, timeout: 2.0)
+
+                let duplicateProjectIdsByName: [String: [ProjectID]] = nameEventEnvelopes.compactMap { envelope in
+                        switch envelope.event {
+                        case .named(let event):
+                            return event
+                        }
+                    }
+                    .reduce(into: [String:[ProjectID]]()) { (projectIdsByName: inout [String:[ProjectID]], event: ProjectNameEvent.Named) in
+                        var projects = projectIdsByName[event.name, default: []]
+                        projects.append(event.projectId)
+                        projectIdsByName[event.name] = projects
+                    }
+                    .filter { $0.value.count > 1 }
+
+                // Then there should be no duplicates
+                XCTAssertEqual(duplicateProjectIdsByName, [String:[ProjectID]]())
             }
         }
     }

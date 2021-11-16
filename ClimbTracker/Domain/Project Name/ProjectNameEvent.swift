@@ -10,10 +10,9 @@ import Foundation
 enum ProjectNameEvent : TopicEvent {
     static var namespace: String { "project-names" }
 
-    struct Named {
+    struct Named : Hashable {
         let projectId: ProjectID
         let name: String
-
     }
 
     case named(Named)

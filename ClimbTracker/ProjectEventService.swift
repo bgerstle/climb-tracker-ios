@@ -9,13 +9,23 @@ import Foundation
 import Combine
 
 protocol ProjectService {
-    func create<G: BoulderGrade>(grade: G) async throws
+    func create<G: BoulderGrade>(grade: G, name: String?) async throws
 
     func attempt(projectId: UUID, at: Date, didSend: Bool) async throws
 
-    func create<G: RopeGrade>(grade: G) async throws
+    func create<G: RopeGrade>(grade: G, name: String?) async throws
 
     func attempt(projectId: UUID, at: Date, didSend: Bool, subcategory: RopeProject.Subcategory) async throws
+}
+
+extension ProjectService {
+    func create<G: RopeGrade>(grade: G) async throws {
+        try await create(grade: grade, name: nil)
+    }
+
+    func create<G: BoulderGrade>(grade: G) async throws {
+        try await create(grade: grade, name: nil)
+    }
 }
 
 struct ProjectNotFound : Error {
@@ -29,7 +39,7 @@ class ProjectEventService : ProjectService {
         self.eventStore = eventStore
     }
 
-    func create<G: BoulderGrade>(grade: G) async throws {
+    func create<G: BoulderGrade>(grade: G, name: String?) async throws {
         let projectId = UUID(),
             envelope = EventEnvelope(
             event: BoulderProject.Event.created(BoulderProject.Created(projectId: projectId,
@@ -58,7 +68,7 @@ class ProjectEventService : ProjectService {
         try await topic.write(envelope)
     }
 
-    func create<G: RopeGrade>(grade: G) async throws {
+    func create<G: RopeGrade>(grade: G, name: String?) async throws {
         let projectId = UUID(),
         envelope = EventEnvelope(
             event: RopeProject.Event.created(RopeProject.Created(projectId: projectId,

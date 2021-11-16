@@ -18,6 +18,8 @@ class AddProjectViewModel: ObservableObject {
 
     @Published var selectedRopeGrade: YosemiteDecimalGrade
 
+    @Published var projectName: String = ""
+
     init(projectService: ProjectService! = nil,
          selectedCategory: ProjectCategory = .boulder,
          selectedBoulderGrade: HuecoGrade = HuecoGrade.easy,
@@ -28,14 +30,18 @@ class AddProjectViewModel: ObservableObject {
         self.selectedBoulderGrade = selectedBoulderGrade
     }
 
+    var optionalProjectName: String? {
+        projectName.isEmpty ? nil : projectName
+    }
+
     func submit() {
         Task {
             do {
                 switch self.selectedCategory {
                 case .boulder:
-                    try await projectService.create(grade: selectedBoulderGrade)
+                    try await projectService.create(grade: selectedBoulderGrade, name: optionalProjectName)
                 case .rope:
-                    try await projectService.create(grade: selectedRopeGrade)
+                    try await projectService.create(grade: selectedRopeGrade, name: optionalProjectName)
                 }
             } catch {
                 print("TODO: put this in the UI! \(error)")

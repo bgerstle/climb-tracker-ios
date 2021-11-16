@@ -11,7 +11,7 @@ struct GradePicker<G: Grade>: View {
     @Binding var selectedGrade: G
 
     var body: some View {
-        Picker(selection: $selectedGrade, label: Text("Grade")) {
+        Picker(selection: $selectedGrade, label: EmptyView()) {
             List(G.allCases) { grade in
                 Text(grade.rawValue)
                     .tag(grade)

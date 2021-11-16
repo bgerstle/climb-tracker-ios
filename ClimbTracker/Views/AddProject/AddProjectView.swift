@@ -21,13 +21,22 @@ struct AddProjectView: View {
     var body: some View {
         NavigationView {
             Form {
-                CategoryPicker(selectedCategory: $addClimbViewModel.selectedCategory)
+                Section("Project Name") {
+                    TextField(
+                        "",
+                        text: $addClimbViewModel.projectName
+                    )
+                }
 
-                switch addClimbViewModel.selectedCategory {
-                case .boulder:
-                    GradePicker<HuecoGrade>(selectedGrade: $addClimbViewModel.selectedBoulderGrade)
-                case .rope:
-                    GradePicker<YosemiteDecimalGrade>(selectedGrade: $addClimbViewModel.selectedRopeGrade)
+                Section("Grade") {
+                    CategoryPicker(selectedCategory: $addClimbViewModel.selectedCategory)
+
+                    switch addClimbViewModel.selectedCategory {
+                    case .boulder:
+                        GradePicker<HuecoGrade>(selectedGrade: $addClimbViewModel.selectedBoulderGrade)
+                    case .rope:
+                        GradePicker<YosemiteDecimalGrade>(selectedGrade: $addClimbViewModel.selectedRopeGrade)
+                    }
                 }
             }
             .navigationTitle("New Project")
