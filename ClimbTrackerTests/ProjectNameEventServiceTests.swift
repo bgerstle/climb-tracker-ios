@@ -33,9 +33,10 @@ class ProjectNameEventServiceTests : QuickSpec {
                         try await self.service.name(projectId: projectId, uniqueName)
                     }
 
-                    let publishedEventEnvelope = try self.wait(for: self.recorder.next(), timeout: 1.0)
-                    guard case .named(let event) = publishedEventEnvelope.event else {
-                        XCTFail("expected named event but got \(publishedEventEnvelope)")
+                    let publishedEventEnvelopes = try self.wait(for: self.recorder.availableElements, timeout: 1.0)
+                    XCTAssertEqual(publishedEventEnvelopes.count, 1)
+                    guard case .named(let event) = publishedEventEnvelopes.first?.event else {
+                        XCTFail("expected named event but got \(publishedEventEnvelopes)")
                         return
                     }
                     XCTAssertEqual(event.projectId, projectId)
