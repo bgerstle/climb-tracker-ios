@@ -9,10 +9,14 @@ import XCTest
 import Foundation
 import Combine
 
+struct ExpectAsyncUnfulfilled : Error {}
+
 extension XCTestCase {
-    func expectAsync<T>(timeout: TimeInterval = 2.0, _ f: @escaping () async throws -> T) throws -> T {
-        let expectation = expectation(description: "await")
-        var result: Result<T, Error>! = nil
+    func expectAsync<T>(timeout: TimeInterval = 2.0,
+                        description: String = "",
+                        _ f: @escaping () async throws -> T) throws -> T {
+        let futureExpectation = expectation(description: description)
+        var result: Result<T, Error> = Result.failure(ExpectAsyncUnfulfilled())
         let cancellable = Future<T, Error> { promise in
             Task {
                 do {
@@ -27,18 +31,15 @@ extension XCTestCase {
             if case .failure(let error) = futureResult {
                 result = .failure(error)
             }
-            expectation.fulfill()
+            futureExpectation.fulfill()
 
         }, receiveValue: {
             result = .success($0)
         })
 
-        waitForExpectations(timeout: timeout) { optError in
-            cancellable.cancel()
-            if let error = optError {
-                result = .failure(error)
-            }
-        }
+        wait(for: [futureExpectation], timeout: timeout)
+
+        cancellable.cancel()
 
         return try result.get()
     }
