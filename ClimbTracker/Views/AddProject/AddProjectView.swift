@@ -16,7 +16,7 @@ enum ProjectCategory: String, Hashable, CaseIterable {
 struct AddProjectView: View {
     @Environment(\.presentationMode) var presentationMode
 
-    @ObservedObject var addClimbViewModel: AddProjectViewModel
+    @ObservedObject var viewModel: AddProjectViewModel
 
     var body: some View {
         NavigationView {
@@ -24,18 +24,18 @@ struct AddProjectView: View {
                 Section("Project Name") {
                     TextField(
                         "",
-                        text: $addClimbViewModel.projectName
+                        text: $viewModel.projectName
                     )
                 }
 
                 Section("Grade") {
-                    CategoryPicker(selectedCategory: $addClimbViewModel.selectedCategory)
+                    CategoryPicker(selectedCategory: $viewModel.selectedCategory)
 
-                    switch addClimbViewModel.selectedCategory {
+                    switch viewModel.selectedCategory {
                     case .boulder:
-                        GradePicker<HuecoGrade>(selectedGrade: $addClimbViewModel.selectedBoulderGrade)
+                        GradePicker<HuecoGrade>(selectedGrade: $viewModel.selectedBoulderGrade)
                     case .rope:
-                        GradePicker<YosemiteDecimalGrade>(selectedGrade: $addClimbViewModel.selectedRopeGrade)
+                        GradePicker<YosemiteDecimalGrade>(selectedGrade: $viewModel.selectedRopeGrade)
                     }
                 }
             }
@@ -43,7 +43,7 @@ struct AddProjectView: View {
             .navigationBarItems(trailing:
                 Button("Create") {
                     presentationMode.wrappedValue.dismiss()
-                    addClimbViewModel.submit()
+                    viewModel.submit()
                 }
                 .accessibility(identifier: "submitButton")
             )
@@ -52,8 +52,8 @@ struct AddProjectView: View {
     }
 }
 
-struct NewClimbView_Previews: PreviewProvider {
+struct AddProjectView_Previews: PreviewProvider {
     static var previews: some View {
-        AddProjectView(addClimbViewModel: AddProjectViewModel(projectService: nil))
+        AddProjectView(viewModel: AddProjectViewModel(projectService: nil))
     }
 }

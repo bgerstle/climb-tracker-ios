@@ -1,5 +1,5 @@
 //
-//  AddClimbViewModel.swift
+//  AddProjectViewModel.swift
 //  ClimbTracker
 //
 //  Created by Brian Gerstle on 7/19/21.

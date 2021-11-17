@@ -1,5 +1,5 @@
 //
-//  ClimbHistoryView.swift
+//  ProjectListPageObject.swift
 //  ClimbTrackerUITests
 //
 //  Created by Brian Gerstle on 7/9/21.
@@ -70,7 +70,7 @@ class ProjectListPageObject {
 }
 
 extension XCUIApplication {
-    var climbHistory: ProjectListPageObject {
+    var projectList: ProjectListPageObject {
         return ProjectListPageObject(
             view: descendants(matching: .any)
                 .matching(identifier: "projectList")

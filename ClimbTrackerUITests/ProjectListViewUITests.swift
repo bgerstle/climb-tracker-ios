@@ -11,8 +11,8 @@ import Quick
 class ProjectListViewUITests: QuickSpec {
     var app: XCUIApplication!
 
-    var climbHistory: ProjectListPageObject {
-        app.climbHistory
+    var projectList: ProjectListPageObject {
+        app.projectList
     }
 
     override func spec() {
@@ -25,22 +25,22 @@ class ProjectListViewUITests: QuickSpec {
         describe("Projects") {
             context("When there are no projects") {
                 it("Then the view is empty") {
-                    XCTAssertTrue(self.climbHistory.view.isHittable)
-                    XCTAssertEqual(self.climbHistory.rows.count, 0)
+                    XCTAssertTrue(self.projectList.view.isHittable)
+                    XCTAssertEqual(self.projectList.rows.count, 0)
                 }
 
                 it("And there should be a 'New Project' button") {
-                    XCTAssertTrue(self.climbHistory.newProjectButton.isHittable)
+                    XCTAssertTrue(self.projectList.newProjectButton.isHittable)
                 }
             }
 
             context("When I tap the 'New Project' button") {
                 beforeEach {
-                    self.climbHistory.newProjectButton.tap()
+                    self.projectList.newProjectButton.tap()
                 }
 
                 it("Then I should see the Add Project view") {
-                    XCTAssertTrue(self.app.addClimb.view.exists)
+                    XCTAssertTrue(self.app.addProject.view.exists)
                 }
             }
         }

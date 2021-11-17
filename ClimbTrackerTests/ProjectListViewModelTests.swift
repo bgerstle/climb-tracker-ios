@@ -1,5 +1,5 @@
 //
-//  ClimbHistoryViewModelTests.swift
+//  ProjectListViewModelTests.swift
 //  ClimbTrackerTests
 //
 //  Created by Brian Gerstle on 7/11/21.

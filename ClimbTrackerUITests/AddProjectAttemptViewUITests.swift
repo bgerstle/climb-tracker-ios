@@ -12,11 +12,11 @@ class AddProjectAttemptViewUITests: QuickSpec {
     var app: XCUIApplication!
 
     var projectList: ProjectListPageObject {
-        app.climbHistory
+        app.projectList
     }
 
     var addProject: AddProjectPageObject {
-        app.addClimb
+        app.addProject
     }
 
     override func spec() {
@@ -39,8 +39,8 @@ class AddProjectAttemptViewUITests: QuickSpec {
 
                 self.addProject.gradePicker.tap()
                 self.addProject.pickerOption(forRawValue: rawGradeValue).tap()
-                XCTAssertTrue(self.app.addClimb.submitButton.isHittable)
-                self.app.addClimb.submitButton.tap()
+                XCTAssertTrue(self.app.addProject.submitButton.isHittable)
+                self.app.addProject.submitButton.tap()
             }
 
             it("Then I can swipe to see buttons for logging an attempt or send") {

@@ -36,7 +36,7 @@ struct CategoryPicker: View {
     }
 }
 
-struct ClimbCategoryPicker_Previews: PreviewProvider {
+struct ProjectCategoryPicker_Previews: PreviewProvider {
     static var previews: some View {
         CategoryPicker(selectedCategory: .constant(.boulder))
     }

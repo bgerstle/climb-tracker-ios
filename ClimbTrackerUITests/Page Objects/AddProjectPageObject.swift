@@ -38,7 +38,7 @@ class AddProjectPageObject {
 }
 
 extension XCUIApplication {
-    var addClimb: AddProjectPageObject {
+    var addProject: AddProjectPageObject {
         return AddProjectPageObject(
             view: descendants(matching: .any)
                 .matching(identifier: "addProjectView")

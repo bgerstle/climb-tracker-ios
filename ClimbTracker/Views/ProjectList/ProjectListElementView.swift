@@ -1,5 +1,5 @@
 //
-//  ClimbHistoryRow.swift
+//  ProjectListElementView.swift
 //  ClimbTracker
 //
 //  Created by Brian Gerstle on 7/11/21.
@@ -26,7 +26,7 @@ struct ProjectListElementView: View {
     }
 }
 
-struct ClimbHistoryRow_Previews: PreviewProvider {
+struct ProjectListElementView_Previews: PreviewProvider {
     static var previews: some View {
         ProjectListElementView(project: ProjectSummary(id: UUID(),
                                                        category: .boulder,

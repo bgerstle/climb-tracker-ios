@@ -1,5 +1,5 @@
 //
-//  ClimbHistoryList.swift
+//  ProjectList.swift
 //  ClimbTracker
 //
 //  Created by Brian Gerstle on 7/2/21.
@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ProjectListView: View {
-    @State private var presentingAddClimb: Bool = false
+    @State private var presentingAddProject: Bool = false
 
     typealias AddProjectViewFactory = () -> AddProjectView
     // FIXME: remove !
@@ -49,14 +49,14 @@ struct ProjectListView: View {
             .toolbar() {
                 ToolbarItem(placement: .primaryAction) {
                     Button {
-                        presentingAddClimb.toggle()
+                        presentingAddProject.toggle()
                     } label: {
                         Label("New", systemImage: "plus")
                     }
                     .accessibility(identifier: "addProjectButton")
                 }
             }
-            .sheet(isPresented: $presentingAddClimb, content: addProjectViewFactory)
+            .sheet(isPresented: $presentingAddProject, content: addProjectViewFactory)
         }
         // fixes nav bar layout constraint issues: https://stackoverflow.com/a/66299785/600467
         .navigationViewStyle(StackNavigationViewStyle())
@@ -86,9 +86,9 @@ struct ContentView_Previews: PreviewProvider {
                                       title: "Title")
             }
         }
-        let addClimbView = AddProjectView(addClimbViewModel: AddProjectViewModel())
+        let addProjectView = AddProjectView(viewModel: AddProjectViewModel())
         return ProjectListView(
-            addProjectViewFactory: { addClimbView },
+            addProjectViewFactory: { addProjectView },
             viewModel: viewModel
         )
     }
