@@ -16,7 +16,6 @@
 		BC0B37A1273C3EF70069B575 /* FontGrade.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0B37A0273C3EF70069B575 /* FontGrade.swift */; };
 		BC0B37A3273C3EFE0069B575 /* FrenchGrade.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0B37A2273C3EFE0069B575 /* FrenchGrade.swift */; };
 		BC1F5205272B244000702432 /* AddProjectAttemptViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1F5204272B244000702432 /* AddProjectAttemptViewUITests.swift */; };
-		BC2DE80E2724C3870015C190 /* Attempt.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2DE80D2724C3870015C190 /* Attempt.swift */; };
 		BC2ECFD8269B852800838466 /* ProjectListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2ECFD7269B852800838466 /* ProjectListViewModel.swift */; };
 		BC2ECFF0269B9C7200838466 /* ProjectListElementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2ECFEF269B9C7200838466 /* ProjectListElementView.swift */; };
 		BC43D976269A9E49002C984E /* AddProjectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC43D975269A9E49002C984E /* AddProjectView.swift */; };
@@ -76,7 +75,6 @@
 		BC0B37A0273C3EF70069B575 /* FontGrade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontGrade.swift; sourceTree = "<group>"; };
 		BC0B37A2273C3EFE0069B575 /* FrenchGrade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrenchGrade.swift; sourceTree = "<group>"; };
 		BC1F5204272B244000702432 /* AddProjectAttemptViewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProjectAttemptViewUITests.swift; sourceTree = "<group>"; };
-		BC2DE80D2724C3870015C190 /* Attempt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Attempt.swift; sourceTree = "<group>"; };
 		BC2ECFD7269B852800838466 /* ProjectListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectListViewModel.swift; sourceTree = "<group>"; };
 		BC2ECFDC269B877400838466 /* ProjectListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectListViewModelTests.swift; sourceTree = "<group>"; };
 		BC2ECFEF269B9C7200838466 /* ProjectListElementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectListElementView.swift; sourceTree = "<group>"; };
