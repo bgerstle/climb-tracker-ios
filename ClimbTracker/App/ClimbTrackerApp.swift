@@ -19,20 +19,20 @@ struct ClimbTrackerApp: App {
                 boulder: projectService.boulderProjectEventPublisher,
                 rope: projectService.ropeProjectEventPublisher
             ),
-            historyViewModel = ProjectListViewModel(projectService: projectService),
+            projectListViewModel = ProjectListViewModel(projectService: projectService),
             addProjectViewModel = AddProjectViewModel(
                 projectService: projectService,
                 projectNameService: projectNameService
             )
 
-        historyViewModel.handleSummaryEvents(summaryEventPublisher)
+        projectListViewModel.handleSummaryEvents(summaryEventPublisher)
 
         return WindowGroup {
             ProjectListView(
                 addProjectViewFactory: {
                     AddProjectView(viewModel: addProjectViewModel)
                 },
-                viewModel: historyViewModel
+                viewModel: projectListViewModel
             )
         }
     }
