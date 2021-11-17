@@ -18,6 +18,8 @@ struct AddProjectView: View {
 
     @ObservedObject var viewModel: AddProjectViewModel
 
+    @State var isProjectNameValid: Bool = true
+
     var body: some View {
         NavigationView {
             Form {
@@ -26,6 +28,7 @@ struct AddProjectView: View {
                         "",
                         text: $viewModel.projectName
                     )
+                    .foregroundColor(isProjectNameValid ? .black : .red)
                 }
 
                 Section("Grade") {
@@ -45,8 +48,12 @@ struct AddProjectView: View {
                     presentationMode.wrappedValue.dismiss()
                     viewModel.submit()
                 }
+                .disabled(!isProjectNameValid)
                 .accessibility(identifier: "submitButton")
             )
+            .onReceive(viewModel.$projectNameValid) { isValid in
+                isProjectNameValid = isValid
+            }
         }
         .accessibility(identifier: "addProjectView")
     }

@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import Combine
 
 @MainActor
 class AddProjectViewModel: ObservableObject {
@@ -21,6 +22,10 @@ class AddProjectViewModel: ObservableObject {
 
     @Published var projectName: String = ""
 
+    @Published var projectNameValid: Bool = true
+
+    var validateProjectNameSubscription: AnyCancellable? = nil
+
     init(projectService: ProjectService,
          projectNameService: ProjectNameService,
          selectedCategory: ProjectCategory = .boulder,
@@ -31,6 +36,19 @@ class AddProjectViewModel: ObservableObject {
         self.selectedCategory = selectedCategory
         self.selectedRopeGrade = selectedRopeGrade
         self.selectedBoulderGrade = selectedBoulderGrade
+
+        validateProjectName()
+    }
+
+    private func validateProjectName() {
+        self.validateProjectNameSubscription =  $projectName.sink { name in
+            Task {
+                do {
+                    self.projectNameValid = try await self.projectNameService.getProject(forName: name) == nil
+                } catch {
+                }
+            }
+        }
     }
 
     var optionalProjectName: String? {
