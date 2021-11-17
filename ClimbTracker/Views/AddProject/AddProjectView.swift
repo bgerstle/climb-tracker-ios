@@ -24,11 +24,19 @@ struct AddProjectView: View {
         NavigationView {
             Form {
                 Section("Project Name") {
-                    TextField(
-                        "",
-                        text: $viewModel.projectName
-                    )
-                    .foregroundColor(isProjectNameValid ? .black : .red)
+                    VStack(alignment: .leading) {
+                        TextField(
+                            "",
+                            text: $viewModel.projectName
+                        )
+                        .foregroundColor(isProjectNameValid ? .black : .red)
+
+                        if !isProjectNameValid {
+                            Text("Must be unique")
+                                .dynamicTypeSize(.small)
+                                .foregroundColor(.red)
+                        }
+                    }
                 }
 
                 Section("Grade") {
