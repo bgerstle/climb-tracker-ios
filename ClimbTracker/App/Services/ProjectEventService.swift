@@ -1,22 +1,12 @@
 //
-//  ClimbService.swift
+//  ProjectEventService.swift
 //  ClimbTracker
 //
-//  Created by Brian Gerstle on 7/11/21.
+//  Created by Brian Gerstle on 11/17/21.
 //
 
 import Foundation
 import Combine
-
-protocol ProjectService {
-    func create<G: BoulderGrade>(grade: G) async throws
-
-    func attempt(projectId: UUID, at: Date, didSend: Bool) async throws
-
-    func create<G: RopeGrade>(grade: G) async throws
-
-    func attempt(projectId: UUID, at: Date, didSend: Bool, subcategory: RopeProject.Subcategory) async throws
-}
 
 struct ProjectNotFound : Error {
     let id: UUID
@@ -27,6 +17,14 @@ class ProjectEventService : ProjectService {
 
     internal init(eventStore: EventStore) {
         self.eventStore = eventStore
+    }
+
+    var boulderProjectEventPublisher: TopicEventPublisher<BoulderProject.Event> {
+        eventStore.namespaceEvents()
+    }
+
+    var ropeProjectEventPublisher: TopicEventPublisher<RopeProject.Event> {
+        eventStore.namespaceEvents()
     }
 
     func create<G: BoulderGrade>(grade: G) async throws {

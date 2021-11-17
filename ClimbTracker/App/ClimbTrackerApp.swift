@@ -14,8 +14,10 @@ struct ClimbTrackerApp: App {
         let eventStore = EphemeralEventStore(),
             projectService = ProjectEventService(eventStore: eventStore),
             summarizer: ProjectSummarizer = ProjectSummarizer(),
-            summaryEventPublisher = summarizer.summarizeProjectEvents(boulder: eventStore.namespaceEvents(),
-                                                                      rope: eventStore.namespaceEvents()),
+            summaryEventPublisher = summarizer.summarizeProjectEvents(
+                boulder: projectService.boulderProjectEventPublisher,
+                rope: projectService.ropeProjectEventPublisher
+            ),
             historyViewModel = ProjectListViewModel(projectService: projectService),
             addClimbViewModel = AddProjectViewModel(projectService: projectService)
 

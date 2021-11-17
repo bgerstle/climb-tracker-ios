@@ -19,12 +19,14 @@ struct EventEnvelope<T> {
 extension EventEnvelope : Equatable where T: Equatable {}
 extension EventEnvelope : Hashable where T: Hashable {}
 
+typealias TopicEventPublisher<E: TopicEvent> = AnyPublisher<EventEnvelope<E>, Never>
+
 protocol EventStore {
     func findTopic<E: TopicEvent>(id topicId: TopicIdentifier, eventType: E.Type) async throws -> AnyTopic<E>?
 
     func createTopic<E: TopicEvent>(id topicId: TopicIdentifier, eventType: E.Type) async throws -> AnyTopic<E>
 
-    func namespaceEvents<E: TopicEvent>() -> AnyPublisher<EventEnvelope<E>, Never>
+    func namespaceEvents<E: TopicEvent>() -> TopicEventPublisher<E>
 
     func findOrCreateTopic<E: TopicEvent>(id topicId: TopicIdentifier, eventType: E.Type) async throws -> AnyTopic<E>
 }
@@ -39,7 +41,7 @@ protocol Topic : SomeTopic {
     func write(_ eventEnvelope: EventEnvelope<Event>) async throws
 
     // Returns a publisher that emits prior & subsequent events written to the topic
-    var eventPublisher: AnyPublisher<EventEnvelope<Event>, Never> { get }
+    var eventPublisher: TopicEventPublisher<Event> { get }
 
     func events() async throws -> [EventEnvelope<Event>]
 }
@@ -100,7 +102,7 @@ actor EphemeralEventStore : EventStore {
         return AnyTopic(topic)
     }
 
-    func namespaceEventsAsync<E>() -> AnyPublisher<EventEnvelope<E>, Never> where E : TopicEvent {
+    func namespaceEventsAsync<E>() -> TopicEventPublisher<E> {
         // filter to desired namespace
         let matchingNamespace = namespaces.filter { namespaces in
             namespaces[E.namespace] != nil
@@ -125,7 +127,7 @@ actor EphemeralEventStore : EventStore {
         return eventsFromTopicsInMatchingNamespace.eraseToAnyPublisher()
     }
 
-    nonisolated func namespaceEvents<E>() -> AnyPublisher<EventEnvelope<E>, Never> where E : TopicEvent {
+    nonisolated func namespaceEvents<E>() -> TopicEventPublisher<E> {
         Future { promise in
             Task(priority: Task.currentPriority) {
                 promise(.success(await self.namespaceEventsAsync()))
@@ -138,8 +140,6 @@ actor EphemeralEventStore : EventStore {
 
 actor EphemeralTopic<E: TopicEvent> : Topic {
     typealias Event = E
-
-    typealias EventPublisher = AnyPublisher<EventEnvelope<E>, Never>
 
     let id: TopicIdentifier
 
@@ -154,7 +154,7 @@ actor EphemeralTopic<E: TopicEvent> : Topic {
         events.append(eventEnvelope)
     }
 
-    nonisolated var eventPublisher: EventPublisher {
+    nonisolated var eventPublisher: TopicEventPublisher<E> {
         Future { promise in
             // need to use "detached" to avoid contending with readAsync actor isolation
             Task {
@@ -211,7 +211,7 @@ class AnyTopic<E: TopicEvent> : Topic {
 
     private let writeFn: (EventEnvelope<E>) async throws -> ()
     private let eventsFn: () async throws -> [EventEnvelope<E>]
-    private(set) var eventPublisher: AnyPublisher<EventEnvelope<E>, Never>
+    private(set) var eventPublisher: TopicEventPublisher<E>
 
     init<T: Topic>(_ topic: T) where T.Event == E {
         self.id = topic.id
