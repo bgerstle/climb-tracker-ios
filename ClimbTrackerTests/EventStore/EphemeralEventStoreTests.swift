@@ -21,7 +21,7 @@ class EphemeralEventStoreTests: XCTestCase {
         let testEventEnvelope = EventEnvelope<TestEvent>(event: .test, timestamp: Date())
 
         let recorder: TestEventRecorder = try expectAsync {
-            let events: AnyPublisher<EventEnvelope<TestEvent>, Error> = await self.eventStore.namespaceEventsAsync(),
+            let events: AnyPublisher<EventEnvelope<TestEvent>, Never> = await self.eventStore.namespaceEventsAsync(),
                 namespaceRecorder = events.record(),
                 topic = try await self.eventStore.createTopic(id: "foo", eventType: TestEvent.self)
 
@@ -35,7 +35,7 @@ class EphemeralEventStoreTests: XCTestCase {
     }
 
     func testNamespaceEvents_GivenTopicInNameSpace_WhenEventIsWritten_ThenNamespaceEventIsPublished() throws {
-        let events: AnyPublisher<EventEnvelope<TestEvent>, Error> = eventStore.namespaceEvents(),
+        let events: AnyPublisher<EventEnvelope<TestEvent>, Never> = eventStore.namespaceEvents(),
             namespaceRecorder = events.record(),
             testEventEnvelope = EventEnvelope<TestEvent>(event: .test, timestamp: Date())
 
@@ -49,7 +49,7 @@ class EphemeralEventStoreTests: XCTestCase {
     }
 
     func testNamespaceEvents_GivenTopicInNameSpace_WhenTwoEventsAreWritten_TheTwoNamespaceEventIsPublished() throws {
-        let events: AnyPublisher<EventEnvelope<TestEvent>, Error> = eventStore.namespaceEvents(),
+        let events: AnyPublisher<EventEnvelope<TestEvent>, Never> = eventStore.namespaceEvents(),
             namespaceRecorder = events.record(),
             testEventEnvelope1 = EventEnvelope<TestEvent>(event: .test, timestamp: Date()),
         testEventEnvelope2 = EventEnvelope<TestEvent>(event: .test, timestamp: Date().addingTimeInterval(1))
@@ -66,7 +66,7 @@ class EphemeralEventStoreTests: XCTestCase {
     }
 
     func testNamespaceEvents_GivenTwoTopicsInNameSpace_WhenOneEventPerTopicIsWritten_TheTwoNamespaceEventIsPublished() throws {
-        let events: AnyPublisher<EventEnvelope<TestEvent>, Error> = eventStore.namespaceEvents(),
+        let events: AnyPublisher<EventEnvelope<TestEvent>, Never> = eventStore.namespaceEvents(),
             namespaceRecorder = events.record(),
             testEventEnvelope1 = EventEnvelope<TestEvent>(event: .test, timestamp: Date()),
         testEventEnvelope2 = EventEnvelope<TestEvent>(event: .test, timestamp: Date().addingTimeInterval(1))

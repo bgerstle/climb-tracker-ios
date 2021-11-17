@@ -24,7 +24,7 @@ protocol EventStore {
 
     func createTopic<E: TopicEvent>(id topicId: TopicIdentifier, eventType: E.Type) async throws -> AnyTopic<E>
 
-    func namespaceEvents<E: TopicEvent>() -> AnyPublisher<EventEnvelope<E>, Error>
+    func namespaceEvents<E: TopicEvent>() -> AnyPublisher<EventEnvelope<E>, Never>
 
     func findOrCreateTopic<E: TopicEvent>(id topicId: TopicIdentifier, eventType: E.Type) async throws -> AnyTopic<E>
 }
@@ -39,7 +39,7 @@ protocol Topic : SomeTopic {
     func write(_ eventEnvelope: EventEnvelope<Event>) async throws
 
     // Returns a publisher that emits prior & subsequent events written to the topic
-    var eventPublisher: AnyPublisher<EventEnvelope<Event>, Error> { get }
+    var eventPublisher: AnyPublisher<EventEnvelope<Event>, Never> { get }
 
     func events() async throws -> [EventEnvelope<Event>]
 }
@@ -100,7 +100,7 @@ actor EphemeralEventStore : EventStore {
         return AnyTopic(topic)
     }
 
-    func namespaceEventsAsync<E>() -> AnyPublisher<EventEnvelope<E>, Error> where E : TopicEvent {
+    func namespaceEventsAsync<E>() -> AnyPublisher<EventEnvelope<E>, Never> where E : TopicEvent {
         // filter to desired namespace
         let matchingNamespace = namespaces.filter { namespaces in
             namespaces[E.namespace] != nil
@@ -125,7 +125,7 @@ actor EphemeralEventStore : EventStore {
         return eventsFromTopicsInMatchingNamespace.eraseToAnyPublisher()
     }
 
-    nonisolated func namespaceEvents<E>() -> AnyPublisher<EventEnvelope<E>, Error> where E : TopicEvent {
+    nonisolated func namespaceEvents<E>() -> AnyPublisher<EventEnvelope<E>, Never> where E : TopicEvent {
         Future { promise in
             Task(priority: Task.currentPriority) {
                 promise(.success(await self.namespaceEventsAsync()))
@@ -139,7 +139,7 @@ actor EphemeralEventStore : EventStore {
 actor EphemeralTopic<E: TopicEvent> : Topic {
     typealias Event = E
 
-    typealias EventPublisher = AnyPublisher<EventEnvelope<E>, Error>
+    typealias EventPublisher = AnyPublisher<EventEnvelope<E>, Never>
 
     let id: TopicIdentifier
 
@@ -211,7 +211,7 @@ class AnyTopic<E: TopicEvent> : Topic {
 
     private let writeFn: (EventEnvelope<E>) async throws -> ()
     private let eventsFn: () async throws -> [EventEnvelope<E>]
-    private(set) var eventPublisher: AnyPublisher<EventEnvelope<E>, Error>
+    private(set) var eventPublisher: AnyPublisher<EventEnvelope<E>, Never>
 
     init<T: Topic>(_ topic: T) where T.Event == E {
         self.id = topic.id

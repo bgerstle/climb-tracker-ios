@@ -15,7 +15,7 @@ import SwiftUI
 class ProjectNameEventServiceTests : QuickSpec {
     var eventStore: EventStore!
     var service: ProjectNameEventService!
-    var recorder: Recorder<EventEnvelope<ProjectNameEvent>, Error>!
+    var recorder: Recorder<EventEnvelope<ProjectNameEvent>, Never>!
 
     override func spec() {
         describe("Naming projects") {

@@ -15,4 +15,4 @@ enum TestEvent : TopicEvent {
     case test
 }
 
-typealias TestEventRecorder = Recorder<EventEnvelope<TestEvent>, Error>
+typealias TestEventRecorder = Recorder<EventEnvelope<TestEvent>, Never>

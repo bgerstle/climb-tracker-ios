@@ -78,14 +78,12 @@ class ProjectListViewModel: ObservableObject {
     }
 
     func handleSummaryEvents<P: Publisher>(_ publisher: P)
-    where P.Output == EventEnvelope<ProjectSummary.Event>, P.Failure == Error {
+    where P.Output == EventEnvelope<ProjectSummary.Event>, P.Failure == Never {
         summaryEventSubscription = publisher
             .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { error in
-                // TODO: report somewhere?
-            }, receiveValue: { [weak self] in
+            .sink() { [weak self] in
                 self?.handle($0)
-            })
+            }
     }
 
     private func formattedTitle(_ category: ProjectCategory, createdAt: Date) -> String {
