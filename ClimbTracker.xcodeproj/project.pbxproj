@@ -194,6 +194,7 @@
 			children = (
 				BC43D992269B3852002C984E /* Project.swift */,
 				BC2DE80D2724C3870015C190 /* Attempt.swift */,
+				BC927089269B7054002734CD /* ProjectEventService.swift */,
 			);
 			path = Project;
 			sourceTree = "<group>";
@@ -232,7 +233,6 @@
 			isa = PBXGroup;
 			children = (
 				BC43D99F269B3D5B002C984E /* App */,
-				BC927089269B7054002734CD /* ProjectEventService.swift */,
 				BC43D990269B380E002C984E /* Domain */,
 				BCCAEDEF26948E85006F0707 /* Views */,
 				BC46720B268FB97000B2CBE7 /* Assets.xcassets */,
