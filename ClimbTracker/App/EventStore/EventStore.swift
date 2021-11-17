@@ -19,6 +19,12 @@ struct EventEnvelope<T> {
 extension EventEnvelope : Equatable where T: Equatable {}
 extension EventEnvelope : Hashable where T: Hashable {}
 
+extension EventEnvelope {
+    func map<E>(_ transform: (T) -> E) -> EventEnvelope<E> {
+        EventEnvelope<E>(event: transform(event), timestamp: timestamp)
+    }
+}
+
 typealias TopicEventPublisher<E: TopicEvent> = AnyPublisher<EventEnvelope<E>, Never>
 
 protocol EventStore {
