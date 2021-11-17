@@ -54,6 +54,6 @@ struct AddProjectView: View {
 
 struct AddProjectView_Previews: PreviewProvider {
     static var previews: some View {
-        AddProjectView(viewModel: AddProjectViewModel(projectService: nil))
+        AddProjectView(viewModel: previewAddProjectViewModel)
     }
 }

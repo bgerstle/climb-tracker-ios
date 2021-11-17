@@ -10,7 +10,8 @@ import SwiftUI
 
 @MainActor
 class AddProjectViewModel: ObservableObject {
-    let projectService: ProjectService!
+    let projectService: ProjectService
+    let projectNameService: ProjectNameService
 
     @Published var selectedCategory: ProjectCategory
 
@@ -20,11 +21,13 @@ class AddProjectViewModel: ObservableObject {
 
     @Published var projectName: String = ""
 
-    init(projectService: ProjectService! = nil,
+    init(projectService: ProjectService,
+         projectNameService: ProjectNameService,
          selectedCategory: ProjectCategory = .boulder,
          selectedBoulderGrade: HuecoGrade = HuecoGrade.easy,
          selectedRopeGrade: YosemiteDecimalGrade = YosemiteDecimalGrade.nine) {
         self.projectService = projectService
+        self.projectNameService = projectNameService
         self.selectedCategory = selectedCategory
         self.selectedRopeGrade = selectedRopeGrade
         self.selectedBoulderGrade = selectedBoulderGrade
@@ -47,5 +50,14 @@ class AddProjectViewModel: ObservableObject {
                 print("TODO: put this in the UI! \(error)")
             }
         }
+    }
+}
+
+extension PreviewProvider {
+    static var previewAddProjectViewModel: AddProjectViewModel {
+        AddProjectViewModel(
+            projectService: previewProjectService,
+            projectNameService: previewProjectNameService
+        )
     }
 }

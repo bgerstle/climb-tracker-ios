@@ -28,6 +28,7 @@
 		BC46720C268FB97000B2CBE7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC46720B268FB97000B2CBE7 /* Assets.xcassets */; };
 		BC46720F268FB97000B2CBE7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC46720E268FB97000B2CBE7 /* Preview Assets.xcassets */; };
 		BC467225268FB97100B2CBE7 /* ProjectListViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC467224268FB97100B2CBE7 /* ProjectListViewUITests.swift */; };
+		BC7F2F452745742000AE5B0B /* NamedProjectCreationWorkflow.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7F2F442745742000AE5B0B /* NamedProjectCreationWorkflow.swift */; };
 		BC92708A269B7054002734CD /* ProjectService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC927089269B7054002734CD /* ProjectService.swift */; };
 		BC9C2B8C26A6190B00520E04 /* YosemiteDecimalGrade.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C2B8B26A6190B00520E04 /* YosemiteDecimalGrade.swift */; };
 		BC9C2B9126A61B8400520E04 /* GradePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C2B9026A61B8400520E04 /* GradePicker.swift */; };
@@ -43,7 +44,7 @@
 		BCCAEE572698FEA2006F0707 /* Quick in Frameworks */ = {isa = PBXBuildFile; productRef = BCCAEE562698FEA2006F0707 /* Quick */; };
 		BCCAEE5A2698FFAC006F0707 /* ProjectListPageObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCAEE592698FFAC006F0707 /* ProjectListPageObject.swift */; };
 		BCDFE905273C684100DD35F7 /* ProjectSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDFE904273C684100DD35F7 /* ProjectSummary.swift */; };
-		BCDFE907273D73E600DD35F7 /* DummyProjectService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDFE906273D73E600DD35F7 /* DummyProjectService.swift */; };
+		BCDFE907273D73E600DD35F7 /* PreviewServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDFE906273D73E600DD35F7 /* PreviewServices.swift */; };
 		BCDFE90B273DA12F00DD35F7 /* EventStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDFE90A273DA12F00DD35F7 /* EventStore.swift */; };
 		BCDFE90E273DD2A000DD35F7 /* EphemeralTopicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDFE90D273DD2A000DD35F7 /* EphemeralTopicTests.swift */; };
 		BCDFE910273EE30A00DD35F7 /* EphemeralEventStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDFE90F273EE30A00DD35F7 /* EphemeralEventStoreTests.swift */; };
@@ -94,6 +95,7 @@
 		BC467220268FB97100B2CBE7 /* ClimbTrackerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClimbTrackerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC467224268FB97100B2CBE7 /* ProjectListViewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectListViewUITests.swift; sourceTree = "<group>"; };
 		BC467226268FB97100B2CBE7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BC7F2F442745742000AE5B0B /* NamedProjectCreationWorkflow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamedProjectCreationWorkflow.swift; sourceTree = "<group>"; };
 		BC927089269B7054002734CD /* ProjectService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectService.swift; sourceTree = "<group>"; };
 		BC92708E269B71B2002734CD /* ProjectEventServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectEventServiceTests.swift; sourceTree = "<group>"; };
 		BC9C2B8B26A6190B00520E04 /* YosemiteDecimalGrade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YosemiteDecimalGrade.swift; sourceTree = "<group>"; };
@@ -107,7 +109,7 @@
 		BCC650C827456AD900C98743 /* Publisher+Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+Log.swift"; sourceTree = "<group>"; };
 		BCCAEE592698FFAC006F0707 /* ProjectListPageObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectListPageObject.swift; sourceTree = "<group>"; };
 		BCDFE904273C684100DD35F7 /* ProjectSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSummary.swift; sourceTree = "<group>"; };
-		BCDFE906273D73E600DD35F7 /* DummyProjectService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyProjectService.swift; sourceTree = "<group>"; };
+		BCDFE906273D73E600DD35F7 /* PreviewServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewServices.swift; sourceTree = "<group>"; };
 		BCDFE90A273DA12F00DD35F7 /* EventStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventStore.swift; sourceTree = "<group>"; };
 		BCDFE90D273DD2A000DD35F7 /* EphemeralTopicTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EphemeralTopicTests.swift; sourceTree = "<group>"; };
 		BCDFE90F273EE30A00DD35F7 /* EphemeralEventStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EphemeralEventStoreTests.swift; sourceTree = "<group>"; };
@@ -186,9 +188,10 @@
 		BC43D990269B380E002C984E /* Domain */ = {
 			isa = PBXGroup;
 			children = (
+				BC7F2F442745742000AE5B0B /* NamedProjectCreationWorkflow.swift */,
 				BC00EE532742CF0D00A480A6 /* Project Name */,
-				BC2DE80C272332380015C190 /* Grade */,
 				BC43D991269B3845002C984E /* Project */,
+				BC2DE80C272332380015C190 /* Grade */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -282,7 +285,7 @@
 		BCC650C02745637800C98743 /* Preview Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				BCDFE906273D73E600DD35F7 /* DummyProjectService.swift */,
+				BCDFE906273D73E600DD35F7 /* PreviewServices.swift */,
 			);
 			path = "Preview Helpers";
 			sourceTree = "<group>";
@@ -496,11 +499,12 @@
 				BC2ECFF0269B9C7200838466 /* ProjectListElementView.swift in Sources */,
 				BCDFE905273C684100DD35F7 /* ProjectSummary.swift in Sources */,
 				BC9C2B9126A61B8400520E04 /* GradePicker.swift in Sources */,
+				BC7F2F452745742000AE5B0B /* NamedProjectCreationWorkflow.swift in Sources */,
 				BCDFE90B273DA12F00DD35F7 /* EventStore.swift in Sources */,
 				BC43D976269A9E49002C984E /* AddProjectView.swift in Sources */,
 				BC00EE572742CFCA00A480A6 /* ProjectNameEvent.swift in Sources */,
 				BCC05BE526A9C1D0001B4C42 /* Grade.swift in Sources */,
-				BCDFE907273D73E600DD35F7 /* DummyProjectService.swift in Sources */,
+				BCDFE907273D73E600DD35F7 /* PreviewServices.swift in Sources */,
 				BC467208268FB96E00B2CBE7 /* ClimbTrackerApp.swift in Sources */,
 				BC9C2B8C26A6190B00520E04 /* YosemiteDecimalGrade.swift in Sources */,
 				BC92708A269B7054002734CD /* ProjectService.swift in Sources */,

@@ -11,11 +11,12 @@ struct ProjectListView: View {
     @State private var presentingAddProject: Bool = false
 
     typealias AddProjectViewFactory = () -> AddProjectView
-    // FIXME: remove !
-    private let addProjectViewFactory: AddProjectViewFactory!
-    @ObservedObject private var viewModel: ProjectListViewModel
 
-    init(addProjectViewFactory: AddProjectViewFactory!, viewModel: ProjectListViewModel!) {
+    private let addProjectViewFactory: AddProjectViewFactory
+
+    private var viewModel: ProjectListViewModel
+
+    init(addProjectViewFactory: @escaping AddProjectViewFactory, viewModel: ProjectListViewModel) {
         self.addProjectViewFactory = addProjectViewFactory
         self.viewModel = viewModel
     }
@@ -66,7 +67,7 @@ struct ProjectListView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        let viewModel = ProjectListViewModel(projectService: dummyProjectService)
+        let viewModel = ProjectListViewModel(projectService: previewProjectService)
         viewModel.projects = (0...20).map { i in
             if i % 2 == 0 {
                 let ropeGrade = YosemiteDecimalGrade.allCases[Int.random(in: (0..<YosemiteDecimalGrade.allCases.count))]
@@ -86,9 +87,9 @@ struct ContentView_Previews: PreviewProvider {
                                       title: "Title")
             }
         }
-        let addProjectView = AddProjectView(viewModel: AddProjectViewModel())
+
         return ProjectListView(
-            addProjectViewFactory: { addProjectView },
+            addProjectViewFactory: { AddProjectView(viewModel: previewAddProjectViewModel) },
             viewModel: viewModel
         )
     }
