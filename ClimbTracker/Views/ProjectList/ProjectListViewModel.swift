@@ -32,7 +32,6 @@ class ProjectListViewModel: ObservableObject {
     // TODO: replace w/ project repository
     @Published var projects: [ProjectSummary] = []
     var projectNames = [ProjectID: String]()
-    var cancellable: AnyCancellable?
 
     func logAttempt(project: ProjectSummary, didSend: Bool) {
         Task {
