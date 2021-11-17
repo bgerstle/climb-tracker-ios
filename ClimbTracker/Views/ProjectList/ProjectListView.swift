@@ -14,6 +14,7 @@ struct ProjectListView: View {
 
     private let addProjectViewFactory: AddProjectViewFactory
 
+    @ObservedObject
     private var viewModel: ProjectListViewModel
 
     init(addProjectViewFactory: @escaping AddProjectViewFactory, viewModel: ProjectListViewModel) {
