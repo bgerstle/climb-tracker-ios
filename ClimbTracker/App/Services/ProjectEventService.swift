@@ -27,7 +27,7 @@ class ProjectEventService : ProjectService {
         eventStore.namespaceEvents()
     }
 
-    func create<G: BoulderGrade>(grade: G) async throws {
+    func create<G: BoulderGrade>(grade: G) async throws -> ProjectID {
         let projectId = UUID(),
             envelope = EventEnvelope(
             event: BoulderProject.Event.created(BoulderProject.Created(projectId: projectId,
@@ -38,13 +38,16 @@ class ProjectEventService : ProjectService {
         let topic = try await eventStore.createTopic(id: projectId.uuidString,
                                                      eventType: BoulderProject.Event.self)
         try await topic.write(envelope)
+
+        return projectId
     }
 
-    func attempt(projectId: UUID, at: Date, didSend: Bool) async throws {
-        let envelope = EventEnvelope(
+    func attempt(projectId: UUID, at: Date, didSend: Bool) async throws -> AttemptID {
+        let attemptId = UUID(),
+            envelope = EventEnvelope(
             event: BoulderProject.Event.attempted(BoulderProject.Attempted(
                 projectId: projectId,
-                attemptId: UUID(),
+                attemptId: attemptId,
                 didSend: didSend,
                 attemptedAt: at)),
             timestamp: Date())
@@ -54,9 +57,11 @@ class ProjectEventService : ProjectService {
             throw ProjectNotFound(id: projectId)
         }
         try await topic.write(envelope)
+
+        return attemptId
     }
 
-    func create<G: RopeGrade>(grade: G) async throws {
+    func create<G: RopeGrade>(grade: G) async throws -> ProjectID {
         let projectId = UUID(),
         envelope = EventEnvelope(
             event: RopeProject.Event.created(RopeProject.Created(projectId: projectId,
@@ -67,13 +72,16 @@ class ProjectEventService : ProjectService {
         let topic = try await eventStore.createTopic(id: projectId.uuidString,
                                                      eventType: RopeProject.Event.self)
         try await topic.write(envelope)
+
+        return projectId
     }
 
-    func attempt(projectId: UUID, at: Date, didSend: Bool, subcategory: RopeProject.Subcategory) async throws {
-        let envelope = EventEnvelope(
+    func attempt(projectId: UUID, at: Date, didSend: Bool, subcategory: RopeProject.Subcategory) async throws -> AttemptID {
+        let attemptId = UUID(),
+            envelope = EventEnvelope(
             event: RopeProject.Event.attempted(RopeProject.Attempted(
                 projectId: projectId,
-                attemptId: UUID(),
+                attemptId: attemptId,
                 didSend: didSend,
                 attemptedAt: at,
                 subcategory: subcategory)),
@@ -83,6 +91,9 @@ class ProjectEventService : ProjectService {
                                                          eventType: RopeProject.Event.self) else {
             throw ProjectNotFound(id: projectId)
         }
+
         try await topic.write(envelope)
+
+        return attemptId
     }
 }

@@ -8,6 +8,7 @@
 import Foundation
 
 typealias ProjectID = UUID
+typealias AttemptID = UUID
 
 // Cannot conform to Identifiable since that introduces "Self" requirements that prevent specifying
 // mixed collections of projects (e.g. [Boulder, Rope...])
@@ -28,10 +29,22 @@ protocol AnyAttempt {
 enum Project {
     case boulder(BoulderProject)
     case rope(RopeProject)
+
+    var eraseToAny: AnyProject {
+        switch self {
+        case .boulder(let project):
+            return project
+        case .rope(let project):
+            return project
+        }
+    }
 }
 
 protocol ProjectType: Identifiable, AnyProject, Hashable
-where ID == ProjectID { }
+where ID == ProjectID {}
+
+protocol AttemptType: Identifiable, AnyAttempt, Hashable
+where ID == AttemptID {}
 
 struct BoulderProject : ProjectType {
     typealias ID = ProjectID
@@ -40,7 +53,8 @@ struct BoulderProject : ProjectType {
     let createdAt: Date
     let grade: AnyBoulderGrade
 
-    struct Attempt: AnyAttempt, Hashable {
+    struct Attempt: AttemptType {
+        let id: AttemptID
         let didSend: Bool
     }
     let boulderAttempts: [Attempt]
@@ -88,7 +102,8 @@ struct RopeProject : Identifiable, AnyProject, Hashable {
         case topRope, sport
     }
 
-    struct Attempt: AnyAttempt, Hashable {
+    struct Attempt: AttemptType {
+        let id: AttemptID
         let didSend: Bool
         let subcategory: Subcategory
     }
