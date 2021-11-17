@@ -17,20 +17,20 @@ struct ClimbTrackerApp: App {
             summarizer: ProjectSummarizer = ProjectSummarizer(),
             summaryEventPublisher = summarizer.summarizeProjectEvents(
                 boulder: projectService.boulderProjectEventPublisher,
-                rope: projectService.ropeProjectEventPublisher
+                rope: projectService.ropeProjectEventPublisher,
+                name: projectNameService.projectNamedEventPublisher
             ),
-            projectListViewModel = ProjectListViewModel(projectService: projectService),
-            addProjectViewModel = AddProjectViewModel(
-                projectService: projectService,
-                projectNameService: projectNameService
-            )
+            projectListViewModel = ProjectListViewModel(projectService: projectService)
 
         projectListViewModel.handleSummaryEvents(summaryEventPublisher)
 
         return WindowGroup {
             ProjectListView(
                 addProjectViewFactory: {
-                    AddProjectView(viewModel: addProjectViewModel)
+                    AddProjectView(viewModel: AddProjectViewModel(
+                        projectService: projectService,
+                        projectNameService: projectNameService
+                    ))
                 },
                 viewModel: projectListViewModel
             )
