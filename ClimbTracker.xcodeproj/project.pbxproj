@@ -38,6 +38,8 @@
 		BCC05BEB26B6D2E1001B4C42 /* CombineExpectations in Frameworks */ = {isa = PBXBuildFile; productRef = BCC05BEA26B6D2E1001B4C42 /* CombineExpectations */; };
 		BCC650C2274563AD00C98743 /* ProjectNameEventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC650C1274563AD00C98743 /* ProjectNameEventService.swift */; };
 		BCC650C4274563BC00C98743 /* ProjectEventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC650C3274563BC00C98743 /* ProjectEventService.swift */; };
+		BCC650C727456AB300C98743 /* EphemeralEventStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC650C627456AB300C98743 /* EphemeralEventStore.swift */; };
+		BCC650C927456AD900C98743 /* Publisher+Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC650C827456AD900C98743 /* Publisher+Log.swift */; };
 		BCCAEE4D2698FE75006F0707 /* Quick in Frameworks */ = {isa = PBXBuildFile; productRef = BCCAEE4C2698FE75006F0707 /* Quick */; };
 		BCCAEE572698FEA2006F0707 /* Quick in Frameworks */ = {isa = PBXBuildFile; productRef = BCCAEE562698FEA2006F0707 /* Quick */; };
 		BCCAEE5A2698FFAC006F0707 /* ProjectListPageObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCAEE592698FFAC006F0707 /* ProjectListPageObject.swift */; };
@@ -103,6 +105,8 @@
 		BCC05BE426A9C1D0001B4C42 /* Grade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grade.swift; sourceTree = "<group>"; };
 		BCC650C1274563AD00C98743 /* ProjectNameEventService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectNameEventService.swift; sourceTree = "<group>"; };
 		BCC650C3274563BC00C98743 /* ProjectEventService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectEventService.swift; sourceTree = "<group>"; };
+		BCC650C627456AB300C98743 /* EphemeralEventStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EphemeralEventStore.swift; sourceTree = "<group>"; };
+		BCC650C827456AD900C98743 /* Publisher+Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+Log.swift"; sourceTree = "<group>"; };
 		BCCAEE592698FFAC006F0707 /* ProjectListPageObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectListPageObject.swift; sourceTree = "<group>"; };
 		BCDFE904273C684100DD35F7 /* ProjectSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSummary.swift; sourceTree = "<group>"; };
 		BCDFE906273D73E600DD35F7 /* DummyProjectService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyProjectService.swift; sourceTree = "<group>"; };
@@ -195,7 +199,6 @@
 			isa = PBXGroup;
 			children = (
 				BC43D992269B3852002C984E /* Project.swift */,
-				BC2DE80D2724C3870015C190 /* Attempt.swift */,
 				BC927089269B7054002734CD /* ProjectService.swift */,
 			);
 			path = Project;
@@ -336,6 +339,8 @@
 			isa = PBXGroup;
 			children = (
 				BCDFE90A273DA12F00DD35F7 /* EventStore.swift */,
+				BCC650C827456AD900C98743 /* Publisher+Log.swift */,
+				BCC650C627456AB300C98743 /* EphemeralEventStore.swift */,
 			);
 			path = EventStore;
 			sourceTree = "<group>";
@@ -482,12 +487,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC43D9A4269B3D73002C984E /* HuecoGrade.swift in Sources */,
-				BC2DE80E2724C3870015C190 /* Attempt.swift in Sources */,
 				BC9C2B9B26A7A2EF00520E04 /* CategoryPicker.swift in Sources */,
 				BC00EE592742CFEE00A480A6 /* ProjectNameService.swift in Sources */,
 				BCC650C2274563AD00C98743 /* ProjectNameEventService.swift in Sources */,
 				BC0B37A1273C3EF70069B575 /* FontGrade.swift in Sources */,
+				BCC650C727456AB300C98743 /* EphemeralEventStore.swift in Sources */,
 				BC46720A268FB96E00B2CBE7 /* ProjectListView.swift in Sources */,
+				BCC650C927456AD900C98743 /* Publisher+Log.swift in Sources */,
 				BC43D993269B3852002C984E /* Project.swift in Sources */,
 				BC2ECFF0269B9C7200838466 /* ProjectListElementView.swift in Sources */,
 				BCDFE905273C684100DD35F7 /* ProjectSummary.swift in Sources */,
