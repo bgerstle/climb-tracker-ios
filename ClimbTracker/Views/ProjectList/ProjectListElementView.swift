@@ -12,6 +12,9 @@ struct ProjectListElementView: View {
 
     var body: some View {
         VStack(alignment: .leading) {
+            if let name = project.name {
+                Text(name).padding(.bottom)
+            }
             HStack(alignment: .firstTextBaseline) {
                 Text(project.grade)
                     .accessibilityIdentifier("projectListElementGrade")

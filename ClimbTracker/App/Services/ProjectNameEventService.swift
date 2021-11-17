@@ -15,8 +15,8 @@ class ProjectNameEventService : ProjectNameService {
         self.eventStore = eventStore
     }
 
-    func projectNamedEventPublisher() async throws -> TopicEventPublisher<ProjectNameEvent> {
-        (try await allNamesTopic()).eventPublisher
+    var projectNamedEventPublisher: TopicEventPublisher<ProjectNameEvent> {
+        eventStore.namespaceEvents()
     }
 
     private func allNamesTopic() async throws -> AnyTopic<ProjectNameEvent> {
