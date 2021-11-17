@@ -39,9 +39,9 @@ class AddProjectViewModel: ObservableObject {
             do {
                 switch self.selectedCategory {
                 case .boulder:
-                    try await projectService.create(grade: selectedBoulderGrade, name: optionalProjectName)
+                    try await projectService.create(grade: selectedBoulderGrade)
                 case .rope:
-                    try await projectService.create(grade: selectedRopeGrade, name: optionalProjectName)
+                    try await projectService.create(grade: selectedRopeGrade)
                 }
             } catch {
                 print("TODO: put this in the UI! \(error)")
