@@ -41,14 +41,21 @@ class AddProjectViewModel: ObservableObject {
     }
 
     private func validateProjectName() {
-        self.validateProjectNameSubscription =  $projectName.sink { name in
-            Task {
-                do {
-                    self.projectNameValid = try await self.projectNameService.getProject(forName: name) == nil
-                } catch {
-                }
+        $projectName.flatMap { [weak self] (name) -> AnyPublisher<Bool, Never> in
+            guard let self = self else { return Just(true).eraseToAnyPublisher() }
+
+            // Allow name field to be empty, which will later be interpreted as not having a name
+            if name.isEmpty {
+                return Just(true).eraseToAnyPublisher()
             }
-        }
+
+            return Future { promise in
+                Task {
+                    let isValid = await self.projectNameService.isValid(name: name)
+                    promise(.success(isValid))
+                }
+            }.eraseToAnyPublisher()
+        }.assign(to: &$projectNameValid)
     }
 
     var optionalProjectName: String? {

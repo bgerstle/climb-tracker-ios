@@ -33,11 +33,7 @@ class ProjectNameEventService : ProjectNameService {
     }
 
     func name(projectId: ProjectID, _ name: String) async throws {
-        let currentEvents = try await allNamesTopic().events()
-
-        if let otherProjectWithName = currentEvents.currentProjectNames()[name]{
-            throw NameAlreadyTaken(name: name, unnamedProjectId: projectId, namedProjectId: otherProjectWithName)
-        }
+        try await validate(name: name)
 
         try await allNamesTopic().write(
             EventEnvelope(
@@ -46,17 +42,6 @@ class ProjectNameEventService : ProjectNameService {
             )
         )
     }
-}
-
-struct NameAlreadyTaken : Error {
-    let name: String
-    let unnamedProjectId: ProjectID
-    let namedProjectId: ProjectID
-}
-
-struct ProjectAlreadyNamed : Error {
-    let name: String
-    let projectId: ProjectID
 }
 
 extension Sequence where Element == EventEnvelope<ProjectNameEvent> {
