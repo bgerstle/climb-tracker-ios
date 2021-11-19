@@ -38,16 +38,16 @@ extension EventEnvelope {
     }
 }
 
-typealias TopicEventPublisher<E: TopicEvent> = AnyPublisher<EventEnvelope<E>, Never>
+typealias TopicEventPublisher<E: PersistableTopicEvent> = AnyPublisher<EventEnvelope<E>, Never>
 
 protocol EventStore {
-    func findTopic<E: TopicEvent>(id topicId: TopicIdentifier, eventType: E.Type) async throws -> AnyTopic<E>?
+    func findTopic<E: PersistableTopicEvent>(id topicId: TopicIdentifier, eventType: E.Type) async throws -> AnyTopic<E>?
 
-    func createTopic<E: TopicEvent>(id topicId: TopicIdentifier, eventType: E.Type) async throws -> AnyTopic<E>
+    func createTopic<E: PersistableTopicEvent>(id topicId: TopicIdentifier, eventType: E.Type) async throws -> AnyTopic<E>
 
-    func namespaceEvents<E: TopicEvent>() -> TopicEventPublisher<E>
+    func namespaceEvents<E: PersistableTopicEvent>() -> TopicEventPublisher<E>
 
-    func findOrCreateTopic<E: TopicEvent>(id topicId: TopicIdentifier, eventType: E.Type) async throws -> AnyTopic<E>
+    func findOrCreateTopic<E: PersistableTopicEvent>(id topicId: TopicIdentifier, eventType: E.Type) async throws -> AnyTopic<E>
 }
 
 protocol SomeTopic {
@@ -55,7 +55,7 @@ protocol SomeTopic {
 }
 
 protocol Topic : SomeTopic {
-    associatedtype Event: TopicEvent
+    associatedtype Event: PersistableTopicEvent
 
     func write(_ eventEnvelope: EventEnvelope<Event>) async throws
 
@@ -83,7 +83,7 @@ struct TopicAlreadyExists : Error {
     let id: TopicIdentifier
 }
 
-class AnyTopic<E: TopicEvent> : Topic {
+class AnyTopic<E: PersistableTopicEvent> : Topic {
     let id: TopicIdentifier
 
     typealias Event = E

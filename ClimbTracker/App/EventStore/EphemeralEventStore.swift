@@ -14,18 +14,18 @@ actor EphemeralEventStore : EventStore {
 
     var namespaces = CurrentValueSubject<TopicNamespaceMap, Never>([:])
 
-    func findTopic<E: TopicEvent>(id topicId: TopicIdentifier, eventType: E.Type) async throws -> AnyTopic<E>? {
+    func findTopic<E: PersistableTopicEvent>(id topicId: TopicIdentifier, eventType: E.Type) async throws -> AnyTopic<E>? {
         return try _findTopic(id: topicId, eventType: eventType)
     }
 
-    func findOrCreateTopic<E: TopicEvent>(id topicId: TopicIdentifier, eventType: E.Type) async throws -> AnyTopic<E> {
+    func findOrCreateTopic<E: PersistableTopicEvent>(id topicId: TopicIdentifier, eventType: E.Type) async throws -> AnyTopic<E> {
         guard let existingTopic = try _findTopic(id: topicId, eventType: eventType) else {
             return try _createTopic(id: topicId, eventType: eventType)
         }
         return existingTopic
     }
 
-    func createTopic<E>(id topicId: TopicIdentifier, eventType: E.Type) async throws -> AnyTopic<E> where E : TopicEvent {
+    func createTopic<E>(id topicId: TopicIdentifier, eventType: E.Type) async throws -> AnyTopic<E> where E : PersistableTopicEvent {
         return try _createTopic(id: topicId, eventType: eventType)
     }
 
@@ -37,7 +37,7 @@ actor EphemeralEventStore : EventStore {
 
      Generally speaking, the easiest way to avoid breaking invariants across an await is to encapsulate state updates in synchronous actor functions.
      */
-    private func _findTopic<E: TopicEvent>(id topicId: TopicIdentifier, eventType: E.Type) throws -> AnyTopic<E>? {
+    private func _findTopic<E: PersistableTopicEvent>(id topicId: TopicIdentifier, eventType: E.Type) throws -> AnyTopic<E>? {
         guard let namespace = namespaces.value[E.namespace],
               let someTopic = namespace.value.first(where: { $0.id == topicId }) else {
                   return nil
@@ -49,7 +49,7 @@ actor EphemeralEventStore : EventStore {
         return AnyTopic(topic)
     }
 
-    private func _createTopic<E>(id topicId: TopicIdentifier, eventType: E.Type) throws -> AnyTopic<E> where E : TopicEvent {
+    private func _createTopic<E>(id topicId: TopicIdentifier, eventType: E.Type) throws -> AnyTopic<E> where E : PersistableTopicEvent {
         let namespace = namespaces.value[E.namespace, default: CurrentValueSubject(TopicNamespace())]
 
         if try _findTopic(id: topicId, eventType: eventType) != nil {
@@ -100,7 +100,7 @@ actor EphemeralEventStore : EventStore {
     }
 }
 
-actor EphemeralTopic<E: TopicEvent> : Topic {
+actor EphemeralTopic<E: PersistableTopicEvent> : Topic {
     typealias Event = E
 
     let id: TopicIdentifier

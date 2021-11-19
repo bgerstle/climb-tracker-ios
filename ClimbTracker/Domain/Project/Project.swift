@@ -63,13 +63,13 @@ struct BoulderProject : ProjectType {
     var attempts: [AnyAttempt] { boulderAttempts }
     var match: Project { .boulder(self) }
 
-    struct Created {
+    struct Created : Hashable, Codable {
         let projectId: ProjectID
         let createdAt: Date
         let grade: AnyBoulderGrade
     }
 
-    struct Attempted {
+    struct Attempted : Hashable, Codable {
         let projectId: ProjectID
         let attemptId: UUID
         let didSend: Bool
@@ -96,20 +96,31 @@ struct BoulderProject : ProjectType {
             }
         }
 
+        // Probably better to use Avro at some point...
+        static var decoder: JSONDecoder {
+            JSONDecoder()
+        }
+
+        static var encoder: JSONEncoder {
+            JSONEncoder()
+        }
+
+        // FIXME: make this "throws" or a Result
         var payload: Data {
-            // TODO:
-            Data()
+            switch self {
+            case .created(let payload):
+                return try! Self.encoder.encode(payload)
+            case .attempted(let payload):
+                return try! Self.encoder.encode(payload)
+            }
         }
 
         init?(payloadType: PayloadType, payload: Data) {
             switch payloadType {
             case .created:
-                guard let grade = AnyBoulderGrade(rawValue: "V4") else {
-                    return nil
-                }
-                self = .created(Created(projectId: UUID(), createdAt: Date(), grade: grade))
+                self = .created(try! Self.decoder.decode(Created.self, from: payload))
             case .attempted:
-                self = .attempted(Attempted(projectId: UUID(), attemptId: UUID(), didSend: false, attemptedAt: Date()))
+                self = .attempted(try! Self.decoder.decode(Attempted.self, from: payload))
             }
         }
     }
@@ -129,8 +140,9 @@ struct RopeProject : Identifiable, AnyProject, Hashable {
     let createdAt: Date
     let grade: AnyRopeGrade
 
-    enum Subcategory {
-        case topRope, sport
+    enum Subcategory : String, Hashable, Codable {
+        case topRope = "topRope"
+        case sport = "sport"
     }
 
     struct Attempt: AttemptType {
@@ -145,13 +157,13 @@ struct RopeProject : Identifiable, AnyProject, Hashable {
     var attempts: [AnyAttempt] { ropeAttempts }
     var match: Project { .rope(self) }
 
-    struct Created {
+    struct Created : Hashable, Codable {
         let projectId: UUID
         let createdAt: Date
         let grade: AnyRopeGrade
     }
 
-    struct Attempted {
+    struct Attempted : Hashable, Codable {
         let projectId: UUID
         let attemptId: UUID
         let didSend: Bool
@@ -159,11 +171,51 @@ struct RopeProject : Identifiable, AnyProject, Hashable {
         let subcategory: Subcategory
     }
 
-    enum Event : TopicEvent {
+    enum Event : PersistableTopicEvent {
         static var namespace: String { "rope-projects" }
         
         case created(Created)
         case attempted(Attempted)
+
+        enum PayloadType : String, CaseIterable, StringRawRepresentable {
+            case created = "created"
+            case attempted = "attempted"
+        }
+
+        static var decoder: JSONDecoder {
+            JSONDecoder()
+        }
+
+        static var encoder: JSONEncoder {
+            JSONEncoder()
+        }
+
+        var payload: Data {
+            switch self {
+            case .created(let payload):
+                return try! Self.encoder.encode(payload)
+            case .attempted(let payload):
+                return try! Self.encoder.encode(payload)
+            }
+        }
+
+        var payloadType: PayloadType {
+            switch self {
+            case .created(_):
+                return .created
+            case .attempted(_):
+                return .attempted
+            }
+        }
+
+        init?(payloadType: PayloadType, payload: Data) {
+            switch payloadType {
+            case .created:
+                self = .created(try! Self.decoder.decode(Created.self, from: payload))
+            case .attempted:
+                self = .attempted(try! Self.decoder.decode(Attempted.self, from: payload))
+            }
+        }
     }
 
     init(_ event: Created) {

@@ -16,11 +16,11 @@ struct ClimbTrackerApp: App {
     }
     func setupDatabase() throws -> DatabasePool {
         // TODO: show error page if this fails
-        let dbPath = Bundle.main
-                           .resourceURL!
-                           .appendingPathComponent("database.sqlite")
-                           .absoluteString,
-            db = try DatabasePool(path: dbPath)
+        let dbPath = try FileManager.default
+            .url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+            .appendingPathComponent("db.sqlite")
+            .path,
+        db = try DatabasePool(path: dbPath)
 
         var migrator = DatabaseMigrator()
         migrator.setupEventStoreMigrations()
@@ -31,10 +31,9 @@ struct ClimbTrackerApp: App {
     }
 
     var body: some Scene {
+        // FIXME remove try!
         let db = try! setupDatabase(),
-            // FIXME
-            _ = try! PersistentEventStore(db: db),
-            eventStore = EphemeralEventStore(),
+            eventStore = try! PersistentEventStore(db: db),
             projectService = ProjectEventService(eventStore: eventStore),
             projectNameService = ProjectNameEventService(eventStore: eventStore),
             summarizer: ProjectSummarizer = ProjectSummarizer(),

@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum AnyBoulderGrade : RawRepresentable, Hashable {
+enum AnyBoulderGrade : RawRepresentable, Hashable, Codable {
     case hueco(HuecoGrade)
     case font(FontGrade)
 
@@ -33,7 +33,7 @@ enum AnyBoulderGrade : RawRepresentable, Hashable {
     }
 }
 
-enum AnyRopeGrade : RawRepresentable, Hashable {
+enum AnyRopeGrade : RawRepresentable, Hashable, Codable {
     case yosemite(YosemiteDecimalGrade)
     case french(FrenchGrade)
 

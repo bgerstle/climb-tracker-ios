@@ -9,7 +9,7 @@ import Foundation
 import GRDB
 import Combine
 
-class PersistentEventStore /*: EventStore*/ {
+class PersistentEventStore : EventStore {
     let db: DatabaseWriter
 
     init(db: DatabaseWriter) throws {
