@@ -76,11 +76,42 @@ struct BoulderProject : ProjectType {
         let attemptedAt: Date
     }
 
-    enum Event : TopicEvent {
+    enum Event : PersistableTopicEvent {
         static var namespace: String { "boulder-projects" }
 
         case created(Created)
         case attempted(Attempted)
+
+        enum PayloadType : String, CaseIterable, StringRawRepresentable {
+            case created = "created"
+            case attempted = "attempted"
+        }
+
+        var payloadType: PayloadType {
+            switch self {
+            case .created(_):
+                return .created
+            case .attempted(_):
+                return .attempted
+            }
+        }
+
+        var payload: Data {
+            // TODO:
+            Data()
+        }
+
+        init?(payloadType: PayloadType, payload: Data) {
+            switch payloadType {
+            case .created:
+                guard let grade = AnyBoulderGrade(rawValue: "V4") else {
+                    return nil
+                }
+                self = .created(Created(projectId: UUID(), createdAt: Date(), grade: grade))
+            case .attempted:
+                self = .attempted(Attempted(projectId: UUID(), attemptId: UUID(), didSend: false, attemptedAt: Date()))
+            }
+        }
     }
 
     init(_ event: Created) {

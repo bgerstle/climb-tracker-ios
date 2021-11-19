@@ -10,8 +10,8 @@ import Combine
 
 // Utility to publish all current and future elements in an *append-only* collection
 // TODO: use types to enforce append-only collection
-extension Publisher where Output: Collection, Failure == Never {
-    var logPublisher: AnyPublisher<Output.Element, Never> {
+extension Publisher where Output: Collection {
+    var logPublisher: AnyPublisher<Output.Element, Failure> {
         // assumes elements are only appended so that new ones are always at the end,
         // which implies that the publisher only signals when new elements are added
         var offset = 0

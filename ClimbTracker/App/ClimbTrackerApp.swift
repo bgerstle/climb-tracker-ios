@@ -7,11 +7,34 @@
 
 import SwiftUI
 import Combine
+import GRDB
 
 @main
 struct ClimbTrackerApp: App {
+    enum DBSetupError : Error {
+        case pathNotFound(path: String)
+    }
+    func setupDatabase() throws -> DatabasePool {
+        // TODO: show error page if this fails
+        let dbPath = Bundle.main
+                           .resourceURL!
+                           .appendingPathComponent("database.sqlite")
+                           .absoluteString,
+            db = try DatabasePool(path: dbPath)
+
+        var migrator = DatabaseMigrator()
+        migrator.setupEventStoreMigrations()
+
+        try migrator.migrate(db)
+
+        return db
+    }
+
     var body: some Scene {
-        let eventStore = EphemeralEventStore(),
+        let db = try! setupDatabase(),
+            // FIXME
+            _ = try! PersistentEventStore(db: db),
+            eventStore = EphemeralEventStore(),
             projectService = ProjectEventService(eventStore: eventStore),
             projectNameService = ProjectNameEventService(eventStore: eventStore),
             summarizer: ProjectSummarizer = ProjectSummarizer(),

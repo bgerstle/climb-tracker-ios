@@ -9,13 +9,26 @@ import Foundation
 import Combine
 
 protocol TopicEvent {
-    static var namespace: String { get }
+    static var namespace: TopicNamespaceIdentifier { get }
+}
+
+protocol StringRawRepresentable : RawRepresentable where RawValue == String { }
+
+protocol PersistableTopicEvent : TopicEvent {
+    associatedtype PayloadType: CaseIterable, StringRawRepresentable
+
+    var payloadType: PayloadType { get }
+
+    var payload: Data { get }
+
+    init?(payloadType: PayloadType, payload: Data)
 }
 
 struct EventEnvelope<T> {
     let event: T
     let timestamp: Date
 }
+extension EventEnvelope : Codable where T: Codable { }
 extension EventEnvelope : Equatable where T: Equatable {}
 extension EventEnvelope : Hashable where T: Hashable {}
 
