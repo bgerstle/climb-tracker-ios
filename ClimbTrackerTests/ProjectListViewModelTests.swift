@@ -6,86 +6,274 @@
 //
 
 import XCTest
-import Quick
 import Combine
 import CombineExpectations
 @testable import ClimbTracker
 
-class ProjectListViewModelTests: QuickSpec {
-    typealias TestProjectEventSubject = PassthroughSubject<EventEnvelope<ProjectEvent>, Never>
-    var eventSubject: TestProjectEventSubject! = nil
+@MainActor
+class ProjectListViewModelTests: XCTestCase {
+    typealias TestProjectSummaryEventSubject = PassthroughSubject<EventEnvelope<ProjectSummary.Event>, Never>
+    var eventSubject: TestProjectSummaryEventSubject! = nil
     var viewModel: ProjectListViewModel! = nil
-    var cancellables: [AnyCancellable] = []
+    var testProjectService: TestProjectService! = nil
 
-    override func spec() {
-        beforeEach {
-            self.continueAfterFailure = false
-            self.eventSubject = TestProjectEventSubject()
-            self.cancellables = []
-            self.viewModel = ProjectListViewModel()
+    override func setUp() async throws {
+        await isolatedSetUp()
+    }
+
+    func isolatedSetUp() {
+        self.continueAfterFailure = false
+        self.eventSubject = TestProjectSummaryEventSubject()
+        self.testProjectService = TestProjectService()
+        self.viewModel = ProjectListViewModel(projectService: self.testProjectService)
+    }
+
+    func testHandleEvent_WhenSummaryCreated_ThenSummaryAddedToList() throws {
+        let payload = ProjectSummary.Event.Created(
+                id: UUID(),
+                createdAt: Date(),
+                grade: HuecoGrade.four.rawValue,
+                category: .boulder
+            ),
+            event = ProjectSummary.Event.created(payload),
+            eventEnvelope = EventEnvelope(event: event, timestamp: Date()),
+            projectListRecorder = viewModel.$projects.dropFirst().record()
+
+        viewModel.handle(eventEnvelope)
+
+        let actualClimbList = try wait(for: projectListRecorder.next(), timeout: 2.0)
+
+        XCTAssertEqual(actualClimbList.count, 1)
+        guard let actualSummary = actualClimbList.first else { XCTFail(); return }
+
+        XCTAssertEqual(actualSummary.id, payload.id)
+        XCTAssertEqual(actualSummary.category, payload.category)
+        XCTAssertEqual(actualSummary.grade, payload.grade)
+        XCTAssertEqual(actualSummary.attemptCount, 0)
+        XCTAssertEqual(actualSummary.didSend, false)
+        XCTAssertNil(actualSummary.name)
+        // TODO: title
+    }
+
+    func testHandleEvent_WhenSummaryCreatedAndNamed_ThenSummaryAddedToListAndUpdatedWithName() throws {
+        let createdPayload = ProjectSummary.Event.Created(
+                id: UUID(),
+                createdAt: Date(),
+                grade: HuecoGrade.four.rawValue,
+                category: .boulder
+            ),
+            namedPayload = ProjectSummary.Event.Named(projectId: createdPayload.id, name: "foo"),
+            // ignore initially empty list
+            projectListRecorder = viewModel.$projects.dropFirst().record()
+
+        viewModel.handle(EventEnvelope(event: .created(createdPayload),
+                                       timestamp: Date()))
+        viewModel.handle(EventEnvelope(event: .named(namedPayload),
+                                       timestamp: Date()))
+
+        guard let finalClimbList = try wait(for: projectListRecorder.next(2), timeout: 2.0).last else {
+            XCTFail(); return
         }
 
-        afterEach {
-            self.cancellables.forEach { $0.cancel() }
+        XCTAssertEqual(finalClimbList.count, 1)
+        guard let actualSummary = finalClimbList.first else { XCTFail(); return }
+
+        XCTAssertEqual(actualSummary.id, createdPayload.id)
+        XCTAssertEqual(actualSummary.category, createdPayload.category)
+        XCTAssertEqual(actualSummary.grade, createdPayload.grade)
+        XCTAssertEqual(actualSummary.attemptCount, 0)
+        XCTAssertEqual(actualSummary.didSend, false)
+        XCTAssertEqual(actualSummary.name, namedPayload.name)
+    }
+
+    func testHandleEvent_WhenSummaryNamedAndCreated_ThenSummaryAddedToListWithName() throws {
+        let createdPayload = ProjectSummary.Event.Created(
+                id: UUID(),
+                createdAt: Date(),
+                grade: HuecoGrade.four.rawValue,
+                category: .boulder
+            ),
+            namedPayload = ProjectSummary.Event.Named(projectId: createdPayload.id, name: "foo"),
+            // ignore initially empty list
+            projectListRecorder = viewModel.$projects.dropFirst().record()
+
+        viewModel.handle(EventEnvelope(event: .named(namedPayload),
+                                       timestamp: Date()))
+        viewModel.handle(EventEnvelope(event: .created(createdPayload),
+                                       timestamp: Date()))
+
+        let finalClimbList = try wait(for: projectListRecorder.next(), timeout: 2.0)
+
+        XCTAssertEqual(finalClimbList.count, 1)
+        guard let actualSummary = finalClimbList.first else { XCTFail(); return }
+
+        XCTAssertEqual(actualSummary.id, createdPayload.id)
+        XCTAssertEqual(actualSummary.category, createdPayload.category)
+        XCTAssertEqual(actualSummary.grade, createdPayload.grade)
+        XCTAssertEqual(actualSummary.attemptCount, 0)
+        XCTAssertEqual(actualSummary.didSend, false)
+        XCTAssertEqual(actualSummary.name, namedPayload.name)
+    }
+
+    func testHandleEvent_WhenSummaryCreatedAndAttempted_ThenSummaryUpdatedWithAttempt() throws {
+        let createdPayload = ProjectSummary.Event.Created(
+                id: UUID(),
+                createdAt: Date(),
+                grade: HuecoGrade.four.rawValue,
+                category: .boulder
+            ),
+            attemptedPayload = ProjectSummary.Event.Attempted(projectId: createdPayload.id, didSend: false),
+            // ignore initially empty list
+            projectListRecorder = viewModel.$projects.dropFirst().record()
+
+        viewModel.handle(EventEnvelope(event: .created(createdPayload),
+                                       timestamp: Date()))
+        viewModel.handle(EventEnvelope(event: .attempted(attemptedPayload),
+                                       timestamp: Date()))
+
+        // publishes list w/ created project, then "updated" list w/ attempted project
+        let publishedLists = try wait(for: projectListRecorder.next(2), timeout: 2.0)
+
+        guard let finalClimbList = publishedLists.last else { XCTFail(); return }
+
+        XCTAssertEqual(finalClimbList.count, 1)
+        guard let actualSummary = finalClimbList.first else { XCTFail(); return }
+
+        XCTAssertEqual(actualSummary.id, createdPayload.id)
+        XCTAssertEqual(actualSummary.category, createdPayload.category)
+        XCTAssertEqual(actualSummary.grade, createdPayload.grade)
+        XCTAssertEqual(actualSummary.attemptCount, 1)
+        XCTAssertEqual(actualSummary.didSend, attemptedPayload.didSend)
+    }
+
+    func testHandleEvent_GivenTwoProjects_WhenOneAttempted_ThenCorrectSummaryUpdated() throws {
+        let createdPayload1 = ProjectSummary.Event.Created(
+                id: UUID(),
+                createdAt: Date(),
+                grade: HuecoGrade.four.rawValue,
+                category: .boulder
+            ),
+            createdPayload2 = ProjectSummary.Event.Created(
+                    id: UUID(),
+                    createdAt: Date(),
+                    grade: YosemiteDecimalGrade.tenA.rawValue,
+                    category: .rope
+                ),
+            attemptedPayload = ProjectSummary.Event.Attempted(projectId: createdPayload1.id, didSend: true),
+            // ignore initially empty list
+            projectListRecorder = viewModel.$projects.dropFirst().record()
+
+        viewModel.handle(EventEnvelope(event: .created(createdPayload1),
+                                       timestamp: Date()))
+        viewModel.handle(EventEnvelope(event: .created(createdPayload2),
+                                       timestamp: Date()))
+        viewModel.handle(EventEnvelope(event: .attempted(attemptedPayload),
+                                       timestamp: Date()))
+
+        // publishes list w/ created project, then "updated" list w/ attempted project
+        let publishedLists = try wait(for: projectListRecorder.next(3), timeout: 2.0)
+
+        guard let finalClimbList = publishedLists.last else { XCTFail(); return }
+
+        XCTAssertEqual(finalClimbList.count, 2)
+        guard let attemptedSummary = finalClimbList.first(where: { $0.id == attemptedPayload.projectId }) else {
+            XCTFail(); return
         }
 
-        describe("Handling climb created events") {
-            context("When a climb created event is published") {
-                it("Then it publishes the new climb list with one element") {
-                    let climb = Project<BoulderAttempt>(
-                            id: UUID(),
-                            createdAt: Date(),
-                            grade: HuecoGrade.easy,
-                            climbs: []
-                        ),
-                        eventEnvelope = EventEnvelope(event: ProjectEvent.created(climb), timestamp: Date()),
-                        recorder = self.viewModel.$projects.dropFirst().record()
+        XCTAssertEqual(attemptedSummary.id, attemptedPayload.projectId)
+        XCTAssertEqual(attemptedSummary.id, createdPayload1.id)
+        XCTAssertEqual(attemptedSummary.category, createdPayload1.category)
+        XCTAssertEqual(attemptedSummary.grade, createdPayload1.grade)
+        XCTAssertEqual(attemptedSummary.attemptCount, 1)
+        XCTAssertEqual(attemptedSummary.didSend, attemptedPayload.didSend)
 
-                    self.viewModel.handleClimbEvents(self.eventSubject).store(in: &self.cancellables)
-                    self.eventSubject.send(eventEnvelope)
-
-                    let actualClimbList = try self.wait(for: recorder.next(), timeout: 2.0)
-
-                    XCTAssertEqual(actualClimbList.count, 1)
-                    XCTAssertEqual(actualClimbList.first!.id, climb.id)
-                }
-            }
-
-            context("When multiple climb created events are published") {
-                it("Then it publishes the new climb lists as elements are added") {
-                    let expectedClimb1 = Project<BoulderAttempt>(
-                            id: UUID(),
-                            createdAt: Date(),
-                            grade: HuecoGrade.easy,
-                            climbs: []
-                        ),
-                        expectedClimb2 = Project<BoulderAttempt>(
-                            id: UUID(),
-                            createdAt: Date().addingTimeInterval(1.0),
-                            grade: HuecoGrade.five,
-                            climbs: []
-                        ),
-                    eventEnvelope1 = EventEnvelope(event: ProjectEvent.created(expectedClimb1), timestamp: Date()),
-                        eventEnvelope2 = EventEnvelope(event: ProjectEvent.created(expectedClimb2), timestamp: Date()),
-                        recorder = self.viewModel.$projects.dropFirst().record()
-                    self.viewModel.handleClimbEvents(self.eventSubject).store(in: &self.cancellables)
-
-
-                    self.eventSubject.send(eventEnvelope1)
-                    self.eventSubject.send(eventEnvelope2)
-
-                    let actualClimbLists = try self.wait(for: recorder.next(2), timeout: 2.0)
-
-                    XCTAssertEqual(actualClimbLists.count, 2)
-
-                    let firstList = actualClimbLists[0]
-                    XCTAssertEqual(firstList.first!.id, expectedClimb1.id)
-
-                    let secondList = actualClimbLists[1]
-                    XCTAssertEqual(secondList.first!.id, expectedClimb2.id)
-                    XCTAssertEqual(secondList[1].id, expectedClimb1.id)
-                }
-            }
+        guard let unattemptedSummary = finalClimbList.first(where: { $0.id != attemptedPayload.projectId }) else {
+            XCTFail(); return
         }
+
+        XCTAssertNotEqual(unattemptedSummary.id, attemptedPayload.projectId)
+        XCTAssertEqual(unattemptedSummary.id, createdPayload2.id)
+        XCTAssertEqual(unattemptedSummary.category, createdPayload2.category)
+        XCTAssertEqual(unattemptedSummary.grade, createdPayload2.grade)
+        XCTAssertEqual(unattemptedSummary.attemptCount, 0)
+        XCTAssertEqual(unattemptedSummary.didSend, false)
+    }
+
+    func testHandleEvent_GivenNamedAndUnnamedProjects_WhenAttempted_CorrectSummariesUpdated() throws {
+        let createdPayload1 = ProjectSummary.Event.Created(
+                id: UUID(),
+                createdAt: Date(),
+                grade: HuecoGrade.four.rawValue,
+                category: .boulder
+            ),
+            createdPayload2 = ProjectSummary.Event.Created(
+                    id: UUID(),
+                    createdAt: Date(),
+                    grade: YosemiteDecimalGrade.tenA.rawValue,
+                    category: .rope
+            ),
+            namedProject2 = ProjectSummary.Event.Named(
+                projectId: createdPayload2.id,
+                name: "foo"
+            ),
+            attemptedProject1 = ProjectSummary.Event.Attempted(projectId: createdPayload1.id, didSend: false),
+            attemptedProject2 = ProjectSummary.Event.Attempted(projectId: createdPayload2.id, didSend: true),
+            // ignore initially empty list
+            projectListRecorder = viewModel.$projects.dropFirst().record()
+
+        viewModel.handle(EventEnvelope(event: .created(createdPayload1),
+                                       timestamp: Date()))
+        viewModel.handle(EventEnvelope(event: .named(namedProject2),
+                                       timestamp: Date()))
+        viewModel.handle(EventEnvelope(event: .created(createdPayload2),
+                                       timestamp: Date()))
+        viewModel.handle(EventEnvelope(event: .attempted(attemptedProject2),
+                                       timestamp: Date()))
+        viewModel.handle(EventEnvelope(event: .attempted(attemptedProject1),
+                                       timestamp: Date()))
+
+        // publishes list w/ created project, then "updated" list w/ attempted project
+        let publishedLists = try wait(for: projectListRecorder.availableElements, timeout: 2.0)
+        XCTAssertEqual(publishedLists.count, 4)
+
+        guard let finalClimbList = publishedLists.last else { XCTFail(); return }
+
+        XCTAssertEqual(finalClimbList.count, 2)
+        guard let project1Summary = finalClimbList.first(where: { $0.id == createdPayload1.id }) else {
+            XCTFail(); return
+        }
+
+        XCTAssertEqual(project1Summary.category, createdPayload1.category)
+        XCTAssertEqual(project1Summary.grade, createdPayload1.grade)
+        XCTAssertEqual(project1Summary.attemptCount, 1)
+        XCTAssertEqual(project1Summary.didSend, attemptedProject1.didSend)
+
+        guard let project2Summary = finalClimbList.first(where: { $0.id == createdPayload2.id }) else {
+            XCTFail(); return
+        }
+
+        XCTAssertEqual(project2Summary.category, createdPayload2.category)
+        XCTAssertEqual(project2Summary.grade, createdPayload2.grade)
+        XCTAssertEqual(project2Summary.attemptCount, 1)
+        XCTAssertEqual(project2Summary.didSend, attemptedProject2.didSend)
+    }
+}
+
+class TestProjectService : ProjectService {
+    func create<G>(grade: G) async throws -> ProjectID where G : Boulder, G : Grade {
+        UUID()
+    }
+
+    func create<G>(grade: G) async throws -> ProjectID where G : Grade, G : Rope {
+        UUID()
+    }
+
+
+    func attempt(projectId: UUID, at: Date, didSend: Bool) async throws -> AttemptID {
+        UUID()
+    }
+
+    func attempt(projectId: UUID, at: Date, didSend: Bool, subcategory: RopeProject.Subcategory) async throws -> AttemptID {
+        UUID()
     }
 }

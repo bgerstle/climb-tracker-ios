@@ -50,6 +50,7 @@
 		BCCAEE5A2698FFAC006F0707 /* ProjectListPageObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCAEE592698FFAC006F0707 /* ProjectListPageObject.swift */; };
 		BCD1A7A32748478C00F85516 /* PersistentEventStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD1A7A22748478C00F85516 /* PersistentEventStoreTests.swift */; };
 		BCD1A7A5274C09AD00F85516 /* PrincipalClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD1A7A4274C09AD00F85516 /* PrincipalClass.swift */; };
+		BCD1A7A6274C10CC00F85516 /* ProjectListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2ECFDC269B877400838466 /* ProjectListViewModelTests.swift */; };
 		BCDFE905273C684100DD35F7 /* ProjectSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDFE904273C684100DD35F7 /* ProjectSummary.swift */; };
 		BCDFE907273D73E600DD35F7 /* PreviewServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDFE906273D73E600DD35F7 /* PreviewServices.swift */; };
 		BCDFE90B273DA12F00DD35F7 /* EventStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDFE90A273DA12F00DD35F7 /* EventStore.swift */; };
@@ -554,6 +555,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC00EE512741A89400A480A6 /* TestEvent.swift in Sources */,
+				BCD1A7A6274C10CC00F85516 /* ProjectListViewModelTests.swift in Sources */,
 				BC7F2F51274806B100AE5B0B /* TestDatabase.swift in Sources */,
 				BC00EE5B2742F71000A480A6 /* ProjectNameEventServiceTests.swift in Sources */,
 				BC00EE4E273F163E00A480A6 /* XCTestCase+Async.swift in Sources */,

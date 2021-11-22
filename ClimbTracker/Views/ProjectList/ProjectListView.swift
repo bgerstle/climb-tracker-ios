@@ -29,7 +29,7 @@ struct ProjectListView: View {
                     ProjectListElementView(project: projectSummary).swipeActions() {
                         Button {
                             viewModel.logAttempt(project: projectSummary,
-                                                           didSend: true)
+                                                 didSend: true)
                         } label: {
                             Label("Send", systemImage: "checkmark")
                         }
@@ -38,7 +38,7 @@ struct ProjectListView: View {
 
                         Button {
                             viewModel.logAttempt(project: projectSummary,
-                                                           didSend: false)
+                                                 didSend: false)
                         } label: {
                             Label("Attempt", systemImage: "plus")
                         }
