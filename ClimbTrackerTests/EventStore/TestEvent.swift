@@ -10,7 +10,7 @@ import Foundation
 import CombineExpectations
 
 enum TestEvent : PersistableTopicEvent, Equatable {
-    static var namespace: String { "test" }
+    static var namespace: String { "test-events" }
 
     case test
     case associatedValue(String)
@@ -44,12 +44,43 @@ enum TestEvent : PersistableTopicEvent, Equatable {
     init(payloadType: PayloadType, payload: Data) throws {
         switch payloadType {
         case .test:
-            self = TestEvent.test
+            self = Self.test
         case .associatedValue:
             guard let value = String(data: payload, encoding: .utf8) else {
                 throw TestEventPayloadDecodingError(payload: payload)
             }
-            self = TestEvent.associatedValue(value)
+            self = Self.associatedValue(value)
+        }
+    }
+}
+
+enum OtherTestEvent : PersistableTopicEvent, Equatable {
+    static var namespace: TopicNamespaceIdentifier { "other-test-events" }
+
+    case test
+
+    enum PayloadType : String, CaseIterable, StringRawRepresentable {
+        case test = "test"
+    }
+
+    var payloadType: PayloadType {
+        switch self {
+        case .test:
+            return .test
+        }
+    }
+
+    func payload() throws -> Data {
+        switch self {
+        case .test:
+            return Data()
+        }
+    }
+
+    init(payloadType: PayloadType, payload: Data) throws {
+        switch payloadType {
+        case .test:
+            self = Self.test
         }
     }
 }

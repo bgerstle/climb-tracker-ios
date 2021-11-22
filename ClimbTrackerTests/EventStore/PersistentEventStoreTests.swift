@@ -39,7 +39,24 @@ class PersistentEventStoreTests: XCTestCase {
         XCTAssertEqual(publishedEvents, [envelope])
     }
 
-    func testNamespaceEvents_GivenTwoTopics_WhenEventsWritten_ThenTheyArePublished() async throws {
+    func testNamespaceEvents_GivenTopicWithWrittenEvent_WhenInvoked_ThenItIsPublishesPreexistingEvents() async throws {
+        let event = TestEvent.test,
+            envelope = EventEnvelope(event: event, timestamp: Date().truncatedToSeconds())
+
+        let topic = try await eventStore.createTopic(id: "foo", eventType: TestEvent.self)
+        try await topic.write(envelope)
+
+        // get a fresh DB connection
+        try TestDatabase.eventStore.close()
+        try TestDatabase.eventStore.open()
+        eventStore = try PersistentEventStore(db: db)
+
+        let recorder: TestEventRecorder = eventStore.namespaceEvents().record()
+        let publishedEvents = try wait(for: recorder.availableElements, timeout: 1.0)
+        XCTAssertEqual(publishedEvents, [envelope])
+    }
+
+    func testNamespaceEvents_GivenTwoTopicsInNamespace_WhenEventsWritten_ThenTheyArePublished() async throws {
         let event = TestEvent.test,
             topic1Events = [
                 EventEnvelope(event: event, timestamp: Date().truncatedToSeconds()),
@@ -71,5 +88,22 @@ class PersistentEventStoreTests: XCTestCase {
 
         let publishedEvents = try wait(for: recorder.availableElements, timeout: 1.0)
         XCTAssertEqual(publishedEvents, topic1Events + topic2Events)
+    }
+
+    func testNamespaceEvents_GivenTwoTopicsInDiffNamespaces_WhenEventInOtherNSWritten_ThenOnlyPublishedInNS() async throws {
+        let event = OtherTestEvent.test,
+            otherNSEventEnvelope = EventEnvelope(event: event, timestamp: Date().truncatedToSeconds()),
+            testRecorder: TestEventRecorder = eventStore.namespaceEvents().record(),
+            otherTestRecorder: Recorder<EventEnvelope<OtherTestEvent>, Never> = eventStore.namespaceEvents().record()
+
+        let otherNSTopic = try await eventStore.createTopic(id: "bar", eventType: OtherTestEvent.self)
+
+        try await otherNSTopic.write(otherNSEventEnvelope)
+
+        let publishedTestEvents = try wait(for: testRecorder.availableElements, timeout: 1.0)
+        XCTAssertEqual(publishedTestEvents, [])
+
+        let publishedOtherEvents = try wait(for: otherTestRecorder.availableElements, timeout: 1.0)
+        XCTAssertEqual(publishedOtherEvents, [otherNSEventEnvelope])
     }
 }

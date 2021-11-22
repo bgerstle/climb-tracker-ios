@@ -23,14 +23,28 @@ class TestDatabase : NSObject, XCTestObservation {
     func testCaseWillStart(_ testCase: XCTestCase) {
         // delete any file left over from a crash
         try? FileManager.default.removeItem(atPath: tempDatabasePath)
-        db = try! DatabasePool(path: tempDatabasePath)
+        try! open()
         try! migrator.migrate(db)
     }
 
     func testCaseDidFinish(_ testCase: XCTestCase) {
-        try! db.close()
+        try! tearDown()
+    }
+
+    func tearDown() throws {
+        if db != nil {
+            try! close()
+            try? FileManager.default.removeItem(atPath: tempDatabasePath)
+        }
+    }
+
+    func close() throws {
+        try db.close()
         db = nil
-        try? FileManager.default.removeItem(atPath: tempDatabasePath)
+    }
+
+    func open() throws {
+        db = try DatabasePool(path: tempDatabasePath)
     }
 
     static let eventStore: TestDatabase = {
