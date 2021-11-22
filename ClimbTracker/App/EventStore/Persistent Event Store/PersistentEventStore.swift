@@ -114,23 +114,27 @@ struct DBEvent : Hashable, Codable, FetchableRecord, PersistableRecord {
         request(for: DBEvent.topicRelation)
     }
 
-    init<E: PersistableTopicEvent>(topicId: TopicIdentifier, envelope: EventEnvelope<E>) {
+    init<E: PersistableTopicEvent>(topicId: TopicIdentifier, envelope: EventEnvelope<E>) throws {
         self.topicId = topicId
         self.event = envelope.event.payloadType.rawValue
         self.timestamp = envelope.timestamp
-        self.payload = envelope.event.payload
+        self.payload = try envelope.event.payload()
     }
 }
 
 extension EventEnvelope where T: PersistableTopicEvent {
     init(dbEvent: DBEvent) throws {
         self.timestamp = dbEvent.timestamp
-        guard let payloadType = T.PayloadType(rawValue: dbEvent.event),
-              let deserializedEvent = T(payloadType: payloadType, payload: dbEvent.payload) else {
-            fatalError("throw something")
+        guard let payloadType = T.PayloadType(rawValue: dbEvent.event) else {
+            throw UnknownTopicEventPayloadType(rawValue: dbEvent.event, type: T.self)
         }
-        self.event = deserializedEvent
+        self.event = try T(payloadType: payloadType, payload: dbEvent.payload)
     }
+}
+
+struct UnknownTopicEventPayloadType<T> : Error {
+    let rawValue: String
+    let type: T.Type
 }
 
 class PersistentEventTopic<E: PersistableTopicEvent> : Topic {

@@ -105,22 +105,21 @@ struct BoulderProject : ProjectType {
             JSONEncoder()
         }
 
-        // FIXME: make this "throws" or a Result
-        var payload: Data {
+        func payload() throws -> Data {
             switch self {
             case .created(let payload):
-                return try! Self.encoder.encode(payload)
+                return try Self.encoder.encode(payload)
             case .attempted(let payload):
-                return try! Self.encoder.encode(payload)
+                return try Self.encoder.encode(payload)
             }
         }
 
-        init?(payloadType: PayloadType, payload: Data) {
+        init(payloadType: PayloadType, payload: Data) throws {
             switch payloadType {
             case .created:
-                self = .created(try! Self.decoder.decode(Created.self, from: payload))
+                self = .created(try Self.decoder.decode(Created.self, from: payload))
             case .attempted:
-                self = .attempted(try! Self.decoder.decode(Attempted.self, from: payload))
+                self = .attempted(try Self.decoder.decode(Attempted.self, from: payload))
             }
         }
     }
@@ -190,12 +189,12 @@ struct RopeProject : Identifiable, AnyProject, Hashable {
             JSONEncoder()
         }
 
-        var payload: Data {
+        func payload() throws -> Data {
             switch self {
             case .created(let payload):
-                return try! Self.encoder.encode(payload)
+                return try Self.encoder.encode(payload)
             case .attempted(let payload):
-                return try! Self.encoder.encode(payload)
+                return try Self.encoder.encode(payload)
             }
         }
 
@@ -208,12 +207,12 @@ struct RopeProject : Identifiable, AnyProject, Hashable {
             }
         }
 
-        init?(payloadType: PayloadType, payload: Data) {
+        init(payloadType: PayloadType, payload: Data) throws {
             switch payloadType {
             case .created:
-                self = .created(try! Self.decoder.decode(Created.self, from: payload))
+                self = .created(try Self.decoder.decode(Created.self, from: payload))
             case .attempted:
-                self = .attempted(try! Self.decoder.decode(Attempted.self, from: payload))
+                self = .attempted(try Self.decoder.decode(Attempted.self, from: payload))
             }
         }
     }

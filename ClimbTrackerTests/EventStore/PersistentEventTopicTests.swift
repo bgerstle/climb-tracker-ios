@@ -13,13 +13,7 @@ import GRDB
 class PersistentEventTopicTests : XCTestCase {
     var topic: PersistentEventTopic<TestEvent>!
 
-    static var testDatabase: TestDatabase!
-
-    var db: DatabaseWriter! { PersistentEventTopicTests.testDatabase.db }
-
-    override class func setUp() {
-        testDatabase = TestDatabase.eventStore()
-    }
+    var db: DatabaseWriter! { TestDatabase.eventStore.db }
 
     override func setUpWithError() throws {
         let dbTopic = DBTopic(id: "foo", namespace: TestEvent.namespace)

@@ -31,9 +31,9 @@ protocol PersistableTopicEvent : TopicEvent {
 
     var payloadType: PayloadType { get }
 
-    var payload: Data { get }
+    func payload() throws -> Data
 
-    init?(payloadType: PayloadType, payload: Data)
+    init(payloadType: PayloadType, payload: Data) throws
 }
 
 extension EventEnvelope {

@@ -13,12 +13,9 @@ import CombineExpectations
 class PersistentEventStoreTests: XCTestCase {
     static var testDatabase: TestDatabase!
 
-    var db: DatabaseWriter! { PersistentEventStoreTests.testDatabase.db }
+    var db: DatabaseWriter! { TestDatabase.eventStore.db }
+    
     var eventStore: PersistentEventStore!
-
-    override class func setUp() {
-        testDatabase = TestDatabase.eventStore()
-    }
 
     override func setUpWithError() throws {
         eventStore = try PersistentEventStore(db: db)

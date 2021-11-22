@@ -29,26 +29,37 @@ enum TestEvent : PersistableTopicEvent, Equatable {
         }
     }
 
-    var payload: Data {
+    func payload() throws -> Data {
         switch self {
         case .test:
             return Data()
         case .associatedValue(let value):
-            return value.data(using: .utf8)!
+            guard let data = value.data(using: .utf8) else {
+                throw TestEventPayloadEncodingError(payload: value)
+            }
+            return data
         }
     }
 
-    init?(payloadType: PayloadType, payload: Data) {
+    init(payloadType: PayloadType, payload: Data) throws {
         switch payloadType {
         case .test:
             self = TestEvent.test
         case .associatedValue:
             guard let value = String(data: payload, encoding: .utf8) else {
-                return nil
+                throw TestEventPayloadDecodingError(payload: payload)
             }
             self = TestEvent.associatedValue(value)
         }
     }
+}
+
+struct TestEventPayloadEncodingError : Error {
+    let payload: String
+}
+
+struct TestEventPayloadDecodingError : Error {
+    let payload: Data
 }
 
 typealias TestEventRecorder = Recorder<EventEnvelope<TestEvent>, Never>

@@ -29,10 +29,10 @@ enum ProjectNameEvent : PersistableTopicEvent {
         JSONDecoder()
     }
 
-    var payload: Data {
+    func payload() throws -> Data {
         switch self {
         case .named(let payload):
-            return try! Self.encoder.encode(payload)
+            return try Self.encoder.encode(payload)
         }
     }
 
@@ -43,10 +43,10 @@ enum ProjectNameEvent : PersistableTopicEvent {
         }
     }
 
-    init?(payloadType: PayloadType, payload: Data) {
+    init(payloadType: PayloadType, payload: Data) throws {
         switch payloadType {
         case .named:
-            self = .named(try! Self.decoder.decode(Named.self, from: payload))
+            self = .named(try Self.decoder.decode(Named.self, from: payload))
         }
     }
 }
