@@ -23,6 +23,7 @@ class AddProjectViewUITests: QuickSpec {
         beforeEach {
             self.continueAfterFailure = false
             self.app = XCUIApplication()
+            self.app.resetDatabaseOnLaunch()
             self.app.launch()
         }
 
@@ -41,7 +42,6 @@ class AddProjectViewUITests: QuickSpec {
                         XCTAssertEqual(self.projectList.rows.count, 1)
                         let firstRow = self.projectList.rows.first!
                         XCTAssertTrue(firstRow.gradeLabelText.contains("VB"))
-                        XCTAssertTrue(firstRow.titleLabelText.contains("Boulder"))
                     }
                 }
 
@@ -78,8 +78,6 @@ class AddProjectViewUITests: QuickSpec {
 
                         let firstRow = self.projectList.rows.first
                         XCTAssertTrue((firstRow?.gradeLabelText ?? "").contains(rawGradeValue))
-
-                        XCTAssertTrue((firstRow?.titleLabelText ?? "").contains(defaultCategory))
                     }
                 }
 
@@ -100,8 +98,6 @@ class AddProjectViewUITests: QuickSpec {
 
                         let firstRow = self.projectList.rows.first
                         XCTAssertTrue((firstRow?.gradeLabelText ?? "").contains(defaultGrade))
-
-                        XCTAssertTrue((firstRow?.titleLabelText ?? "").contains(rawCategoryValue))
                     }
                 }
 
@@ -124,8 +120,6 @@ class AddProjectViewUITests: QuickSpec {
 
                         let firstRow = self.projectList.rows.first
                         XCTAssertTrue((firstRow?.gradeLabelText ?? "").contains(rawGradeValue))
-
-                        XCTAssertTrue((firstRow?.titleLabelText ?? "").contains(rawCategoryValue))
                     }
                 }
             }

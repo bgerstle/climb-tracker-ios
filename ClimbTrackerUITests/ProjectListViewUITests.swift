@@ -19,6 +19,7 @@ class ProjectListViewUITests: QuickSpec {
         beforeEach {
             self.continueAfterFailure = false
             self.app = XCUIApplication()
+            self.app.resetDatabaseOnLaunch()
             self.app.launch()
         }
 

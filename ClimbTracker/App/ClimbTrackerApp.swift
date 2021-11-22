@@ -14,12 +14,17 @@ struct ClimbTrackerApp: App {
     enum DBSetupError : Error {
         case pathNotFound(path: String)
     }
-    func setupDatabase() throws -> DatabasePool {
-        // TODO: show error page if this fails
-        let dbPath = try FileManager.default
+
+    func databasePath() throws -> String {
+        try FileManager.default
             .url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
             .appendingPathComponent("db.sqlite")
-            .path,
+            .path
+    }
+
+    func setupDatabase() throws -> DatabasePool {
+        // TODO: show error page if this fails
+        let dbPath = try databasePath(),
         db = try DatabasePool(path: dbPath)
 
         var migrator = DatabaseMigrator()
@@ -30,7 +35,17 @@ struct ClimbTrackerApp: App {
         return db
     }
 
+    func resetDatabase() throws {
+        let dbPath = try databasePath()
+
+        try FileManager.default.removeItem(atPath: dbPath)
+    }
+
     var body: some Scene {
+        if CommandLine.arguments.contains("-resetDatabase") {
+            try! resetDatabase()
+        }
+
         // FIXME remove try!
         let db = try! setupDatabase(),
             eventStore = try! PersistentEventStore(db: db),
