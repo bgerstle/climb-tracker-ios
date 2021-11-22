@@ -153,7 +153,7 @@ class PersistentEventTopic<E: PersistableTopicEvent> : Topic {
     }
 
     func write(_ eventEnvelope: EventEnvelope<Event>) async throws {
-        // TODO: how to ensure singleton topic writers?
+        // TODO: how to guarantee "single writer" for topics?
         try await db.writeTask { db in
             try DBEvent(topicId: self.dbTopic.id, envelope: eventEnvelope).insert(db)
         }
