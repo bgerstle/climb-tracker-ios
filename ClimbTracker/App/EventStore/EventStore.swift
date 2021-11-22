@@ -8,11 +8,23 @@
 import Foundation
 import Combine
 
-protocol TopicEvent {
-    static var namespace: TopicNamespaceIdentifier { get }
+protocol EventStore {
+    func findTopic<E: PersistableTopicEvent>(id topicId: TopicIdentifier, eventType: E.Type) async throws -> AnyTopic<E>?
+
+    func createTopic<E: PersistableTopicEvent>(id topicId: TopicIdentifier, eventType: E.Type) async throws -> AnyTopic<E>
+
+    func namespaceEvents<E: PersistableTopicEvent>() -> TopicEventPublisher<E>
+
+    func findOrCreateTopic<E: PersistableTopicEvent>(id topicId: TopicIdentifier, eventType: E.Type) async throws -> AnyTopic<E>
 }
 
-protocol StringRawRepresentable : RawRepresentable where RawValue == String { }
+struct EventEnvelope<T> {
+    let event: T
+    let timestamp: Date
+}
+extension EventEnvelope : Codable where T: Codable { }
+extension EventEnvelope : Equatable where T: Equatable {}
+extension EventEnvelope : Hashable where T: Hashable {}
 
 protocol PersistableTopicEvent : TopicEvent {
     associatedtype PayloadType: CaseIterable, StringRawRepresentable
@@ -24,34 +36,10 @@ protocol PersistableTopicEvent : TopicEvent {
     init?(payloadType: PayloadType, payload: Data)
 }
 
-struct EventEnvelope<T> {
-    let event: T
-    let timestamp: Date
-}
-extension EventEnvelope : Codable where T: Codable { }
-extension EventEnvelope : Equatable where T: Equatable {}
-extension EventEnvelope : Hashable where T: Hashable {}
-
 extension EventEnvelope {
     func map<E>(_ transform: (T) -> E) -> EventEnvelope<E> {
         EventEnvelope<E>(event: transform(event), timestamp: timestamp)
     }
-}
-
-typealias TopicEventPublisher<E: PersistableTopicEvent> = AnyPublisher<EventEnvelope<E>, Never>
-
-protocol EventStore {
-    func findTopic<E: PersistableTopicEvent>(id topicId: TopicIdentifier, eventType: E.Type) async throws -> AnyTopic<E>?
-
-    func createTopic<E: PersistableTopicEvent>(id topicId: TopicIdentifier, eventType: E.Type) async throws -> AnyTopic<E>
-
-    func namespaceEvents<E: PersistableTopicEvent>() -> TopicEventPublisher<E>
-
-    func findOrCreateTopic<E: PersistableTopicEvent>(id topicId: TopicIdentifier, eventType: E.Type) async throws -> AnyTopic<E>
-}
-
-protocol SomeTopic {
-    var id: TopicIdentifier { get }
 }
 
 protocol Topic : SomeTopic {
@@ -67,6 +55,18 @@ protocol Topic : SomeTopic {
 
 typealias TopicNamespaceIdentifier = String
 typealias TopicIdentifier = String
+
+protocol TopicEvent {
+    static var namespace: TopicNamespaceIdentifier { get }
+}
+
+protocol StringRawRepresentable : RawRepresentable where RawValue == String { }
+
+typealias TopicEventPublisher<E: PersistableTopicEvent> = AnyPublisher<EventEnvelope<E>, Never>
+
+protocol SomeTopic {
+    var id: TopicIdentifier { get }
+}
 
 struct TopicNotFound : Error {
     let namespace: TopicNamespaceIdentifier
