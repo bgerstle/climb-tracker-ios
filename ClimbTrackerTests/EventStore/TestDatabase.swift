@@ -15,14 +15,9 @@ class TestDatabase : NSObject, XCTestObservation {
     var migrator: DatabaseMigrator = DatabaseMigrator()
     let tempDatabasePath: String
 
-    static func defaultPath() -> String {
-        NSTemporaryDirectory().appending("test_database.sqlite")
-    }
-
-    init(tempDatabasePath: String = defaultPath()) {
-        self.tempDatabasePath = tempDatabasePath
+    init(filename: String = "test_database") {
+        self.tempDatabasePath = NSTemporaryDirectory().appending("\(filename).sqlite")
         super.init()
-        XCTestObservationCenter.shared.addTestObserver(self)
     }
 
     func testCaseWillStart(_ testCase: XCTestCase) {
@@ -33,20 +28,16 @@ class TestDatabase : NSObject, XCTestObservation {
     }
 
     func testCaseDidFinish(_ testCase: XCTestCase) {
-        // would be more efficient to set up once & delete all records between tests,
-        // but I can't figure out how to easily delete rows from all tables. db.erase seems
-        // to nuke everything
-
         try! db.close()
         db = nil
         try? FileManager.default.removeItem(atPath: tempDatabasePath)
     }
 
-    static func eventStore() -> TestDatabase {
-        let testDB = TestDatabase()
+    static let eventStore: TestDatabase = {
+        let testDB = TestDatabase(filename: "testEventStoreDB")
         testDB.migrator.setupEventStoreMigrations()
         return testDB
-    }
+    }()
 }
 
 // Date is (at least) nanosecond precision, but DATETIME is at most millisecond.
