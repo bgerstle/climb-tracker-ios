@@ -22,7 +22,7 @@ struct EventEnvelope<T> {
     let event: T
     let timestamp: Date
 }
-extension EventEnvelope : Codable where T: Codable { }
+extension EventEnvelope : Codable where T: Codable {}
 extension EventEnvelope : Equatable where T: Equatable {}
 extension EventEnvelope : Hashable where T: Hashable {}
 

@@ -57,14 +57,13 @@ class PersistentEventStoreTests: XCTestCase {
     }
 
     func testNamespaceEvents_GivenTwoTopicsInNamespace_WhenEventsWritten_ThenTheyArePublished() async throws {
-        let event = TestEvent.test,
-            topic1Events = [
-                EventEnvelope(event: event, timestamp: Date().truncatedToSeconds()),
-                EventEnvelope(event: event, timestamp: Date().addingTimeInterval(1).truncatedToSeconds())
+        let topic1Events = [
+            EventEnvelope(event: TestEvent.associatedValue("1"), timestamp: Date().truncatedToSeconds()),
+            EventEnvelope(event: TestEvent.associatedValue("2"), timestamp: Date().addingTimeInterval(1).truncatedToSeconds())
             ],
             topic2Events = [
-                EventEnvelope(event: event, timestamp: Date().addingTimeInterval(2).truncatedToSeconds()),
-                EventEnvelope(event: event, timestamp: Date().addingTimeInterval(3).truncatedToSeconds())
+                EventEnvelope(event: TestEvent.associatedValue("3"), timestamp: Date().addingTimeInterval(2).truncatedToSeconds()),
+                EventEnvelope(event: TestEvent.associatedValue("4"), timestamp: Date().addingTimeInterval(3).truncatedToSeconds())
             ],
             recorder: TestEventRecorder = eventStore.namespaceEvents().record()
 
@@ -73,12 +72,16 @@ class PersistentEventStoreTests: XCTestCase {
         try await withThrowingTaskGroup(of: Void.self) { group in
             topic1Events.forEach { envelope in
                 group.addTask {
+                    print("Starting task for \(envelope) from \(Thread.current) at \(Date().timeIntervalSince1970)")
                     try await topic1.write(envelope)
+                    print("Finished task for \(envelope) at \(Date().timeIntervalSince1970)")
                 }
             }
             topic2Events.forEach { envelope in
                 group.addTask {
+                    print("Starting task for \(envelope) from \(Thread.current) at \(Date().timeIntervalSince1970)")
                     try await topic2.write(envelope)
+                    print("Finished task for \(envelope) at \(Date().timeIntervalSince1970)")
                 }
             }
 
@@ -87,6 +90,41 @@ class PersistentEventStoreTests: XCTestCase {
 
 
         let publishedEvents = try wait(for: recorder.availableElements, timeout: 1.0)
+        XCTAssertEqual(publishedEvents, topic1Events + topic2Events)
+    }
+
+    func testNamespaceEvents_GivenTwoTopicsInNamespace_WhenEventsWrittenSerially_ThenTheyArePublished() async throws {
+        let topic1Events = [
+            EventEnvelope(event: TestEvent.associatedValue("1"), timestamp: Date().truncatedToSeconds()),
+            EventEnvelope(event: TestEvent.associatedValue("2"), timestamp: Date().addingTimeInterval(1).truncatedToSeconds())
+            ],
+            topic2Events = [
+                EventEnvelope(event: TestEvent.associatedValue("3"), timestamp: Date().addingTimeInterval(2).truncatedToSeconds()),
+                EventEnvelope(event: TestEvent.associatedValue("4"), timestamp: Date().addingTimeInterval(3).truncatedToSeconds())
+            ],
+            recorder: TestEventRecorder = eventStore.namespaceEvents().record()
+
+        let topic1 = try await eventStore.createTopic(id: "foo", eventType: TestEvent.self)
+        let topic2 = try await eventStore.createTopic(id: "bar", eventType: TestEvent.self)
+
+        try topic1Events.forEach { envelope in
+            try expectAsync {
+                print("Starting task for \(envelope) from \(Thread.current) at \(Date().timeIntervalSince1970)")
+                try await topic1.write(envelope)
+                print("Finished task for \(envelope) at \(Date().timeIntervalSince1970)")
+            }
+        }
+
+        try topic2Events.forEach { envelope in
+            try expectAsync {
+                print("Starting task for \(envelope) from \(Thread.current) at \(Date().timeIntervalSince1970)")
+                try await topic2.write(envelope)
+                print("Finished task for \(envelope) at \(Date().timeIntervalSince1970)")
+            }
+        }
+
+        let publishedEvents = try wait(for: recorder.availableElements, timeout: 1.0)
+
         XCTAssertEqual(publishedEvents, topic1Events + topic2Events)
     }
 

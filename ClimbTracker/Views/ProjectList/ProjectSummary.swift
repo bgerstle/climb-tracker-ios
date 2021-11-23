@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-struct ProjectSummary : Identifiable, Hashable {
+struct ProjectSummary : Identifiable, Hashable, Equatable {
     let id: ProjectID
     let category: ProjectCategory
 

@@ -63,20 +63,20 @@ struct BoulderProject : ProjectType {
     var attempts: [AnyAttempt] { boulderAttempts }
     var match: Project { .boulder(self) }
 
-    struct Created : Hashable, Codable {
+    struct Created : Equatable, Hashable, Codable {
         let projectId: ProjectID
         let createdAt: Date
         let grade: AnyBoulderGrade
     }
 
-    struct Attempted : Hashable, Codable {
+    struct Attempted : Equatable, Hashable, Codable {
         let projectId: ProjectID
-        let attemptId: UUID
+        let attemptId: AttemptID
         let didSend: Bool
         let attemptedAt: Date
     }
 
-    enum Event : PersistableTopicEvent {
+    enum Event : PersistableTopicEvent, Equatable {
         static var namespace: String { "boulder-projects" }
 
         case created(Created)
@@ -107,10 +107,11 @@ struct BoulderProject : ProjectType {
 
         func payload() throws -> Data {
             switch self {
-            case .created(let payload):
-                return try Self.encoder.encode(payload)
-            case .attempted(let payload):
-                return try Self.encoder.encode(payload)
+            case .created(let createdPayload):
+                return try Self.encoder.encode(createdPayload)
+            case .attempted(let attemptedPayload):
+                // FIXME: WHY THE FUCK IS attemptedPayload != attemptedPayload?!
+                return try Self.encoder.encode(attemptedPayload)
             }
         }
 
@@ -163,8 +164,8 @@ struct RopeProject : Identifiable, AnyProject, Hashable {
     }
 
     struct Attempted : Hashable, Codable {
-        let projectId: UUID
-        let attemptId: UUID
+        let projectId: ProjectID
+        let attemptId: AttemptID
         let didSend: Bool
         let attemptedAt: Date
         let subcategory: Subcategory

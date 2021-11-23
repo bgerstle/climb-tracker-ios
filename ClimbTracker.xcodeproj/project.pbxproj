@@ -52,6 +52,7 @@
 		BCD1A7A5274C09AD00F85516 /* PrincipalClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD1A7A4274C09AD00F85516 /* PrincipalClass.swift */; };
 		BCD1A7A6274C10CC00F85516 /* ProjectListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2ECFDC269B877400838466 /* ProjectListViewModelTests.swift */; };
 		BCD1A7A8274C42AC00F85516 /* App+LaunchArgs.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD1A7A7274C42AC00F85516 /* App+LaunchArgs.swift */; };
+		BCD1A7AA274D929300F85516 /* BoulderProjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD1A7A9274D929300F85516 /* BoulderProjectTests.swift */; };
 		BCDFE905273C684100DD35F7 /* ProjectSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDFE904273C684100DD35F7 /* ProjectSummary.swift */; };
 		BCDFE907273D73E600DD35F7 /* PreviewServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDFE906273D73E600DD35F7 /* PreviewServices.swift */; };
 		BCDFE90B273DA12F00DD35F7 /* EventStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDFE90A273DA12F00DD35F7 /* EventStore.swift */; };
@@ -124,6 +125,7 @@
 		BCD1A7A22748478C00F85516 /* PersistentEventStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentEventStoreTests.swift; sourceTree = "<group>"; };
 		BCD1A7A4274C09AD00F85516 /* PrincipalClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrincipalClass.swift; sourceTree = "<group>"; };
 		BCD1A7A7274C42AC00F85516 /* App+LaunchArgs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App+LaunchArgs.swift"; sourceTree = "<group>"; };
+		BCD1A7A9274D929300F85516 /* BoulderProjectTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoulderProjectTests.swift; sourceTree = "<group>"; };
 		BCDFE904273C684100DD35F7 /* ProjectSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSummary.swift; sourceTree = "<group>"; };
 		BCDFE906273D73E600DD35F7 /* PreviewServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewServices.swift; sourceTree = "<group>"; };
 		BCDFE90A273DA12F00DD35F7 /* EventStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventStore.swift; sourceTree = "<group>"; };
@@ -287,6 +289,7 @@
 				BC00EE4D273F163E00A480A6 /* XCTestCase+Async.swift */,
 				BC00EE5A2742F71000A480A6 /* ProjectNameEventServiceTests.swift */,
 				BCD1A7A4274C09AD00F85516 /* PrincipalClass.swift */,
+				BCD1A7A9274D929300F85516 /* BoulderProjectTests.swift */,
 			);
 			path = ClimbTrackerTests;
 			sourceTree = "<group>";
@@ -560,6 +563,7 @@
 				BC00EE512741A89400A480A6 /* TestEvent.swift in Sources */,
 				BCD1A7A6274C10CC00F85516 /* ProjectListViewModelTests.swift in Sources */,
 				BC7F2F51274806B100AE5B0B /* TestDatabase.swift in Sources */,
+				BCD1A7AA274D929300F85516 /* BoulderProjectTests.swift in Sources */,
 				BC00EE5B2742F71000A480A6 /* ProjectNameEventServiceTests.swift in Sources */,
 				BC00EE4E273F163E00A480A6 /* XCTestCase+Async.swift in Sources */,
 				BC00EE522742BDAE00A480A6 /* ProjectEventServiceTests.swift in Sources */,

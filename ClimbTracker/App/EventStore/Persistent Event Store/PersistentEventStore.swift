@@ -39,7 +39,11 @@ class PersistentEventStore : EventStore {
                     .filter(topicAlias[Column("namespace")] == E.namespace)
                     .fetchAll)
             .publisher(in: db, scheduling: .async(onQueue: DispatchQueue(label: "dbnamespace-\(E.namespace)")))
-            .eventLogPublisher()
+            .logPublisher
+            .mapToEvents()
+            // FIXME: refactor topic protocol to allow failures
+            .assertNoFailure()
+            .eraseToAnyPublisher()
 
     }
 
@@ -164,27 +168,30 @@ class PersistentEventTopic<E: PersistableTopicEvent> : Topic {
     }
 
     // Returns a publisher that emits prior & subsequent events written to the topic
-    nonisolated var eventPublisher: AnyPublisher<EventEnvelope<Event>, Never> {
-        sharedObservation.publisher().eventLogPublisher()
+    var eventPublisher: AnyPublisher<EventEnvelope<Event>, Never> {
+        sharedObservation
+            .publisher()
+            .logPublisher
+            .mapToEvents()
+            // FIXME: refactor topic protocol to allow failures
+            .assertNoFailure()
+            .eraseToAnyPublisher()
     }
 
     func events() async throws -> [EventEnvelope<Event>] {
         try await db.readTask { db in
             try self.dbTopic.events.fetchAll(db).map { dbEvent in
-                try! EventEnvelope<E>(dbEvent: dbEvent)
+                try EventEnvelope<E>(dbEvent: dbEvent)
             }
         }
     }
 }
 
-extension Publisher where Output: Collection, Output.Element == DBEvent {
-    func eventLogPublisher<E: PersistableTopicEvent>() -> AnyPublisher<EventEnvelope<E>, Never> {
-        logPublisher
-        .tryMap { dbEvent in
+extension Publisher where Output == DBEvent {
+    func mapToEvents<E: PersistableTopicEvent>() -> AnyPublisher<EventEnvelope<E>, Error> {
+        tryMap { dbEvent in
             try EventEnvelope<E>(dbEvent: dbEvent)
         }
-        // FIXME: refactor topic protocol to allow failures
-        .assertNoFailure()
         .eraseToAnyPublisher()
     }
 }

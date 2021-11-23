@@ -9,7 +9,7 @@ import Foundation
 @testable import ClimbTracker
 import CombineExpectations
 
-enum TestEvent : PersistableTopicEvent, Equatable {
+enum TestEvent : PersistableTopicEvent, Equatable, Sendable {
     static var namespace: String { "test-events" }
 
     case test
@@ -54,7 +54,7 @@ enum TestEvent : PersistableTopicEvent, Equatable {
     }
 }
 
-enum OtherTestEvent : PersistableTopicEvent, Equatable {
+enum OtherTestEvent : PersistableTopicEvent, Equatable, Sendable {
     static var namespace: TopicNamespaceIdentifier { "other-test-events" }
 
     case test
