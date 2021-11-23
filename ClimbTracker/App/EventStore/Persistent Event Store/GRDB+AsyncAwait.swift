@@ -6,18 +6,23 @@
 //
 
 import Foundation
+import Combine
 import GRDB
 
 extension DatabaseWriter {
     func readTask<T>(_ value: @escaping (Database) throws -> T) async throws -> T {
-        try await Task {
-            try read(value)
+        try await Future { promise in
+            self.asyncRead { dbResult in
+                promise(dbResult.flatMap { db in
+                    Result { try value(db) }
+                })
+            }
         }.value
     }
 
     func writeTask<T>(_ updates: @escaping (Database) throws -> T) async throws -> T {
-        try await Task {
-            try write(updates)
+        try await Future { promise in
+            self.asyncWrite(updates, completion: { _, result in promise(result) })
         }.value
     }
 }
