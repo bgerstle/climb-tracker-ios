@@ -18,7 +18,7 @@ extension XCTestCase {
         let futureExpectation = expectation(description: description)
         var result: Result<T, Error> = Result.failure(ExpectAsyncUnfulfilled())
         let cancellable = Future<T, Error> { promise in
-            Task {
+            Task.detached {
                 do {
                     let value = try await f()
                     promise(.success(value))
