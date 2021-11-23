@@ -37,6 +37,8 @@ class PersistentEventStore : EventStore {
                 DBEvent
                     .joining(required: DBEvent.topicRelation.aliased(topicAlias))
                     .filter(topicAlias[Column("namespace")] == E.namespace)
+                    // !!!: must order by id to ensure new events are at end of result set
+                    .order(Column("id").asc)
                     .fetchAll)
             .publisher(in: db, scheduling: .async(onQueue: DispatchQueue(label: "dbnamespace-\(E.namespace)")))
             .logPublisher
@@ -155,8 +157,14 @@ class PersistentEventTopic<E: PersistableTopicEvent> : Topic {
     init(dbTopic: DBTopic, db: DatabaseWriter) {
         self.dbTopic = dbTopic
         self.db = db
+        let eventTableAlias = TableAlias(name: "events")
         self.sharedObservation = ValueObservation
-            .trackingConstantRegion(dbTopic.events.fetchAll)
+            .trackingConstantRegion(
+                dbTopic
+                    .events
+                    .order(eventTableAlias[Column("id")].asc)
+                    .fetchAll
+            )
             .shared(in: db, scheduling: .async(onQueue: DispatchQueue(label: "dbtopic-\(dbTopic.namespace)-\(dbTopic.id)")))
     }
 
