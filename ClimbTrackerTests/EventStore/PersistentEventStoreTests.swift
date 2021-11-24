@@ -144,4 +144,37 @@ class PersistentEventStoreTests: XCTestCase {
         let publishedOtherEvents = try wait(for: otherTestRecorder.availableElements, timeout: 1.0)
         XCTAssertEqual(publishedOtherEvents, [otherNSEventEnvelope])
     }
+
+    func testNamespaceEvents_GivenTwoTopics_WhenWritesInterleaved_ThenTheyArePublishedInWriteOrder() async throws {
+        let topic1Events = [
+            EventEnvelope(event: TestEvent.associatedValue("1"), timestamp: Date().truncatedToSeconds()),
+            EventEnvelope(event: TestEvent.associatedValue("2"), timestamp: Date().addingTimeInterval(1).truncatedToSeconds())
+            ],
+            topic2Events = [
+                EventEnvelope(event: TestEvent.associatedValue("3"), timestamp: Date().addingTimeInterval(2).truncatedToSeconds()),
+                EventEnvelope(event: TestEvent.associatedValue("4"), timestamp: Date().addingTimeInterval(3).truncatedToSeconds())
+            ],
+            recorder: TestEventRecorder = eventStore.namespaceEvents().record()
+
+        let topic1 = try await eventStore.createTopic(id: "foo", eventType: TestEvent.self)
+        let topic2 = try await eventStore.createTopic(id: "bar", eventType: TestEvent.self)
+
+        let interleavedEventsWithTopic =
+            zip(topic1Events.map { ($0, topic1) }, topic2Events.map { ($0, topic2) })
+            .flatMap { [$0, $1] }
+
+        // write serially, synchronously to guarantee write order
+        try interleavedEventsWithTopic.forEach { eventAndTopic in
+            let (envelope, topic) = eventAndTopic
+            try expectAsync {
+                print("Starting task for \(envelope) from \(Thread.current) at \(Date().timeIntervalSince1970)")
+                try await topic.write(envelope)
+                print("Finished task for \(envelope) at \(Date().timeIntervalSince1970)")
+            }
+        }
+
+        let publishedEvents = try wait(for: recorder.availableElements, timeout: 1.0)
+        let expectedEvents = interleavedEventsWithTopic.map(\.0) // grab event from tuple
+        XCTAssertEqual(publishedEvents, expectedEvents)
+    }
 }

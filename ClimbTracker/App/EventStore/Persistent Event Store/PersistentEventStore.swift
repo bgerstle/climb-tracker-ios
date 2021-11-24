@@ -157,14 +157,9 @@ class PersistentEventTopic<E: PersistableTopicEvent> : Topic {
     init(dbTopic: DBTopic, db: DatabaseWriter) {
         self.dbTopic = dbTopic
         self.db = db
-        let eventTableAlias = TableAlias(name: "events")
+
         self.sharedObservation = ValueObservation
-            .trackingConstantRegion(
-                dbTopic
-                    .events
-                    .order(eventTableAlias[Column("id")].asc)
-                    .fetchAll
-            )
+            .trackingConstantRegion(dbTopic.events.fetchAll)
             .shared(in: db, scheduling: .async(onQueue: DispatchQueue(label: "dbtopic-\(dbTopic.namespace)-\(dbTopic.id)")))
     }
 
