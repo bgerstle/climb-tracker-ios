@@ -57,10 +57,14 @@ struct ClimbTrackerApp: App {
 
     func importCSV(projectService: ProjectService, projectNameService: ProjectNameService) throws {
         let filename = "export_2019_to_2021_05_23"
-        guard let inputURL = Bundle.main.url(forResource: filename, withExtension: "csv"), !FileManager.default.fileExists(atPath: inputURL.absoluteString) else {
+        var imports = UserDefaults.standard.object(forKey: "imports") as? Array<AnyObject> ?? [AnyObject]()
+
+        if imports.contains(where: { ($0 as? String) == filename }) {
             logger.info("Already imported \(filename)")
             return
         }
+
+        let inputURL = Bundle.main.url(forResource: filename, withExtension: "csv")!
 
         let importer = CSVImporter<CSVRow>(projectService: projectService,
                                            projectNameService: projectNameService)
@@ -77,10 +81,12 @@ struct ClimbTrackerApp: App {
             semaphore.signal()
         }
 
-        let _ = semaphore.wait(timeout: DispatchTime.now().advanced(by: .seconds(30)))
+        let _ = semaphore.wait(timeout: DispatchTime.distantFuture)
 
+
+        imports.append(filename as NSString)
+        UserDefaults.standard.set(imports, forKey: "imports")
         logger.info("Done importing \(filename)")
-        try FileManager.default.removeItem(at: inputURL)
     }
 
     var body: some Scene {
