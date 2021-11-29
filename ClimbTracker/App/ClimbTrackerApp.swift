@@ -90,28 +90,27 @@ struct ClimbTrackerApp: App {
     }
 
     var body: some Scene {
-        if CommandLine.arguments.contains("-resetDatabase") {
-            try! resetDatabase()
-        }
-
         // FIXME remove try!
         let db = try! setupDatabase(),
             eventStore = try! PersistentEventStore(db: db),
             projectService = ProjectEventService(eventStore: eventStore),
             projectNameService = ProjectNameEventService(eventStore: eventStore),
             summarizer: ProjectSummarizer = ProjectSummarizer(),
-            summaryEventPublisher = summarizer.summarizeProjectEvents(
-                boulder: projectService.boulderProjectEventPublisher,
-                rope: projectService.ropeProjectEventPublisher,
-                name: projectNameService.projectNamedEventPublisher
-            ),
             projectListViewModel = ProjectListViewModel(projectService: projectService)
 
         if !ProcessInfo.processInfo.isTesting {
-            try! importCSV(projectService: projectService, projectNameService: projectNameService)
-        }
+            if CommandLine.arguments.contains("-resetDatabase") {
+                try! resetDatabase()
+            }
 
-        projectListViewModel.handleSummaryEvents(summaryEventPublisher)
+            try! importCSV(projectService: projectService, projectNameService: projectNameService)
+            let summaryEventPublisher = summarizer.summarizeProjectEvents(
+                boulder: projectService.boulderProjectEventPublisher,
+                rope: projectService.ropeProjectEventPublisher,
+                name: projectNameService.projectNamedEventPublisher
+            )
+            projectListViewModel.handleSummaryEvents(summaryEventPublisher)
+        }
 
         return WindowGroup {
             ProjectListView(
