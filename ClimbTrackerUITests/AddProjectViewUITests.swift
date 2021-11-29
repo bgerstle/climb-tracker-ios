@@ -64,7 +64,6 @@ class AddProjectViewUITests: QuickSpec {
                 describe("When I submit a climb with the default category and a custom grade") {
                     it("Then I see a new boulder climb with the grade I selected") {
                         let rawGradeValue = "V5"
-                        let defaultCategory = "Boulder"
 
                         self.addProject.gradePicker.tap()
                         self.addProject.pickerOption(forRawValue: rawGradeValue).tap()
@@ -120,6 +119,14 @@ class AddProjectViewUITests: QuickSpec {
 
                         let firstRow = self.projectList.rows.first
                         XCTAssertTrue((firstRow?.gradeLabelText ?? "").contains(rawGradeValue))
+                    }
+                }
+            }
+
+            describe("Persistence") {
+                context("Given I have logged a climb") {
+                    xit("When I restart, then the climbs are still in the list") {
+                        
                     }
                 }
             }

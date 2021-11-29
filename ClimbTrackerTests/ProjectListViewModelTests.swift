@@ -258,22 +258,3 @@ class ProjectListViewModelTests: XCTestCase {
         XCTAssertEqual(project2Summary.didSend, attemptedProject2.didSend)
     }
 }
-
-class TestProjectService : ProjectService {
-    func create<G>(grade: G) async throws -> ProjectID where G : Boulder, G : Grade {
-        UUID()
-    }
-
-    func create<G>(grade: G) async throws -> ProjectID where G : Grade, G : Rope {
-        UUID()
-    }
-
-
-    func attempt(projectId: UUID, at: Date, didSend: Bool) async throws -> AttemptID {
-        UUID()
-    }
-
-    func attempt(projectId: UUID, at: Date, didSend: Bool, subcategory: RopeProject.Subcategory) async throws -> AttemptID {
-        UUID()
-    }
-}

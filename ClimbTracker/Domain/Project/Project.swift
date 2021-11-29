@@ -22,8 +22,20 @@ protocol AnyProject {
     var match: Project { get }
 }
 
+extension AnyProject {
+    var category: ProjectCategory {
+        switch self.match {
+        case .boulder(_):
+            return .boulder
+        case .rope(_):
+            return .rope
+        }
+    }
+}
+
 protocol AnyAttempt {
     var didSend: Bool { get }
+    var attemptedAt: Date { get }
 }
 
 enum Project {
@@ -56,11 +68,13 @@ struct BoulderProject : ProjectType {
     struct Attempt: AttemptType {
         let id: AttemptID
         let didSend: Bool
+        let attemptedAt: Date
     }
     let boulderAttempts: [Attempt]
 
     var rawGrade: String { grade.rawValue }
     var attempts: [AnyAttempt] { boulderAttempts }
+
     var match: Project { .boulder(self) }
 
     struct Created : Equatable, Hashable, Codable {
@@ -149,6 +163,7 @@ struct RopeProject : Identifiable, AnyProject, Hashable {
         let id: AttemptID
         let didSend: Bool
         let subcategory: Subcategory
+        let attemptedAt: Date
     }
 
     let ropeAttempts: [Attempt]
