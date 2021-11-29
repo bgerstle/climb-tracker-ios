@@ -13,7 +13,6 @@ extension Calendar {
     func components(withYear year: Int, month: Int, day: Int) -> DateComponents {
         var components = DateComponents()
         components.calendar = self
-        components.timeZone = TimeZone.current
         components.year = year
         components.month = month
         components.day = day
@@ -94,6 +93,30 @@ date,category,grade,send,attempts,name
         XCTAssertEqual(row.grade, "5.9")
         XCTAssertEqual(row.attempts, 1)
         XCTAssertEqual(row.send, "onsight")
+        XCTAssertNil(row.name)
+    }
+
+    func testDecodeWithoutNameSendOrAttempt_DefaultsToSendWithOneAttempt() throws {
+        let expectedDate = Calendar.current.date(from: Calendar.current.components(withYear: 2021,
+                                                                                   month: 5,
+                                                                                   day: 20))!
+
+        let csv = """
+date,category,grade,send,attempts,name
+2021-05-20,bouldering,V0,,,
+"""
+        let decoder = CSVDecoder.importDecoder()
+
+        let rows = try decoder.decode([CSVRow].self, from: csv)
+        let row = rows.first!
+
+        XCTAssertEqual(row.date, expectedDate)
+        XCTAssertEqual(row.category, .bouldering)
+        XCTAssertEqual(row.grade, "V0")
+        XCTAssertNil(row.attempts)
+        XCTAssertEqual(row.countAttempts, 1)
+        XCTAssertEqual(row.send, nil)
+        XCTAssertEqual(row.didSend, true)
         XCTAssertNil(row.name)
     }
 

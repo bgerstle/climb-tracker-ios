@@ -75,17 +75,19 @@ struct ContentView_Previews: PreviewProvider {
                 return ProjectSummary(id: UUID(),
                                       category: .rope,
                                       grade: ropeGrade.rawValue,
-                                      didSend: true,
+                                      sendCount: 0,
+                                      sessionDates: Set(),
                                       attemptCount: 1,
-                                      title: "Title")
+                                      lastAttempt: Date())
             } else {
                 let boulderGrade = HuecoGrade.allCases[Int.random(in: (0..<HuecoGrade.allCases.count))]
                 return ProjectSummary(id: UUID(),
                                       category: .boulder,
                                       grade: boulderGrade.rawValue,
-                                      didSend: true,
+                                      sendCount: 0,
+                                      sessionDates: Set(),
                                       attemptCount: 1,
-                                      title: "Title")
+                                      lastAttempt: Date())
             }
         }
 

@@ -9,23 +9,22 @@ import Foundation
 import Combine
 import SwiftUI
 
+extension Calendar {
+    // TODO: properly test support for attempts logged in different timezones
+    static var defaultClimbCalendar: Calendar {
+        var cal = Calendar(identifier: .gregorian)
+        cal.timeZone = TimeZone(secondsFromGMT: 0)!
+        return cal
+    }
+}
+
 @MainActor
 class ProjectListViewModel: ObservableObject {
-    let dateFormatter: DateFormatter
     let projectService: ProjectService
 
     var summaryEventSubscription: AnyCancellable?
 
-    private static let defaultFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .short
-        formatter.timeStyle = .short
-        return formatter
-    }()
-
-    init(dateFormatter: DateFormatter = defaultFormatter,
-         projectService: ProjectService) {
-        self.dateFormatter = dateFormatter
+    init(projectService: ProjectService) {
         self.projectService = projectService
     }
 
@@ -62,15 +61,21 @@ class ProjectListViewModel: ObservableObject {
                 category: event.category,
                 name: projectNames[event.id],
                 grade: event.grade,
-                didSend: false,
+                sendCount: 0,
+                sessionDates: Set(),
                 attemptCount: 0,
-                title: self.formattedTitle(event.category, createdAt: event.createdAt)
+                lastAttempt: nil
             )
             projects.insert(summary, at: 0)
         case .attempted(let event):
             updateSummary(withProjectId: event.projectId) { summary in
-                summary.didSend = summary.didSend || event.didSend
+                if event.didSend {
+                    summary.sendCount += 1
+                }
                 summary.attemptCount += 1
+                summary.lastAttempt = event.attemptedAt
+
+                summary.sessionDates.insert(Calendar.defaultClimbCalendar.startOfDay(for: event.attemptedAt))
             }
         case .named(let event):
             // since named events originate from a separate topic than project events
@@ -109,9 +114,5 @@ class ProjectListViewModel: ObservableObject {
             .sink() { [weak self] in
                 self?.handle($0)
             }
-    }
-
-    private func formattedTitle(_ category: ProjectCategory, createdAt: Date) -> String {
-        return "created at \(dateFormatter.string(from: createdAt))"
     }
 }

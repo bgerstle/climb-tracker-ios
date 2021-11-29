@@ -14,9 +14,10 @@ struct ProjectSummary : Identifiable, Hashable, Equatable {
 
     var name: String?
     var grade: String
-    var didSend: Bool
+    var sendCount: Int
+    var sessionDates: Set<Date>
     var attemptCount: UInt
-    var title: String
+    var lastAttempt: Date?
 
     enum Event {
         struct Created {
@@ -29,6 +30,7 @@ struct ProjectSummary : Identifiable, Hashable, Equatable {
         struct Attempted {
             let projectId: ProjectID
             let didSend: Bool
+            let attemptedAt: Date
         }
 
         struct Named {
@@ -87,7 +89,8 @@ class ProjectSummarizer {
             case .attempted(let event):
                 return ProjectSummary.Event.attempted(ProjectSummary.Event.Attempted(
                     projectId: event.projectId,
-                    didSend: event.didSend
+                    didSend: event.didSend,
+                    attemptedAt: event.attemptedAt
                 ))
             }
         }
@@ -106,7 +109,8 @@ class ProjectSummarizer {
             case .attempted(let event):
                 return ProjectSummary.Event.attempted(ProjectSummary.Event.Attempted(
                     projectId: event.projectId,
-                    didSend: event.didSend
+                    didSend: event.didSend,
+                    attemptedAt: event.attemptedAt
                 ))
             }
         }

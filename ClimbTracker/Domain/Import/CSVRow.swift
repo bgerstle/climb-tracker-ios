@@ -19,12 +19,12 @@ struct CSVRow : Hashable, Codable, CSVImportable {
     let date: Date
     let category: CSVCategory
     let grade: String
-    let send: String
+    let send: String?
     let attempts: Int?
     let name: String?
 
     var countAttempts: Int {
-        attempts ?? 0
+        attempts ?? 1
     }
 
     var projectCategory: ProjectCategory {
@@ -50,7 +50,7 @@ struct CSVRow : Hashable, Codable, CSVImportable {
     }
 
     var didSend: Bool {
-        send != "no"
+        send.map { $0 != "no" } ?? true
     }
 
     static func parse(_ url: URL) throws -> [CSVRow] {
