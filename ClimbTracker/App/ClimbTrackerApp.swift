@@ -32,15 +32,9 @@ struct ClimbTrackerApp: App {
             }
 
             // TODO: proper async importing & UI
-            // if I try to extract this, it deadlocks?!
-            let semaphore = DispatchSemaphore(value: 0)
-
-            Task.detached {
+            unsafeWaitFor {
                 try! await self.csvImportManager.importCSV(projectService: projectService, projectNameService: projectNameService)
-                semaphore.signal()
             }
-
-            semaphore.wait()
 
             let summaryEventPublisher = summarizer.summarizeProjectEvents(
                 boulder: projectService.boulderProjectEventPublisher,
@@ -72,5 +66,20 @@ extension ProcessInfo {
 extension Logger {
     static func app(category: String) -> Logger {
         Logger(subsystem: Bundle.main.bundleIdentifier ?? "unknownBundleID", category: category)
+    }
+}
+
+// ???: Need to understand why block must be @Sendable to prevent deadlock.
+// For more on Sendable functions & closures, see:
+// https://github.com/apple/swift-evolution/blob/main/proposals/0302-concurrent-value-and-concurrent-closures.md#new-sendable-attribute-for-functions 
+func unsafeWaitFor(_ block: @Sendable @escaping () async -> Void) {
+    let semaphore = DispatchSemaphore(value: 0)
+    defer {
+        semaphore.wait()
+    }
+
+    Task.detached {
+        await block()
+        semaphore.signal()
     }
 }
