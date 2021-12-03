@@ -29,7 +29,7 @@ struct AddProjectView: View {
                             "",
                             text: $viewModel.projectName
                         )
-                        .foregroundColor(isProjectNameValid ? .black : .red)
+                            .foregroundColor(isProjectNameValid ? .primary : .red)
 
                         if !isProjectNameValid {
                             Text("Must be unique")
@@ -69,6 +69,9 @@ struct AddProjectView: View {
 
 struct AddProjectView_Previews: PreviewProvider {
     static var previews: some View {
-        AddProjectView(viewModel: previewAddProjectViewModel)
+        let viewModel = previewAddProjectViewModel
+        viewModel.projectName = "Some name"
+        return AddProjectView(viewModel: viewModel)
+            .preferredColorScheme(.dark)
     }
 }
