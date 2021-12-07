@@ -15,7 +15,6 @@ struct ClimbTrackerApp: App {
     let logger = Logger.app(category: "main")
 
     let dbManager = DatabaseManager()
-    let csvImportManager = CSVImportManager()
 
     var body: some Scene {
         // FIXME: remove try!
@@ -31,11 +30,6 @@ struct ClimbTrackerApp: App {
                 try! dbManager.resetDatabase()
             }
 
-            // TODO: proper async importing & UI
-            unsafeWaitFor {
-                try! await self.csvImportManager.importCSV(projectService: projectService, projectNameService: projectNameService)
-            }
-
             let summaryEventPublisher = summarizer.summarizeProjectEvents(
                 boulder: projectService.boulderProjectEventPublisher,
                 rope: projectService.ropeProjectEventPublisher,
@@ -43,6 +37,8 @@ struct ClimbTrackerApp: App {
             )
             projectListViewModel.handleSummaryEvents(summaryEventPublisher)
         }
+
+        let csvImporter = CSVImporter<CSVRow>(projectService: projectService, projectNameService: projectNameService)
 
         return WindowGroup {
             ProjectListView(
@@ -54,6 +50,12 @@ struct ClimbTrackerApp: App {
                 },
                 viewModel: projectListViewModel
             )
+                .onOpenURL { url in
+                    // TODO: proper async importing & UI
+                    Task {
+                        try! await csvImporter.importCSV(url)
+                    }
+                }
         }
     }
 }
@@ -71,7 +73,7 @@ extension Logger {
 
 // ???: Need to understand why block must be @Sendable to prevent deadlock.
 // For more on Sendable functions & closures, see:
-// https://github.com/apple/swift-evolution/blob/main/proposals/0302-concurrent-value-and-concurrent-closures.md#new-sendable-attribute-for-functions 
+// https://github.com/apple/swift-evolution/blob/main/proposals/0302-concurrent-value-and-concurrent-closures.md#new-sendable-attribute-for-functions
 func unsafeWaitFor(_ block: @Sendable @escaping () async -> Void) {
     let semaphore = DispatchSemaphore(value: 0)
     defer {

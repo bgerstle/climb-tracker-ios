@@ -119,14 +119,4 @@ date,category,grade,send,attempts,name
         XCTAssertEqual(row.didSend, true)
         XCTAssertNil(row.name)
     }
-
-    func testDecodeExampleFile() throws {
-        let inputURL = Bundle(for: Self.self).url(forResource: "export_2019_to_2021_05_23", withExtension: "csv")!
-        let decoder = CSVDecoder.importDecoder()
-
-        let rows = try decoder.decode([CSVRow].self, from: inputURL)
-
-        // rows == lines - 1 (header row)
-        XCTAssertEqual(rows.count, 1351)
-    }
 }
