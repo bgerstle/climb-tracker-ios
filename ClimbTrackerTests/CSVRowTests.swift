@@ -119,4 +119,14 @@ date,category,grade,send,attempts,name
         XCTAssertEqual(row.didSend, true)
         XCTAssertNil(row.name)
     }
+
+    func testDecodeSwappedAttemptAndSendColumns_Fails() throws {
+        let csv = """
+date,category,grade,send,attempts,name
+2021-05-20,bouldering,V0,3,no,
+"""
+        let decoder = CSVDecoder.importDecoder()
+
+        XCTAssertThrowsError(try decoder.decode([CSVRow].self, from: csv))
+    }
 }
