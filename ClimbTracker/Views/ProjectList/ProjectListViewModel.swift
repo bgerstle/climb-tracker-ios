@@ -18,6 +18,40 @@ extension Calendar {
     }
 }
 
+extension ProjectSummary {
+    struct LastAttemptSortComparator : SortComparator {
+        func compare(_ lhs: ProjectSummary, _ rhs: ProjectSummary) -> ComparisonResult {
+            let comparison = lhs.lastAttemptOrDefault.compare(rhs.lastAttemptOrDefault)
+            switch order {
+            case .forward:
+                return comparison
+            case .reverse:
+                switch comparison {
+                case .orderedAscending:
+                    return .orderedDescending
+                case .orderedDescending:
+                    return .orderedAscending
+                case .orderedSame:
+                    return .orderedSame
+                }
+            }
+        }
+
+        var order: SortOrder
+
+        typealias Compared = ProjectSummary
+    }
+
+    // default nil dates to distantFuture, to keep new projects at the top
+    var lastAttemptOrDefault: Date {
+        lastAttempt ?? Date.distantFuture
+    }
+
+    static func lastAttemptSortComparator(order: SortOrder = .reverse) -> LastAttemptSortComparator {
+        LastAttemptSortComparator(order: order)
+    }
+}
+
 @MainActor
 class ProjectListViewModel: ObservableObject {
     let projectService: ProjectService
@@ -66,6 +100,7 @@ class ProjectListViewModel: ObservableObject {
                 attemptCount: 0,
                 lastAttempt: nil
             )
+            // insert new projects to top of the list
             projects.insert(summary, at: 0)
         case .attempted(let event):
             updateSummary(withProjectId: event.projectId) { summary in
@@ -104,7 +139,13 @@ class ProjectListViewModel: ObservableObject {
         }
         var summary = projects[summaryIndex]
         update(&summary)
-        projects[summaryIndex] = summary
+
+        var updatedProjects = projects
+        updatedProjects[summaryIndex] = summary
+        updatedProjects.sort(using: ProjectSummary.lastAttemptSortComparator())
+
+        // setting projects "atomically" prevents emitting set & sort as separate events
+        projects = updatedProjects
     }
 
     func handleSummaryEvents<P: Publisher>(_ publisher: P)

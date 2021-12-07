@@ -320,4 +320,55 @@ class ProjectListViewModelTests: XCTestCase {
         XCTAssertEqual(actualSummary.sessionDates,
                        Set([sessionDate1Components.date!, sessionDate2Components.date!]))
     }
+
+    func testHandleEvent_SortsListByLastAttemptDateDesc() throws {
+        let createdPayload1 = ProjectSummary.Event.Created(
+                id: UUID(),
+                createdAt: Date(),
+                grade: HuecoGrade.four.rawValue,
+                category: .boulder
+            ),
+            createdPayload2 = ProjectSummary.Event.Created(
+                    id: UUID(),
+                    createdAt: Date(),
+                    grade: YosemiteDecimalGrade.tenA.rawValue,
+                    category: .rope
+            ),
+            attemptedProject1 = ProjectSummary.Event.Attempted(
+                projectId: createdPayload1.id,
+                didSend: false,
+                attemptedAt: Date()
+            ),
+            attemptedProject2 = ProjectSummary.Event.Attempted(
+                projectId: createdPayload2.id,
+                didSend: true,
+                attemptedAt: attemptedProject1.attemptedAt.advanced(by: 1)
+            ),
+            // ignore initially empty list
+            projectListRecorder = viewModel.$projects.dropFirst().record()
+
+        // TODO: verify sorting for arbitrary sequences of created & attempted events
+        // for now, handle events in order that previously would have resulted in project2
+        // being second in the list (since project1 would have been inserted before it), but
+        // now should result in project 2 being first since its last attempt was later
+        viewModel.handle(EventEnvelope(event: .created(createdPayload2),
+                                       timestamp: Date()))
+        viewModel.handle(EventEnvelope(event: .created(createdPayload1),
+                                       timestamp: Date()))
+
+        viewModel.handle(EventEnvelope(event: .attempted(attemptedProject2),
+                                       timestamp: Date()))
+        viewModel.handle(EventEnvelope(event: .attempted(attemptedProject1),
+                                       timestamp: Date()))
+
+        // publishes list w/ created project, then "updated" list w/ attempted project
+        let publishedLists = try wait(for: projectListRecorder.availableElements, timeout: 2.0)
+        XCTAssertEqual(publishedLists.count, 4)
+
+        guard let finalClimbList = publishedLists.last else { XCTFail(); return }
+
+        XCTAssertEqual(finalClimbList.count, 2)
+
+        XCTAssertEqual(finalClimbList.map(\.id), [createdPayload2.id, createdPayload1.id])
+    }
 }
