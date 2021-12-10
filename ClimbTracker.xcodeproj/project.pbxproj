@@ -29,6 +29,7 @@
 		BC46720F268FB97000B2CBE7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC46720E268FB97000B2CBE7 /* Preview Assets.xcassets */; };
 		BC467225268FB97100B2CBE7 /* ProjectListViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC467224268FB97100B2CBE7 /* ProjectListViewUITests.swift */; };
 		BC6501E62763D79900D557E6 /* XCUIElement+PageObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6501E52763D79900D557E6 /* XCUIElement+PageObject.swift */; };
+		BC6501E92763DEF400D557E6 /* CanAddProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6501E82763DEF400D557E6 /* CanAddProject.swift */; };
 		BC7EF033275290BA00225C0D /* CSVRowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7EF032275290BA00225C0D /* CSVRowTests.swift */; };
 		BC7EF03627552E9C00225C0D /* CSVRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7EF03527552E9C00225C0D /* CSVRow.swift */; };
 		BC7EF039275532C900225C0D /* CSVImporterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7EF038275532C900225C0D /* CSVImporterTests.swift */; };
@@ -115,6 +116,7 @@
 		BC467224268FB97100B2CBE7 /* ProjectListViewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectListViewUITests.swift; sourceTree = "<group>"; };
 		BC467226268FB97100B2CBE7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BC6501E52763D79900D557E6 /* XCUIElement+PageObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIElement+PageObject.swift"; sourceTree = "<group>"; };
+		BC6501E82763DEF400D557E6 /* CanAddProject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanAddProject.swift; sourceTree = "<group>"; };
 		BC7EF032275290BA00225C0D /* CSVRowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVRowTests.swift; sourceTree = "<group>"; };
 		BC7EF03527552E9C00225C0D /* CSVRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVRow.swift; sourceTree = "<group>"; };
 		BC7EF038275532C900225C0D /* CSVImporterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVImporterTests.swift; sourceTree = "<group>"; };
@@ -321,6 +323,7 @@
 			isa = PBXGroup;
 			children = (
 				BCD1A7A7274C42AC00F85516 /* App+LaunchArgs.swift */,
+				BC6501E72763DEEB00D557E6 /* Behaviors */,
 				BCCAEE582698FF71006F0707 /* Page Objects */,
 				BC467224268FB97100B2CBE7 /* ProjectListViewUITests.swift */,
 				BC1F5204272B244000702432 /* AddProjectAttemptViewUITests.swift */,
@@ -328,6 +331,14 @@
 				BC467226268FB97100B2CBE7 /* Info.plist */,
 			);
 			path = ClimbTrackerUITests;
+			sourceTree = "<group>";
+		};
+		BC6501E72763DEEB00D557E6 /* Behaviors */ = {
+			isa = PBXGroup;
+			children = (
+				BC6501E82763DEF400D557E6 /* CanAddProject.swift */,
+			);
+			path = Behaviors;
 			sourceTree = "<group>";
 		};
 		BC7EF03A275536F500225C0D /* Test Services */ = {
@@ -631,6 +642,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC43D98C269B1CED002C984E /* AddProjectViewUITests.swift in Sources */,
+				BC6501E92763DEF400D557E6 /* CanAddProject.swift in Sources */,
 				BC6501E62763D79900D557E6 /* XCUIElement+PageObject.swift in Sources */,
 				BC467225268FB97100B2CBE7 /* ProjectListViewUITests.swift in Sources */,
 				BC43D981269AA146002C984E /* AddProjectPageObject.swift in Sources */,

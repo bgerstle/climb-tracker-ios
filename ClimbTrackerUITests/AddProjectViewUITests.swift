@@ -8,14 +8,14 @@
 import XCTest
 import Quick
 
-class AddProjectViewUITests: QuickSpec {
+class AddProjectViewUITests: QuickSpec, CanAddProject {
     var app: XCUIApplication!
 
-    var projectList: ProjectListPageObject {
+    var projectListView: ProjectListPageObject {
         app.projectList
     }
 
-    var addProject: AddProjectPageObject {
+    var addProjectView: AddProjectPageObject {
         app.addProject
     }
 
@@ -29,32 +29,28 @@ class AddProjectViewUITests: QuickSpec {
 
         describe("Adding a climb") {
             context("Given I am adding a climb") {
-                beforeEach {
-                    self.app.projectList.newProjectButton.tap()
-                    XCTAssertTrue(self.projectList.view
-                                    .waitForExistence(timeout: 2))
-                }
-
                 describe("When I log a bouldering send without changing any fields") {
                     it("Then I see a Boulder climb with the default grade") {
-                        self.addProject.submitButton.tap()
+                        self.addProject(category: nil, grade: nil)
                         
-                        XCTAssertEqual(self.projectList.rows.count, 1)
-                        let firstRow = self.projectList.rows.first!
+                        XCTAssertEqual(self.projectListView.rows.count, 1)
+                        let firstRow = self.projectListView.rows.first!
                         XCTAssertTrue(firstRow.gradeLabelText.contains("VB"))
                     }
                 }
 
                 describe("When I swipe down") {
                     it("Then I am taken back to climb history") {
-                        XCTAssertTrue(self.addProject.view
+                        self.projectListView.newProjectButton.tap()
+
+                        XCTAssertTrue(self.addProjectView.view
                                         .waitForExistence(timeout: 2))
 
                         self.app.swipeDown(velocity: .fast)
 
-                        XCTAssertFalse(self.addProject.view.isHittable)
+                        XCTAssertFalse(self.addProjectView.view.isHittable)
 
-                        XCTAssertTrue(self.projectList.view
+                        XCTAssertTrue(self.projectListView.view
                                         .waitForExistence(timeout: 2))
 
                         XCTAssertTrue(self.app.projectList.view.isHittable)
@@ -64,18 +60,11 @@ class AddProjectViewUITests: QuickSpec {
                 describe("When I submit a climb with the default category and a custom grade") {
                     it("Then I see a new boulder climb with the grade I selected") {
                         let rawGradeValue = "V5"
+                        self.addProject(category: nil, grade: rawGradeValue)
 
-                        self.addProject.gradePicker.tap()
-                        self.addProject.pickerOption(forRawValue: rawGradeValue).tap()
-                        XCTAssertTrue(self.addProject.submitButton.isHittable)
-                        self.addProject.submitButton.tap()
+                        XCTAssertEqual(self.projectListView.rows.count, 1)
 
-                        XCTAssertTrue(self.projectList.view
-                                        .waitForExistence(timeout: 2))
-
-                        XCTAssertEqual(self.projectList.rows.count, 1)
-
-                        let firstRow = self.projectList.rows.first
+                        let firstRow = self.projectListView.rows.first
                         XCTAssertTrue((firstRow?.gradeLabelText ?? "").contains(rawGradeValue))
                     }
                 }
@@ -85,17 +74,11 @@ class AddProjectViewUITests: QuickSpec {
                         let rawCategoryValue = "Rope"
                         let defaultGrade = "5.9"
 
-                        self.addProject.categoryPicker.tap()
-                        self.addProject.pickerOption(forRawValue: rawCategoryValue).tap()
-                        XCTAssertTrue(self.addProject.submitButton.isHittable)
-                        self.addProject.submitButton.tap()
+                        self.addProject(category: rawCategoryValue, grade: nil)
 
-                        XCTAssertTrue(self.projectList.view
-                                        .waitForExistence(timeout: 2))
+                        XCTAssertEqual(self.projectListView.rows.count, 1)
 
-                        XCTAssertEqual(self.projectList.rows.count, 1)
-
-                        let firstRow = self.projectList.rows.first
+                        let firstRow = self.projectListView.rows.first
                         XCTAssertTrue((firstRow?.gradeLabelText ?? "").contains(defaultGrade))
                     }
                 }
@@ -105,19 +88,11 @@ class AddProjectViewUITests: QuickSpec {
                         let rawCategoryValue = "Rope"
                         let rawGradeValue = "5.11a"
 
-                        self.addProject.categoryPicker.tap()
-                        self.addProject.pickerOption(forRawValue: rawCategoryValue).tap()
-                        self.addProject.gradePicker.tap()
-                        self.addProject.pickerOption(forRawValue: rawGradeValue).tap()
-                        XCTAssertTrue(self.addProject.submitButton.isHittable)
-                        self.addProject.submitButton.tap()
+                        self.addProject(category: rawCategoryValue, grade: rawGradeValue)
 
-                        XCTAssertTrue(self.projectList.view
-                                        .waitForExistence(timeout: 2))
+                        XCTAssertEqual(self.projectListView.rows.count, 1)
 
-                        XCTAssertEqual(self.projectList.rows.count, 1)
-
-                        let firstRow = self.projectList.rows.first
+                        let firstRow = self.projectListView.rows.first
                         XCTAssertTrue((firstRow?.gradeLabelText ?? "").contains(rawGradeValue))
                     }
                 }
@@ -126,23 +101,17 @@ class AddProjectViewUITests: QuickSpec {
                     let rawCategoryValue = "Rope"
                     let rawGradeValue = "5.12b"
 
-                    self.addProject.categoryPicker.tap()
-                    self.addProject.pickerOption(forRawValue: rawCategoryValue).tap()
-                    self.addProject.gradePicker.tap()
-                    self.addProject.pickerOption(forRawValue: rawGradeValue).tap()
-                    XCTAssertTrue(self.addProject.submitButton.isHittable)
-                    self.addProject.submitButton.tap()
-                    XCTAssertTrue(self.projectList.view.waitForExistence(timeout: 2))
+                    self.addProject(category: rawCategoryValue, grade: rawGradeValue)
 
                     self.app.terminate()
                     // remove "resetDatabase" launch arg
                     self.app.launchArguments.removeAll()
                     self.app.launch()
 
-                    XCTAssertTrue(self.projectList.view.waitForExistence(timeout: 2))
-                    XCTAssertEqual(self.projectList.rows.count, 1)
+                    XCTAssertTrue(self.projectListView.view.waitForExistence(timeout: 2))
+                    XCTAssertEqual(self.projectListView.rows.count, 1)
 
-                    let firstRow = self.projectList.rows.first
+                    let firstRow = self.projectListView.rows.first
                     XCTAssertTrue((firstRow?.gradeLabelText ?? "").contains(rawGradeValue))
                 }
             }

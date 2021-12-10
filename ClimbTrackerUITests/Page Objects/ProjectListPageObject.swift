@@ -51,12 +51,10 @@ class ProjectListPageObject : PageObject {
     }
 
     var rows: [ProjectListPageObject.Element] {
-        get {
-            view.descendants(matching: .any)
-                .matching(identifier: "projectListElement")
-                .allElementsBoundByIndex
-                .map( { ProjectListPageObject.Element(view: $0) })
-        }
+        view.descendants(matching: .any)
+            .matching(identifier: "projectListElement")
+            .allElementsBoundByIndex
+            .map( { ProjectListPageObject.Element(view: $0) })
     }
 
     private var navigationBar: XCUIElement {
