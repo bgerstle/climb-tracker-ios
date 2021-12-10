@@ -26,24 +26,28 @@ struct ProjectListView: View {
         NavigationView {
             List {
                 ForEach(viewModel.projects, id: \.id) { projectSummary in
-                    ProjectListElementView(project: projectSummary).swipeActions() {
-                        Button {
-                            viewModel.logAttempt(project: projectSummary,
-                                                 didSend: true)
-                        } label: {
-                            Label("Send", systemImage: "checkmark")
-                        }
-                        .accessibilityIdentifier("addProjectSendAction")
-                        .tint(.green)
+                    NavigationLink(
+                        destination: ProjectDetailsView(projectId: projectSummary.id)
+                    ) {
+                        ProjectListElementView(project: projectSummary).swipeActions() {
+                            Button {
+                                viewModel.logAttempt(project: projectSummary,
+                                                     didSend: true)
+                            } label: {
+                                Label("Send", systemImage: "checkmark")
+                            }
+                            .accessibilityIdentifier("addProjectSendAction")
+                            .tint(.green)
 
-                        Button {
-                            viewModel.logAttempt(project: projectSummary,
-                                                 didSend: false)
-                        } label: {
-                            Label("Attempt", systemImage: "plus")
+                            Button {
+                                viewModel.logAttempt(project: projectSummary,
+                                                     didSend: false)
+                            } label: {
+                                Label("Attempt", systemImage: "plus")
+                            }
+                            .accessibilityIdentifier("addProjectAttemptAction")
+                            .tint(.gray)
                         }
-                        .accessibilityIdentifier("addProjectAttemptAction")
-                        .tint(.gray)
                     }
                 }
             }

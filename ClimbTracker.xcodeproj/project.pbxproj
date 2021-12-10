@@ -30,6 +30,10 @@
 		BC467225268FB97100B2CBE7 /* ProjectListViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC467224268FB97100B2CBE7 /* ProjectListViewUITests.swift */; };
 		BC6501E62763D79900D557E6 /* XCUIElement+PageObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6501E52763D79900D557E6 /* XCUIElement+PageObject.swift */; };
 		BC6501E92763DEF400D557E6 /* CanAddProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6501E82763DEF400D557E6 /* CanAddProject.swift */; };
+		BC6501ED2763E5C900D557E6 /* ProjectDetailsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6501EC2763E5C900D557E6 /* ProjectDetailsUITests.swift */; };
+		BC6501EF2763E63700D557E6 /* ProjectDetailsPageObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6501EE2763E63700D557E6 /* ProjectDetailsPageObject.swift */; };
+		BC6501F42763E95000D557E6 /* ProjectDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6501F32763E95000D557E6 /* ProjectDetailsView.swift */; };
+		BC6501F62764064A00D557E6 /* ProjectDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6501F52764064A00D557E6 /* ProjectDetailsViewModel.swift */; };
 		BC7EF033275290BA00225C0D /* CSVRowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7EF032275290BA00225C0D /* CSVRowTests.swift */; };
 		BC7EF03627552E9C00225C0D /* CSVRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7EF03527552E9C00225C0D /* CSVRow.swift */; };
 		BC7EF039275532C900225C0D /* CSVImporterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7EF038275532C900225C0D /* CSVImporterTests.swift */; };
@@ -117,6 +121,10 @@
 		BC467226268FB97100B2CBE7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BC6501E52763D79900D557E6 /* XCUIElement+PageObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIElement+PageObject.swift"; sourceTree = "<group>"; };
 		BC6501E82763DEF400D557E6 /* CanAddProject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanAddProject.swift; sourceTree = "<group>"; };
+		BC6501EC2763E5C900D557E6 /* ProjectDetailsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectDetailsUITests.swift; sourceTree = "<group>"; };
+		BC6501EE2763E63700D557E6 /* ProjectDetailsPageObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectDetailsPageObject.swift; sourceTree = "<group>"; };
+		BC6501F32763E95000D557E6 /* ProjectDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectDetailsView.swift; sourceTree = "<group>"; };
+		BC6501F52764064A00D557E6 /* ProjectDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectDetailsViewModel.swift; sourceTree = "<group>"; };
 		BC7EF032275290BA00225C0D /* CSVRowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVRowTests.swift; sourceTree = "<group>"; };
 		BC7EF03527552E9C00225C0D /* CSVRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVRow.swift; sourceTree = "<group>"; };
 		BC7EF038275532C900225C0D /* CSVImporterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVImporterTests.swift; sourceTree = "<group>"; };
@@ -328,6 +336,7 @@
 				BC467224268FB97100B2CBE7 /* ProjectListViewUITests.swift */,
 				BC1F5204272B244000702432 /* AddProjectAttemptViewUITests.swift */,
 				BC43D98B269B1CED002C984E /* AddProjectViewUITests.swift */,
+				BC6501EC2763E5C900D557E6 /* ProjectDetailsUITests.swift */,
 				BC467226268FB97100B2CBE7 /* Info.plist */,
 			);
 			path = ClimbTrackerUITests;
@@ -339,6 +348,15 @@
 				BC6501E82763DEF400D557E6 /* CanAddProject.swift */,
 			);
 			path = Behaviors;
+			sourceTree = "<group>";
+		};
+		BC6501F02763E92F00D557E6 /* ProjectDetails */ = {
+			isa = PBXGroup;
+			children = (
+				BC6501F32763E95000D557E6 /* ProjectDetailsView.swift */,
+				BC6501F52764064A00D557E6 /* ProjectDetailsViewModel.swift */,
+			);
+			path = ProjectDetails;
 			sourceTree = "<group>";
 		};
 		BC7EF03A275536F500225C0D /* Test Services */ = {
@@ -379,6 +397,7 @@
 		BCCAEDEF26948E85006F0707 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				BC6501F02763E92F00D557E6 /* ProjectDetails */,
 				BCC650C02745637800C98743 /* Preview Helpers */,
 				BC43D974269A9E23002C984E /* AddProject */,
 				BCCAEE6D269A7F56006F0707 /* ProjectList */,
@@ -396,9 +415,10 @@
 		BCCAEE582698FF71006F0707 /* Page Objects */ = {
 			isa = PBXGroup;
 			children = (
+				BC6501E52763D79900D557E6 /* XCUIElement+PageObject.swift */,
 				BCCAEE592698FFAC006F0707 /* ProjectListPageObject.swift */,
 				BC43D980269AA146002C984E /* AddProjectPageObject.swift */,
-				BC6501E52763D79900D557E6 /* XCUIElement+PageObject.swift */,
+				BC6501EE2763E63700D557E6 /* ProjectDetailsPageObject.swift */,
 			);
 			path = "Page Objects";
 			sourceTree = "<group>";
@@ -582,6 +602,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC43D9A4269B3D73002C984E /* HuecoGrade.swift in Sources */,
+				BC6501F62764064A00D557E6 /* ProjectDetailsViewModel.swift in Sources */,
 				BC9C2B9B26A7A2EF00520E04 /* CategoryPicker.swift in Sources */,
 				BCCC526E2755746300AF81C0 /* DatabaseManager.swift in Sources */,
 				BC00EE592742CFEE00A480A6 /* ProjectNameService.swift in Sources */,
@@ -607,6 +628,7 @@
 				BC9C2B8C26A6190B00520E04 /* YosemiteDecimalGrade.swift in Sources */,
 				BC7EF03627552E9C00225C0D /* CSVRow.swift in Sources */,
 				BC92708A269B7054002734CD /* ProjectService.swift in Sources */,
+				BC6501F42763E95000D557E6 /* ProjectDetailsView.swift in Sources */,
 				BC0B37A3273C3EFE0069B575 /* FrenchGrade.swift in Sources */,
 				BC9C2B9626A61BDA00520E04 /* AddProjectViewModel.swift in Sources */,
 				BCC650C4274563BC00C98743 /* ProjectEventService.swift in Sources */,
@@ -647,7 +669,9 @@
 				BC467225268FB97100B2CBE7 /* ProjectListViewUITests.swift in Sources */,
 				BC43D981269AA146002C984E /* AddProjectPageObject.swift in Sources */,
 				BCCAEE5A2698FFAC006F0707 /* ProjectListPageObject.swift in Sources */,
+				BC6501EF2763E63700D557E6 /* ProjectDetailsPageObject.swift in Sources */,
 				BC1F5205272B244000702432 /* AddProjectAttemptViewUITests.swift in Sources */,
+				BC6501ED2763E5C900D557E6 /* ProjectDetailsUITests.swift in Sources */,
 				BCD1A7A8274C42AC00F85516 /* App+LaunchArgs.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

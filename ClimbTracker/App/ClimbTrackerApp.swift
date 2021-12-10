@@ -40,6 +40,8 @@ struct ClimbTrackerApp: App {
 
         let csvImporter = CSVImporter<CSVRow>(projectService: projectService, projectNameService: projectNameService)
 
+        let projectDetailsViewModel = ProjectDetailsViewModel(projectService: projectService)
+
         return WindowGroup {
             ProjectListView(
                 addProjectViewFactory: {
@@ -56,6 +58,7 @@ struct ClimbTrackerApp: App {
                         try! await csvImporter.importCSV(url)
                     }
                 }
+                .environmentObject(projectDetailsViewModel)
         }
     }
 }

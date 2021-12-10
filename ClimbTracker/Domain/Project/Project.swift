@@ -17,6 +17,7 @@ protocol AnyProject {
     var createdAt: Date { get }
     var rawGrade: String { get }
     var attempts: [AnyAttempt] { get }
+    var name: String? { get }
 
     // convert from Any to specific Project type
     var match: Project { get }
@@ -72,6 +73,7 @@ struct BoulderProject : ProjectType {
     }
     let boulderAttempts: [Attempt]
 
+    var name: String? = nil
     var rawGrade: String { grade.rawValue }
     var attempts: [AnyAttempt] { boulderAttempts }
 
@@ -152,6 +154,7 @@ struct RopeProject : Identifiable, AnyProject, Hashable {
     let id: ProjectID
     let createdAt: Date
     let grade: AnyRopeGrade
+    var name: String? = nil
 
     enum Subcategory : String, Hashable, Codable {
         case topRope = "topRope"

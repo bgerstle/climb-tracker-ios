@@ -13,7 +13,11 @@ struct ProjectDetailsPageObject {
 
 extension XCUIApplication {
     var projectDetailsView: ProjectDetailsPageObject {
-        let view = descendants(matching: .any).matching(identifier: "projectDetailsView").firstMatch
-        return ProjectDetailsPageObject(view: view)
+        return ProjectDetailsPageObject(
+            view:
+                descendants(matching: .any)
+                .matching(identifier: "projectDetailsView")
+                .firstMatch
+        )
     }
 }
