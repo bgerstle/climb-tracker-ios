@@ -124,7 +124,6 @@ struct BoulderProject : ProjectType {
             case .created(let createdPayload):
                 return try Self.encoder.encode(createdPayload)
             case .attempted(let attemptedPayload):
-                // FIXME: WHY THE FUCK IS attemptedPayload != attemptedPayload?!
                 return try Self.encoder.encode(attemptedPayload)
             }
         }
