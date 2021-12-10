@@ -51,6 +51,32 @@ class AddProjectAttemptViewUITests: QuickSpec {
                 XCTAssertTrue(self.projectList.addAttemptSwipeAction.isHittable)
                 XCTAssertTrue(self.projectList.addSendSwipeAction.isHittable)
             }
+
+            it("Then I can log an attempt using the swipe actions") {
+                let firstRow = self.projectList.rows.first!
+                firstRow.view.swipeLeft()
+
+                self.projectList.addAttemptSwipeAction.tap()
+
+                let attemptStatus = firstRow.attemptStatusLabelText
+                XCTAssertTrue(attemptStatus.contains("1 attempt"), "unexpected attempt status \(attemptStatus)")
+
+                let sendStatus = firstRow.sendStatusLabelText
+                XCTAssertTrue(sendStatus.contains("projecting"), "unexpected send status: \(sendStatus)")
+            }
+
+            it("Then I can log a send using the swipe actions") {
+                let firstRow = self.projectList.rows.first!
+                firstRow.view.swipeLeft()
+
+                self.projectList.addSendSwipeAction.tap()
+
+                let attemptStatus = firstRow.attemptStatusLabelText
+                XCTAssertTrue(attemptStatus.contains("1 attempt"), "unexpected attempt status \(attemptStatus)")
+
+                let sendStatus = firstRow.sendStatusLabelText
+                XCTAssertTrue(sendStatus.contains("Sended"), "unexpected send status: \(sendStatus)")
+            }
         }
     }
 }

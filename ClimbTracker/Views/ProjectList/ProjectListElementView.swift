@@ -32,15 +32,19 @@ struct ProjectListElementView: View {
                 }
             }
 
-            if project.sendCount == 0 {
-                Text("Still projecting.")
-            } else if project.sendCount == 1 {
-                Text("Sended!")
-            } else {
-                Text("Sended \(project.sendCount) times!")
-            }
+            Text({ () -> String in
+                if project.sendCount == 0 {
+                    return "Still projecting."
+                } else if project.sendCount == 1 {
+                    return "Sended!"
+                } else {
+                    return "Sended \(project.sendCount) times!"
+                }
+            }())
+                .accessibilityIdentifier("projectListElementSendStatus")
 
             Text("\(project.attemptCount) attempts over \(project.sessionDates.count) sessions.")
+                .accessibilityIdentifier("projectListElementAttemptStatus")
         }
         .accessibilityElement(children: .contain)
         .accessibility(identifier: "projectListElement")

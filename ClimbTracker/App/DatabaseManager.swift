@@ -35,6 +35,7 @@ class DatabaseManager {
     }
 
     func resetDatabase() throws {
+        guard FileManager.default.fileExists(atPath: try databasePath()) else { return }
         try FileManager.default.removeItem(atPath: try databasePath())
     }
 }

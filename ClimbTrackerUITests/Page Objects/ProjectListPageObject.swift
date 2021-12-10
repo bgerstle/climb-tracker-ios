@@ -7,14 +7,14 @@
 
 import XCTest
 
-class ProjectListPageObject {
+class ProjectListPageObject : PageObject {
     public let view: XCUIElement
 
     init(view: XCUIElement) {
         self.view = view
     }
 
-    class Element {
+    class Element : PageObject {
         public let view: XCUIElement
 
         public init(view: XCUIElement) {
@@ -22,17 +22,19 @@ class ProjectListPageObject {
         }
 
         var gradeLabelText: String {
-            view.staticTexts
-                .matching(identifier: "projectListElementGrade")
-                .firstMatch
-                .label
+            textFromLabel(withIdentifier: "projectListElementGrade")
         }
 
         var titleLabelText: String {
-            view.staticTexts
-                .matching(identifier: "projectListElementTitle")
-                .firstMatch
-                .label
+            textFromLabel(withIdentifier: "projectListElementTitle")
+        }
+
+        var sendStatusLabelText: String {
+            textFromLabel(withIdentifier: "projectListElementSendStatus")
+        }
+
+        var attemptStatusLabelText: String {
+            textFromLabel(withIdentifier: "projectListElementAttemptStatus")
         }
     }
 
