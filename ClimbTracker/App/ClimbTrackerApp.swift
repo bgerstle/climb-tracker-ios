@@ -17,6 +17,10 @@ struct ClimbTrackerApp: App {
     let dbManager = DatabaseManager()
 
     var body: some Scene {
+        if CommandLine.arguments.contains("-resetDatabase") {
+            try! dbManager.resetDatabase()
+        }
+        
         // FIXME: remove try!
         let db = try! dbManager.setupDatabase(),
             eventStore = try! PersistentEventStore(db: db),
@@ -26,10 +30,6 @@ struct ClimbTrackerApp: App {
             projectListViewModel = ProjectListViewModel(projectService: projectService)
 
         if !ProcessInfo.processInfo.isTesting {
-            if CommandLine.arguments.contains("-resetDatabase") {
-                try! dbManager.resetDatabase()
-            }
-
             let summaryEventPublisher = summarizer.summarizeProjectEvents(
                 boulder: projectService.boulderProjectEventPublisher,
                 rope: projectService.ropeProjectEventPublisher,
