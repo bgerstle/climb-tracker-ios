@@ -121,13 +121,29 @@ class AddProjectViewUITests: QuickSpec {
                         XCTAssertTrue((firstRow?.gradeLabelText ?? "").contains(rawGradeValue))
                     }
                 }
-            }
 
-            describe("Persistence") {
-                context("Given I have logged a climb") {
-                    xit("When I restart, then the climbs are still in the list") {
-                        
-                    }
+                it("When I restart, then the climbs are still in the list") {
+                    let rawCategoryValue = "Rope"
+                    let rawGradeValue = "5.12b"
+
+                    self.addProject.categoryPicker.tap()
+                    self.addProject.pickerOption(forRawValue: rawCategoryValue).tap()
+                    self.addProject.gradePicker.tap()
+                    self.addProject.pickerOption(forRawValue: rawGradeValue).tap()
+                    XCTAssertTrue(self.addProject.submitButton.isHittable)
+                    self.addProject.submitButton.tap()
+                    XCTAssertTrue(self.projectList.view.waitForExistence(timeout: 2))
+
+                    self.app.terminate()
+                    // remove "resetDatabase" launch arg
+                    self.app.launchArguments.removeAll()
+                    self.app.launch()
+
+                    XCTAssertTrue(self.projectList.view.waitForExistence(timeout: 2))
+                    XCTAssertEqual(self.projectList.rows.count, 1)
+
+                    let firstRow = self.projectList.rows.first
+                    XCTAssertTrue((firstRow?.gradeLabelText ?? "").contains(rawGradeValue))
                 }
             }
         }
