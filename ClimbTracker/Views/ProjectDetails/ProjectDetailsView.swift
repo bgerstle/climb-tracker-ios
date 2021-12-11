@@ -10,19 +10,20 @@ import SwiftUI
 struct ProjectDetailsView: View {
     @EnvironmentObject var viewModel: ProjectDetailsViewModel
 
-    let projectId: ProjectID
+    let projectSummary: ProjectSummary
 
     var body: some View {
-        Text(viewModel.project?.name ?? "")
+        Text(viewModel.project?.rawGrade ?? "")
             .accessibilityIdentifier("projectDetailsView")
             .onAppear {
-                viewModel.projectId = self.projectId
+                viewModel.subscribe(projectId: projectSummary.id,
+                                    category: projectSummary.category)
             }
     }
 }
 
-struct ProjectDetailsView_Previews: PreviewProvider {
-    static var previews: some View {
-        ProjectDetailsView(projectId: UUID())
-    }
-}
+//struct ProjectDetailsView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ProjectDetailsView()
+//    }
+//}

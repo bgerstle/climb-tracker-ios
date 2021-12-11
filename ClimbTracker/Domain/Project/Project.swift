@@ -17,7 +17,6 @@ protocol AnyProject {
     var createdAt: Date { get }
     var rawGrade: String { get }
     var attempts: [AnyAttempt] { get }
-    var name: String? { get }
 
     // convert from Any to specific Project type
     var match: Project { get }
@@ -54,7 +53,9 @@ enum Project {
 }
 
 protocol ProjectType: Identifiable, AnyProject, Hashable
-where ID == ProjectID {}
+where ID == ProjectID {
+    associatedtype Event
+}
 
 protocol AttemptType: Identifiable, AnyAttempt, Hashable
 where ID == AttemptID {}
@@ -73,7 +74,6 @@ struct BoulderProject : ProjectType {
     }
     let boulderAttempts: [Attempt]
 
-    var name: String? = nil
     var rawGrade: String { grade.rawValue }
     var attempts: [AnyAttempt] { boulderAttempts }
 
@@ -146,15 +146,18 @@ struct BoulderProject : ProjectType {
         self.grade = event.grade
         self.boulderAttempts = []
     }
+
+    mutating func apply(_ event: Attempted) {
+
+    }
 }
 
-struct RopeProject : Identifiable, AnyProject, Hashable {
+struct RopeProject : ProjectType {
     typealias ID = ProjectID
 
     let id: ProjectID
     let createdAt: Date
     let grade: AnyRopeGrade
-    var name: String? = nil
 
     enum Subcategory : String, Hashable, Codable {
         case topRope = "topRope"
@@ -240,5 +243,9 @@ struct RopeProject : Identifiable, AnyProject, Hashable {
         self.createdAt = event.createdAt
         self.grade = event.grade
         self.ropeAttempts = []
+    }
+
+    mutating func apply(_ event: Attempted) {
+
     }
 }

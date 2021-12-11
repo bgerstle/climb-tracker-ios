@@ -27,7 +27,7 @@ struct ProjectListView: View {
             List {
                 ForEach(viewModel.projects, id: \.id) { projectSummary in
                     NavigationLink(
-                        destination: ProjectDetailsView(projectId: projectSummary.id)
+                        destination: ProjectDetailsView(projectSummary: projectSummary)
                     ) {
                         ProjectListElementView(project: projectSummary).swipeActions() {
                             Button {

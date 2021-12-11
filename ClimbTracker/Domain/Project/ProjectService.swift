@@ -27,5 +27,6 @@ protocol ProjectService {
                  at: Date,
                  didSend: Bool,
                  subcategory: RopeProject.Subcategory) async throws -> AttemptID
-    
+
+    func subscribeToProject<T: ProjectType>(withType projectType: T.Type, id projectId: ProjectID) -> TopicEventPublisher<T.Event> where T.Event: PersistableTopicEvent
 }

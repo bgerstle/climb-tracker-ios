@@ -10,6 +10,10 @@ import SwiftUI
 
 // Dummy services that can only be used in previews
 class PreviewProjectService : ProjectService {
+    func subscribeToProject<T>(withType projectType: T.Type, id projectId: ProjectID) -> TopicEventPublisher<T.Event> where T : ProjectType, T.Event : PersistableTopicEvent {
+        return [EventEnvelope<T.Event>]().publisher.eraseToAnyPublisher()
+    }
+
     func create<G: BoulderGrade>(grade: G) async throws -> ProjectID {
         UUID()
     }

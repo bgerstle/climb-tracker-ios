@@ -96,4 +96,25 @@ class ProjectEventService : ProjectService {
 
         return attemptId
     }
+
+    func subscribeToProject<T>(withType projectType: T.Type, id projectId: ProjectID) -> TopicEventPublisher<T.Event> where T : ProjectType, T.Event : PersistableTopicEvent {
+        Future<TopicEventPublisher<T.Event>, Error> { promise in
+            Task {
+                do {
+                    guard let topic = try await self.eventStore.findTopic(
+                        id: projectId.uuidString,
+                        eventType: projectType.Event.self
+                    ) else {
+                        throw ProjectNotFound(id: projectId)
+                    }
+                    promise(.success(topic.eventPublisher))
+                } catch {
+                    promise(.failure(error))
+                }
+            }
+        }
+        .assertNoFailure()
+        .flatMap { $0 }
+        .eraseToAnyPublisher()
+    }
 }
