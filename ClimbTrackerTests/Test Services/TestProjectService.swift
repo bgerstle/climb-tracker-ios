@@ -10,6 +10,10 @@ import Foundation
 import XCTest
 
 actor TestProjectService : ProjectService {
+    nonisolated func subscribeToProject<T>(withType projectType: T.Type, id projectId: ProjectID) -> TopicEventPublisher<T.Event> where T : ProjectType, T.Event : PersistableTopicEvent {
+        return [EventEnvelope<T.Event>]().publisher.eraseToAnyPublisher()
+    }
+
     var projects = [ProjectID: AnyProject]()
     var attempts = [ProjectID: [AnyAttempt]]()
 

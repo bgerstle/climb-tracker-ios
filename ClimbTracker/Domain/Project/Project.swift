@@ -34,6 +34,7 @@ extension AnyProject {
 }
 
 protocol AnyAttempt {
+    var id: AttemptID { get }
     var didSend: Bool { get }
     var attemptedAt: Date { get }
 }
@@ -72,7 +73,7 @@ struct BoulderProject : ProjectType {
         let didSend: Bool
         let attemptedAt: Date
     }
-    let boulderAttempts: [Attempt]
+    var boulderAttempts: [Attempt]
 
     var rawGrade: String { grade.rawValue }
     var attempts: [AnyAttempt] { boulderAttempts }
@@ -148,7 +149,11 @@ struct BoulderProject : ProjectType {
     }
 
     mutating func apply(_ event: Attempted) {
-
+        boulderAttempts.append(Attempt(
+            id: event.attemptId,
+            didSend: event.didSend,
+            attemptedAt: event.attemptedAt
+        ))
     }
 }
 
@@ -171,7 +176,7 @@ struct RopeProject : ProjectType {
         let attemptedAt: Date
     }
 
-    let ropeAttempts: [Attempt]
+    var ropeAttempts: [Attempt]
 
     var rawGrade: String { grade.rawValue }
     var attempts: [AnyAttempt] { ropeAttempts }
@@ -246,6 +251,11 @@ struct RopeProject : ProjectType {
     }
 
     mutating func apply(_ event: Attempted) {
-
+        ropeAttempts.append(Attempt(
+            id: event.attemptId,
+            didSend: event.didSend,
+            subcategory: event.subcategory,
+            attemptedAt: event.attemptedAt
+        ))
     }
 }

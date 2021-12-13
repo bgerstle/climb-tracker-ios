@@ -27,27 +27,28 @@ struct ProjectListView: View {
             List {
                 ForEach(viewModel.projects, id: \.id) { projectSummary in
                     NavigationLink(
-                        destination: ProjectDetailsView(projectSummary: projectSummary)
+                        destination: ProjectDetailsView(projectId: projectSummary.id,
+                                                        projectCategory: projectSummary.category)
                     ) {
-                        ProjectListElementView(project: projectSummary).swipeActions() {
-                            Button {
-                                viewModel.logAttempt(project: projectSummary,
-                                                     didSend: true)
-                            } label: {
-                                Label("Send", systemImage: "checkmark")
-                            }
-                            .accessibilityIdentifier("addProjectSendAction")
-                            .tint(.green)
-
-                            Button {
-                                viewModel.logAttempt(project: projectSummary,
-                                                     didSend: false)
-                            } label: {
-                                Label("Attempt", systemImage: "plus")
-                            }
-                            .accessibilityIdentifier("addProjectAttemptAction")
-                            .tint(.gray)
+                        ProjectListElementView(project: projectSummary)
+                    }.swipeActions() {
+                        Button {
+                            viewModel.logAttempt(project: projectSummary,
+                                                 didSend: true)
+                        } label: {
+                            Label("Send", systemImage: "checkmark")
                         }
+                        .accessibilityIdentifier("addProjectSendAction")
+                        .tint(.green)
+                        
+                        Button {
+                            viewModel.logAttempt(project: projectSummary,
+                                                 didSend: false)
+                        } label: {
+                            Label("Attempt", systemImage: "plus")
+                        }
+                        .accessibilityIdentifier("addProjectAttemptAction")
+                        .tint(.gray)
                     }
                 }
             }
@@ -73,7 +74,7 @@ struct ProjectListView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         let viewModel = ProjectListViewModel(projectService: previewProjectService)
-        viewModel.projects = (0...20).map { i in
+        viewModel.projects = (0...5).map { i in
             if i % 2 == 0 {
                 let ropeGrade = YosemiteDecimalGrade.allCases[Int.random(in: (0..<YosemiteDecimalGrade.allCases.count))]
                 return ProjectSummary(id: UUID(),

@@ -46,7 +46,9 @@ class ProjectDetailsViewModel : ObservableObject {
         performUpdate { (boulderProject: BoulderProject?) -> BoulderProject in
             switch envelope.event {
             case .created(let payload):
-                precondition(boulderProject == nil)
+                guard boulderProject == nil else {
+                    fatalError("project unexpectedly initialized before created event \(String(describing: boulderProject))")
+                }
                 return BoulderProject(payload)
             case .attempted(let payload):
                 guard var boulderProject = boulderProject else {
@@ -62,7 +64,9 @@ class ProjectDetailsViewModel : ObservableObject {
         performUpdate { (ropeProject: RopeProject?) -> RopeProject in
             switch envelope.event {
             case .created(let payload):
-                precondition(ropeProject == nil)
+                guard ropeProject == nil else {
+                    fatalError("project unexpectedly initialized before created event \(String(describing: ropeProject))")
+                }
                 return RopeProject(payload)
             case .attempted(let payload):
                 guard var ropeProject = ropeProject else {
