@@ -79,6 +79,7 @@ struct ContentView_Previews: PreviewProvider {
                 let ropeGrade = YosemiteDecimalGrade.allCases[Int.random(in: (0..<YosemiteDecimalGrade.allCases.count))]
                 return ProjectSummary(id: UUID(),
                                       category: .rope,
+                                      createdAt: Date(),
                                       grade: ropeGrade.rawValue,
                                       sendCount: 0,
                                       sessionDates: Set(),
@@ -88,6 +89,7 @@ struct ContentView_Previews: PreviewProvider {
                 let boulderGrade = HuecoGrade.allCases[Int.random(in: (0..<HuecoGrade.allCases.count))]
                 return ProjectSummary(id: UUID(),
                                       category: .boulder,
+                                      createdAt: Date(),
                                       grade: boulderGrade.rawValue,
                                       sendCount: 0,
                                       sessionDates: Set(),

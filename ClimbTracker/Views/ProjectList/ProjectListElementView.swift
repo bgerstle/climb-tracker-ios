@@ -56,6 +56,7 @@ struct ProjectListElementView_Previews: PreviewProvider {
     static var previews: some View {
         ProjectListElementView(project: ProjectSummary(id: UUID(),
                                                        category: .boulder,
+                                                       createdAt: Date(),
                                                        grade: HuecoGrade.easy.rawValue,
                                                        sendCount: 0,
                                                        sessionDates: Set(),

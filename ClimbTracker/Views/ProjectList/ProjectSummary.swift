@@ -11,6 +11,7 @@ import Combine
 struct ProjectSummary : Identifiable, Hashable, Equatable {
     let id: ProjectID
     let category: ProjectCategory
+    let createdAt: Date
 
     var name: String?
     var grade: String

@@ -62,6 +62,7 @@ struct ProjectDetailsView: View {
     var body: some View {
         NavigationView {
             VStack {
+                // TODO: make the header scroll w/ list content
                 header()
                     .padding()
                 Form {

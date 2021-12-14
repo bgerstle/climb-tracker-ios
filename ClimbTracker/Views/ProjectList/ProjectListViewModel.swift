@@ -19,9 +19,9 @@ extension Calendar {
 }
 
 extension ProjectSummary {
-    struct LastAttemptSortComparator : SortComparator {
+    struct ProjectSortComparator : SortComparator {
         func compare(_ lhs: ProjectSummary, _ rhs: ProjectSummary) -> ComparisonResult {
-            let comparison = lhs.lastAttemptOrDefault.compare(rhs.lastAttemptOrDefault)
+            let comparison = lhs.lastAttemptOrCreatedAt.compare(rhs.lastAttemptOrCreatedAt)
             switch order {
             case .forward:
                 return comparison
@@ -43,12 +43,12 @@ extension ProjectSummary {
     }
 
     // default nil dates to distantFuture, to keep new projects at the top
-    var lastAttemptOrDefault: Date {
-        lastAttempt ?? Date.distantFuture
+    var lastAttemptOrCreatedAt: Date {
+        lastAttempt ?? createdAt
     }
 
-    static func lastAttemptSortComparator(order: SortOrder = .reverse) -> LastAttemptSortComparator {
-        LastAttemptSortComparator(order: order)
+    static func lastAttemptSortComparator(order: SortOrder = .reverse) -> ProjectSortComparator {
+        ProjectSortComparator(order: order)
     }
 }
 
@@ -93,6 +93,7 @@ class ProjectListViewModel: ObservableObject {
             let summary = ProjectSummary(
                 id: event.id,
                 category: event.category,
+                createdAt: event.createdAt,
                 name: projectNames[event.id],
                 grade: event.grade,
                 sendCount: 0,
