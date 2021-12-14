@@ -34,6 +34,8 @@
 		BC6501EF2763E63700D557E6 /* ProjectDetailsPageObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6501EE2763E63700D557E6 /* ProjectDetailsPageObject.swift */; };
 		BC6501F42763E95000D557E6 /* ProjectDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6501F32763E95000D557E6 /* ProjectDetailsView.swift */; };
 		BC6501F62764064A00D557E6 /* ProjectDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6501F52764064A00D557E6 /* ProjectDetailsViewModel.swift */; };
+		BC6501FA2768F44B00D557E6 /* EventSourcing.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6501F92768F44B00D557E6 /* EventSourcing.swift */; };
+		BC6501FC2768F4B100D557E6 /* Project+EventSourced.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6501FB2768F4B100D557E6 /* Project+EventSourced.swift */; };
 		BC7EF033275290BA00225C0D /* CSVRowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7EF032275290BA00225C0D /* CSVRowTests.swift */; };
 		BC7EF03627552E9C00225C0D /* CSVRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7EF03527552E9C00225C0D /* CSVRow.swift */; };
 		BC7EF039275532C900225C0D /* CSVImporterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7EF038275532C900225C0D /* CSVImporterTests.swift */; };
@@ -125,6 +127,8 @@
 		BC6501EE2763E63700D557E6 /* ProjectDetailsPageObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectDetailsPageObject.swift; sourceTree = "<group>"; };
 		BC6501F32763E95000D557E6 /* ProjectDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectDetailsView.swift; sourceTree = "<group>"; };
 		BC6501F52764064A00D557E6 /* ProjectDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectDetailsViewModel.swift; sourceTree = "<group>"; };
+		BC6501F92768F44B00D557E6 /* EventSourcing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventSourcing.swift; sourceTree = "<group>"; };
+		BC6501FB2768F4B100D557E6 /* Project+EventSourced.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Project+EventSourced.swift"; sourceTree = "<group>"; };
 		BC7EF032275290BA00225C0D /* CSVRowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVRowTests.swift; sourceTree = "<group>"; };
 		BC7EF03527552E9C00225C0D /* CSVRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVRow.swift; sourceTree = "<group>"; };
 		BC7EF038275532C900225C0D /* CSVImporterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVImporterTests.swift; sourceTree = "<group>"; };
@@ -251,6 +255,7 @@
 			isa = PBXGroup;
 			children = (
 				BC43D992269B3852002C984E /* Project.swift */,
+				BC6501FB2768F4B100D557E6 /* Project+EventSourced.swift */,
 				BC927089269B7054002734CD /* ProjectService.swift */,
 			);
 			path = Project;
@@ -447,6 +452,7 @@
 			isa = PBXGroup;
 			children = (
 				BCDFE90A273DA12F00DD35F7 /* EventStore.swift */,
+				BC6501F92768F44B00D557E6 /* EventSourcing.swift */,
 				BCC650C827456AD900C98743 /* Publisher+Log.swift */,
 				BCC650C627456AB300C98743 /* EphemeralEventStore.swift */,
 				BC7F2F4B2746FC2600AE5B0B /* Persistent Event Store */,
@@ -605,6 +611,7 @@
 				BC6501F62764064A00D557E6 /* ProjectDetailsViewModel.swift in Sources */,
 				BC9C2B9B26A7A2EF00520E04 /* CategoryPicker.swift in Sources */,
 				BCCC526E2755746300AF81C0 /* DatabaseManager.swift in Sources */,
+				BC6501FC2768F4B100D557E6 /* Project+EventSourced.swift in Sources */,
 				BC00EE592742CFEE00A480A6 /* ProjectNameService.swift in Sources */,
 				BCC650C2274563AD00C98743 /* ProjectNameEventService.swift in Sources */,
 				BC7F2F4D2746FC3100AE5B0B /* GRDB+AsyncAwait.swift in Sources */,
@@ -628,6 +635,7 @@
 				BC9C2B8C26A6190B00520E04 /* YosemiteDecimalGrade.swift in Sources */,
 				BC7EF03627552E9C00225C0D /* CSVRow.swift in Sources */,
 				BC92708A269B7054002734CD /* ProjectService.swift in Sources */,
+				BC6501FA2768F44B00D557E6 /* EventSourcing.swift in Sources */,
 				BC6501F42763E95000D557E6 /* ProjectDetailsView.swift in Sources */,
 				BC0B37A3273C3EFE0069B575 /* FrenchGrade.swift in Sources */,
 				BC9C2B9626A61BDA00520E04 /* AddProjectViewModel.swift in Sources */,

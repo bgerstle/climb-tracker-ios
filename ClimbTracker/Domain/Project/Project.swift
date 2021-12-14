@@ -55,7 +55,6 @@ enum Project {
 
 protocol ProjectType: Identifiable, AnyProject, Hashable
 where ID == ProjectID {
-    associatedtype Event
 }
 
 protocol AttemptType: Identifiable, AnyAttempt, Hashable
@@ -139,21 +138,6 @@ struct BoulderProject : ProjectType {
                 self = .attempted(try Self.decoder.decode(Attempted.self, from: payload))
             }
         }
-    }
-
-    init(_ event: Created) {
-        self.id = event.projectId
-        self.createdAt = event.createdAt
-        self.grade = event.grade
-        self.boulderAttempts = []
-    }
-
-    mutating func apply(_ event: Attempted) {
-        boulderAttempts.append(Attempt(
-            id: event.attemptId,
-            didSend: event.didSend,
-            attemptedAt: event.attemptedAt
-        ))
     }
 }
 
@@ -241,21 +225,5 @@ struct RopeProject : ProjectType {
                 self = .attempted(try Self.decoder.decode(Attempted.self, from: payload))
             }
         }
-    }
-
-    init(_ event: Created) {
-        self.id = event.projectId
-        self.createdAt = event.createdAt
-        self.grade = event.grade
-        self.ropeAttempts = []
-    }
-
-    mutating func apply(_ event: Attempted) {
-        ropeAttempts.append(Attempt(
-            id: event.attemptId,
-            didSend: event.didSend,
-            subcategory: event.subcategory,
-            attemptedAt: event.attemptedAt
-        ))
     }
 }

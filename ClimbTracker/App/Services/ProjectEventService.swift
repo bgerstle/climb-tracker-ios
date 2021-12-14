@@ -97,7 +97,7 @@ class ProjectEventService : ProjectService {
         return attemptId
     }
 
-    func subscribeToProject<T>(withType projectType: T.Type, id projectId: ProjectID) -> TopicEventPublisher<T.Event> where T : ProjectType, T.Event : PersistableTopicEvent {
+    func subscribeToProject<T>(withType projectType: T.Type, id projectId: ProjectID) -> TopicEventPublisher<T.Event> where T : EventSourcedProject {
         Future<TopicEventPublisher<T.Event>, Error> { promise in
             Task {
                 do {

@@ -33,59 +33,18 @@ class ProjectDetailsViewModel : ObservableObject {
         case .boulder:
             return projectService.subscribeToProject(withType: BoulderProject.self, id: projectId)
                 .receive(on: DispatchQueue.main)
-                .sink { self.updateProject($0) }
+                .sink { self.update(projectType: BoulderProject.self, envelope: $0) }
 
         case .rope:
             return projectService.subscribeToProject(withType: RopeProject.self, id: projectId)
                 .receive(on: DispatchQueue.main)
-                .sink { self.updateProject($0) }
+                .sink { self.update(projectType: RopeProject.self, envelope: $0) }
         }
     }
 
-    func updateProject(_ envelope: EventEnvelope<BoulderProject.Event>) {
-        performUpdate { (boulderProject: BoulderProject?) -> BoulderProject in
-            switch envelope.event {
-            case .created(let payload):
-                guard boulderProject == nil else {
-                    fatalError("project unexpectedly initialized before created event \(String(describing: boulderProject))")
-                }
-                return BoulderProject(payload)
-            case .attempted(let payload):
-                guard var boulderProject = boulderProject else {
-                    fatalError("project should have been initialized by created event")
-                }
-                boulderProject.apply(payload)
-                return boulderProject
-            }
-        }
-    }
-
-    func updateProject(_ envelope: EventEnvelope<RopeProject.Event>) {
-        performUpdate { (ropeProject: RopeProject?) -> RopeProject in
-            switch envelope.event {
-            case .created(let payload):
-                guard ropeProject == nil else {
-                    fatalError("project unexpectedly initialized before created event \(String(describing: ropeProject))")
-                }
-                return RopeProject(payload)
-            case .attempted(let payload):
-                guard var ropeProject = ropeProject else {
-                    fatalError("project should have been initialized by created event")
-                }
-                ropeProject.apply(payload)
-                return ropeProject
-            }
-        }
-    }
-
-    private func performUpdate<T: ProjectType>(_ update: (T?) -> T) {
-        guard let project = project else {
-            project = update(nil)
-            return
-        }
-        guard let projectAsExpectedType = project as? T else {
-            fatalError("expected to update \(T.self) project but got \(project)")
-        }
-        self.project = update(projectAsExpectedType)
+    func update<T: EventSourcedProject>(projectType: T.Type, envelope: EventEnvelope<T.Event>) {
+        // use `map` since (unlike guard let) it allows project to be nil
+        let projectAsExpectedType = project.map { $0 as! T }
+        project = T.apply(event: envelope.event, to: projectAsExpectedType)
     }
 }

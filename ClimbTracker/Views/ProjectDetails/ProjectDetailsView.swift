@@ -97,8 +97,8 @@ struct ProjectDetailsView_Previews: PreviewProvider {
             createdAt: Date(),
             grade: .hueco(HuecoGrade.four)
         )
-        viewModel.updateProject(EventEnvelope(event: .created(boulderProjCreated), timestamp: Date()))
-        viewModel.updateProject(EventEnvelope(
+        viewModel.update(projectType: BoulderProject.self, envelope: EventEnvelope(event: .created(boulderProjCreated), timestamp: Date()))
+        viewModel.update(projectType: BoulderProject.self, envelope: EventEnvelope(
             event: .attempted(BoulderProject.Attempted(
                 projectId: boulderProjCreated.projectId,
                 attemptId: UUID(),
@@ -107,7 +107,7 @@ struct ProjectDetailsView_Previews: PreviewProvider {
             )),
             timestamp: Date()
         ))
-        viewModel.updateProject(EventEnvelope(
+        viewModel.update(projectType: BoulderProject.self, envelope: EventEnvelope(
             event: .attempted(BoulderProject.Attempted(
                 projectId: boulderProjCreated.projectId,
                 attemptId: UUID(),

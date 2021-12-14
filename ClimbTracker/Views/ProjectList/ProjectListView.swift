@@ -32,6 +32,8 @@ struct ProjectListView: View {
                     ) {
                         ProjectListElementView(project: projectSummary)
                     }.swipeActions() {
+                        // FIXME: update "focused" project to prevent losing it after resorting
+                        // e.g. adding attempt to an older project makes it jump to the top
                         Button {
                             viewModel.logAttempt(project: projectSummary,
                                                  didSend: true)
