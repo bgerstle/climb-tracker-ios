@@ -10,6 +10,14 @@ import Foundation
 import XCTest
 
 actor TestProjectService : ProjectService {
+    func updateAttempt(projectId: ProjectID, attemptId: AttemptID, didSend: Bool, attemptedAt: Date) async throws {
+
+    }
+    
+    func updateAttempt(projectId: ProjectID, attemptId: AttemptID, didSend: Bool, attemptedAt: Date, subcategory: RopeProject.Subcategory) async throws {
+        
+    }
+    
     nonisolated func subscribeToProject<T: EventSourcedProject>(withType projectType: T.Type, id projectId: ProjectID) -> TopicEventPublisher<T.Event> {
         return [EventEnvelope<T.Event>]().publisher.eraseToAnyPublisher()
     }

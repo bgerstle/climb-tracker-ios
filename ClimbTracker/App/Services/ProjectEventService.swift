@@ -117,4 +117,37 @@ class ProjectEventService : ProjectService {
         .flatMap { $0 }
         .eraseToAnyPublisher()
     }
+
+    func updateAttempt(projectId: ProjectID, attemptId: AttemptID, didSend: Bool, attemptedAt: Date) async throws {
+        guard let topic = try await eventStore.findTopic(id: projectId.uuidString,
+                                                         eventType: BoulderProject.Event.self) else {
+            throw ProjectNotFound(id: projectId)
+        }
+
+        let payload = BoulderProject.AttemptUpdated(
+            projectId: projectId,
+            attemptId: attemptId,
+            didSend: didSend,
+            attemptedAt: attemptedAt
+        )
+
+        try await topic.write(EventEnvelope(event: .attemptUpdated(payload), timestamp: Date()))
+    }
+
+    func updateAttempt(projectId: ProjectID, attemptId: AttemptID, didSend: Bool, attemptedAt: Date, subcategory: RopeProject.Subcategory) async throws {
+        guard let topic = try await eventStore.findTopic(id: projectId.uuidString,
+                                                         eventType: RopeProject.Event.self) else {
+            throw ProjectNotFound(id: projectId)
+        }
+
+        let payload = RopeProject.AttemptUpdated(
+            projectId: projectId,
+            attemptId: attemptId,
+            didSend: didSend,
+            attemptedAt: attemptedAt,
+            subcategory: subcategory
+        )
+
+        try await topic.write(EventEnvelope(event: .attemptUpdated(payload), timestamp: Date()))
+    }
 }

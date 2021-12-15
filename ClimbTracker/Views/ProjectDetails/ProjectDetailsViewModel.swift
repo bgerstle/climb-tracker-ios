@@ -19,10 +19,13 @@ class ProjectDetailsViewModel : ObservableObject {
     @Published
     private(set) var project: AnyProject? = nil
 
-    func subscribe(projectId: ProjectID, category: ProjectCategory) {
+    func unsubscribe() {
         project = nil
-
         cancellables.removeAll()
+    }
+
+    func subscribe(projectId: ProjectID, category: ProjectCategory) {
+        unsubscribe()
 
         createSubscription(projectId: projectId, category: category).store(in: &cancellables)
         projectNameService.projectNamesPublisher

@@ -11,6 +11,14 @@ import Combine
 
 // Dummy services that can only be used in previews
 class PreviewProjectService : ProjectService {
+    func updateAttempt(projectId: ProjectID, attemptId: AttemptID, didSend: Bool, attemptedAt: Date) async throws {
+
+    }
+
+    func updateAttempt(projectId: ProjectID, attemptId: AttemptID, didSend: Bool, attemptedAt: Date, subcategory: RopeProject.Subcategory) async throws {
+        
+    }
+
     func subscribeToProject<T>(withType projectType: T.Type, id projectId: ProjectID) -> TopicEventPublisher<T.Event> where T : EventSourcedProject {
         return [EventEnvelope<T.Event>]().publisher.eraseToAnyPublisher()
     }

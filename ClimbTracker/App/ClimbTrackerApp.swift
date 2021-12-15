@@ -43,6 +43,8 @@ struct ClimbTrackerApp: App {
         let projectDetailsViewModel = ProjectDetailsViewModel(projectService: projectService,
                                                               projectNameService: projectNameService)
 
+        let edtiAttemptViewModel = EditAttemptViewModel(projectService: projectService)
+
         return WindowGroup {
             ProjectListView(
                 addProjectViewFactory: {
@@ -60,6 +62,7 @@ struct ClimbTrackerApp: App {
                     }
                 }
                 .environmentObject(projectDetailsViewModel)
+                .environmentObject(edtiAttemptViewModel)
         }
     }
 }

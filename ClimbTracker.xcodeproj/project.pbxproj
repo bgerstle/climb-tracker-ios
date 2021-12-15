@@ -48,6 +48,9 @@
 		BC7F2F4F2748018C00AE5B0B /* PersistentEventTopicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7F2F4E2748018C00AE5B0B /* PersistentEventTopicTests.swift */; };
 		BC7F2F51274806B100AE5B0B /* TestDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7F2F50274806B100AE5B0B /* TestDatabase.swift */; };
 		BC7FF4C4276A19C700B959D6 /* ProjectListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2ECFDC269B877400838466 /* ProjectListViewModelTests.swift */; };
+		BC7FF4C7276A94CC00B959D6 /* EditAttemptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7FF4C6276A94CB00B959D6 /* EditAttemptView.swift */; };
+		BC7FF4C9276A9B4D00B959D6 /* EditAttemptViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7FF4C8276A9B4D00B959D6 /* EditAttemptViewModel.swift */; };
+		BC7FF4CB276A9EA000B959D6 /* AttemptListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7FF4CA276A9EA000B959D6 /* AttemptListRow.swift */; };
 		BC92708A269B7054002734CD /* ProjectService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC927089269B7054002734CD /* ProjectService.swift */; };
 		BC9C2B8C26A6190B00520E04 /* YosemiteDecimalGrade.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C2B8B26A6190B00520E04 /* YosemiteDecimalGrade.swift */; };
 		BC9C2B9126A61B8400520E04 /* GradePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C2B9026A61B8400520E04 /* GradePicker.swift */; };
@@ -139,6 +142,9 @@
 		BC7F2F4C2746FC3100AE5B0B /* GRDB+AsyncAwait.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GRDB+AsyncAwait.swift"; sourceTree = "<group>"; };
 		BC7F2F4E2748018C00AE5B0B /* PersistentEventTopicTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentEventTopicTests.swift; sourceTree = "<group>"; };
 		BC7F2F50274806B100AE5B0B /* TestDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestDatabase.swift; sourceTree = "<group>"; };
+		BC7FF4C6276A94CB00B959D6 /* EditAttemptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAttemptView.swift; sourceTree = "<group>"; };
+		BC7FF4C8276A9B4D00B959D6 /* EditAttemptViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAttemptViewModel.swift; sourceTree = "<group>"; };
+		BC7FF4CA276A9EA000B959D6 /* AttemptListRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttemptListRow.swift; sourceTree = "<group>"; };
 		BC927089269B7054002734CD /* ProjectService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectService.swift; sourceTree = "<group>"; };
 		BC92708E269B71B2002734CD /* ProjectEventServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectEventServiceTests.swift; sourceTree = "<group>"; };
 		BC9C2B8B26A6190B00520E04 /* YosemiteDecimalGrade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YosemiteDecimalGrade.swift; sourceTree = "<group>"; };
@@ -359,6 +365,7 @@
 			isa = PBXGroup;
 			children = (
 				BC6501F32763E95000D557E6 /* ProjectDetailsView.swift */,
+				BC7FF4CA276A9EA000B959D6 /* AttemptListRow.swift */,
 				BC6501F52764064A00D557E6 /* ProjectDetailsViewModel.swift */,
 			);
 			path = ProjectDetails;
@@ -382,6 +389,15 @@
 			path = "Persistent Event Store";
 			sourceTree = "<group>";
 		};
+		BC7FF4C5276A94A100B959D6 /* Edit Attempt */ = {
+			isa = PBXGroup;
+			children = (
+				BC7FF4C6276A94CB00B959D6 /* EditAttemptView.swift */,
+				BC7FF4C8276A9B4D00B959D6 /* EditAttemptViewModel.swift */,
+			);
+			name = "Edit Attempt";
+			sourceTree = "<group>";
+		};
 		BCC650C02745637800C98743 /* Preview Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -402,6 +418,7 @@
 		BCCAEDEF26948E85006F0707 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				BC7FF4C5276A94A100B959D6 /* Edit Attempt */,
 				BC6501F02763E92F00D557E6 /* ProjectDetails */,
 				BCC650C02745637800C98743 /* Preview Helpers */,
 				BC43D974269A9E23002C984E /* AddProject */,
@@ -617,6 +634,7 @@
 				BC7F2F4D2746FC3100AE5B0B /* GRDB+AsyncAwait.swift in Sources */,
 				BC0B37A1273C3EF70069B575 /* FontGrade.swift in Sources */,
 				BCC650C727456AB300C98743 /* EphemeralEventStore.swift in Sources */,
+				BC7FF4C9276A9B4D00B959D6 /* EditAttemptViewModel.swift in Sources */,
 				BC46720A268FB96E00B2CBE7 /* ProjectListView.swift in Sources */,
 				BC7F2F4A2746F04600AE5B0B /* PersistentEventStore.swift in Sources */,
 				BCC650C927456AD900C98743 /* Publisher+Log.swift in Sources */,
@@ -638,8 +656,10 @@
 				BC6501FA2768F44B00D557E6 /* EventSourcing.swift in Sources */,
 				BC6501F42763E95000D557E6 /* ProjectDetailsView.swift in Sources */,
 				BC0B37A3273C3EFE0069B575 /* FrenchGrade.swift in Sources */,
+				BC7FF4CB276A9EA000B959D6 /* AttemptListRow.swift in Sources */,
 				BC9C2B9626A61BDA00520E04 /* AddProjectViewModel.swift in Sources */,
 				BCC650C4274563BC00C98743 /* ProjectEventService.swift in Sources */,
+				BC7FF4C7276A94CC00B959D6 /* EditAttemptView.swift in Sources */,
 				BC2ECFD8269B852800838466 /* ProjectListViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

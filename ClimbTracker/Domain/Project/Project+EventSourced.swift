@@ -9,6 +9,15 @@ import Foundation
 
 typealias EventSourcedProject = ProjectType & EventSourced
 
+fileprivate extension ProjectType {
+    func indexOfAttempt(withId attemptId: AttemptID) -> Int {
+        guard let existingAttemptIndex = attempts.firstIndex(where: { $0.id == attemptId }) else {
+            fatalError("Could not find attempt \(attemptId) to update in project \(id)")
+        }
+        return existingAttemptIndex
+    }
+}
+
 extension BoulderProject : EventSourced {
     static func apply(event: Event, to project: Self?) -> Self {
         switch event {
@@ -22,6 +31,12 @@ extension BoulderProject : EventSourced {
                 fatalError("Invalid attempt to apply \(attempted) to nil project, make sure created event is ordered before others.")
             }
             project.apply(attempted)
+            return project
+        case .attemptUpdated(let attemptUpdated):
+            guard var project = project else {
+                fatalError("Invalid attempt to apply \(attemptUpdated) to nil project, make sure created event is ordered before others.")
+            }
+            project.apply(attemptUpdated)
             return project
         }
     }
@@ -40,6 +55,14 @@ extension BoulderProject : EventSourced {
             attemptedAt: event.attemptedAt
         ))
     }
+
+    private mutating func apply(_ event: AttemptUpdated) {
+        boulderAttempts[indexOfAttempt(withId: event.attemptId)] = Attempt(
+            id: event.attemptId,
+            didSend: event.didSend,
+            attemptedAt: event.attemptedAt
+        )
+    }
 }
 
 extension RopeProject : EventSourced {
@@ -56,6 +79,12 @@ extension RopeProject : EventSourced {
                 fatalError("Invalid attempt to apply \(attempted) to nil project, make sure created event is ordered before others.")
             }
             project.apply(attempted)
+            return project
+        case .attemptUpdated(let attemptUpdated):
+            guard var project = project else {
+                fatalError("Invalid attempt to apply \(attemptUpdated) to nil project, make sure created event is ordered before others.")
+            }
+            project.apply(attemptUpdated)
             return project
         }
     }
@@ -74,5 +103,14 @@ extension RopeProject : EventSourced {
             subcategory: event.subcategory,
             attemptedAt: event.attemptedAt
         ))
+    }
+
+    private mutating func apply(_ event: AttemptUpdated) {
+        ropeAttempts[indexOfAttempt(withId: event.attemptId)] = Attempt(
+            id: event.attemptId,
+            didSend: event.didSend,
+            subcategory: event.subcategory,
+            attemptedAt: event.attemptedAt
+        )
     }
 }

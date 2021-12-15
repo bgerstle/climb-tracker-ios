@@ -63,15 +63,12 @@ struct ProjectDetailsView: View {
     func attemptsList() -> some View {
         Group {
             if let project = viewModel.project {
+                // TODO: sort by attemptedAt
                 ForEach(project.attempts, id: \.id) { attempt in
-                    HStack {
-                        Text(attempt.didSend ? "Send" : "Attempt")
-                        if project.category == .rope {
-                            let ropeAttempt = attempt as! RopeProject.Attempt
-                            Text("(\(ropeAttempt.subcategory.attemptListDescription))")
-                        }
-                        Spacer()
-                        Text(ProjectDetailsView.dateFormatter.string(from: attempt.attemptedAt))
+                    NavigationLink(
+                        destination: EditAttemptView(projectId: project.id, attempt: attempt)
+                    ) {
+                        AttemptListRow(attempt: attempt)
                     }
                 }
             } else {
@@ -93,6 +90,9 @@ struct ProjectDetailsView: View {
         }
         .onAppear {
             viewModel.subscribe(projectId: projectId, category: projectCategory)
+        }
+        .onDisappear {
+            viewModel.unsubscribe()
         }
         .toolbar() {
             ToolbarItem(placement: .navigationBarTrailing) {
