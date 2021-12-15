@@ -14,6 +14,8 @@ protocol ProjectNameService {
     func getProject(forName: String) async throws -> ProjectID?
 
     func getName(forProject: ProjectID) async throws -> String?
+
+    var projectNamesPublisher: AnyPublisher<[ProjectID: String], Never> { get }
 }
 
 struct NameAlreadyTaken : Error {

@@ -19,30 +19,6 @@ struct ProjectSummary : Identifiable, Hashable, Equatable {
     var sessionDates: Set<Date>
     var attemptCount: UInt
     var lastAttempt: Date?
-
-    enum Event {
-        struct Created {
-            let id: ProjectID
-            let createdAt: Date
-            let grade: String
-            let category: ProjectCategory
-        }
-
-        struct Attempted {
-            let projectId: ProjectID
-            let didSend: Bool
-            let attemptedAt: Date
-        }
-
-        struct Named {
-            let projectId: ProjectID
-            let name: String
-        }
-
-        case created(Created)
-        case attempted(Attempted)
-        case named(Named)
-    }
 }
 
 class ProjectSummarizer {
@@ -50,7 +26,7 @@ class ProjectSummarizer {
             boulder: PB,
             rope: PR,
             name: PN
-    ) -> AnyPublisher<EventEnvelope<ProjectSummary.Event>, Never>
+    ) -> AnyPublisher<[ProjectSummary], Never>
     where PB.Output == EventEnvelope<BoulderProject.Event>,
           PB.Failure == Never,
           PR.Output == EventEnvelope<RopeProject.Event>,
@@ -58,62 +34,37 @@ class ProjectSummarizer {
           PN.Output == EventEnvelope<ProjectNameEvent>,
           PN.Failure == Never
     {
-        let boulderSummaries = boulder.map(summarize),
-            ropeSummaries = rope.map(summarize),
-            nameSummaries = name.map(summarize),
-            allSummaries = boulderSummaries.merge(with: ropeSummaries)
-                                           .merge(with: nameSummaries)
-        return allSummaries.eraseToAnyPublisher()
-    }
-
-    private func summarize(_ envelope: EventEnvelope<ProjectNameEvent>) -> EventEnvelope<ProjectSummary.Event> {
-        envelope.map { nameEvent in
-            switch nameEvent {
-            case .named(let event):
-                return ProjectSummary.Event.named(ProjectSummary.Event.Named(
-                    projectId: event.projectId, name: event.name
-                ))
+        // TODO: extract into project service
+        let boulderProjects = boulder.materializedEntities(BoulderProject.self),
+            bouldersAsAny = boulderProjects.map { bps in bps.mapValues { $0 as AnyProject }  },
+            ropeProjects = rope.materializedEntities(RopeProject.self),
+            ropesAsAny = ropeProjects.map { rps in rps.mapValues { $0 as AnyProject }  },
+            allProjects = bouldersAsAny.combineLatest(ropesAsAny).map { bps, rps in
+                bps.merging(rps, uniquingKeysWith: { bp, rp in
+                    fatalError("Expected materialized boulder & rope projects to always be unique, but found duplicates \(bp) and \(rp)")
+                })
+            },
+            // TODO: use projectNamesPublisher
+            allNames = name.scan([EventEnvelope<ProjectNameEvent>]()) { names, eventEnvelope in
+                names + [eventEnvelope]
+            }
+            .map { $0.currentNamedProjects() },
+        projectSummaries = allProjects.combineLatest(allNames).map { projs, names in
+            projs.values.map { proj in
+                ProjectSummary(
+                    id: proj.id,
+                    category: proj.category,
+                    createdAt: proj.createdAt,
+                    name: names[proj.id],
+                    grade: proj.rawGrade,
+                    sendCount: proj.attempts.filter(\.didSend).count,
+                    sessionDates: Set(proj.attempts.map(\.attemptedAt).map(Calendar.defaultClimbCalendar.startOfDay)),
+                    attemptCount: UInt(proj.attempts.count),
+                    lastAttempt: proj.attempts.map(\.attemptedAt).max()
+                )
             }
         }
-    }
 
-    private func summarize(_ envelope: EventEnvelope<BoulderProject.Event>) -> EventEnvelope<ProjectSummary.Event> {
-        envelope.map { projectEvent in
-            switch projectEvent {
-            case .created(let event):
-                return ProjectSummary.Event.created(ProjectSummary.Event.Created(
-                    id: event.projectId,
-                    createdAt: event.createdAt,
-                    grade: event.grade.rawValue,
-                    category: .boulder
-                ))
-            case .attempted(let event):
-                return ProjectSummary.Event.attempted(ProjectSummary.Event.Attempted(
-                    projectId: event.projectId,
-                    didSend: event.didSend,
-                    attemptedAt: event.attemptedAt
-                ))
-            }
-        }
-    }
-
-    private func summarize(_ envelope: EventEnvelope<RopeProject.Event>) -> EventEnvelope<ProjectSummary.Event> {
-        envelope.map { projectEvent in
-            switch projectEvent {
-            case .created(let event):
-                return ProjectSummary.Event.created(ProjectSummary.Event.Created(
-                    id: event.projectId,
-                    createdAt: event.createdAt,
-                    grade: event.grade.rawValue,
-                    category: .rope
-                ))
-            case .attempted(let event):
-                return ProjectSummary.Event.attempted(ProjectSummary.Event.Attempted(
-                    projectId: event.projectId,
-                    didSend: event.didSend,
-                    attemptedAt: event.attemptedAt
-                ))
-            }
-        }
+        return projectSummaries.assertNoFailure().eraseToAnyPublisher()
     }
 }

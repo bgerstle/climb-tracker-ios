@@ -24,6 +24,14 @@ class ProjectNameEventService : ProjectNameService {
         try await eventStore.findOrCreateTopic(id: "all", eventType: ProjectNameEvent.self)
     }
 
+    var projectNamesPublisher: AnyPublisher<[ProjectID : String], Never> {
+        projectNamedEventPublisher.scan([EventEnvelope<ProjectNameEvent>]()) { names, eventEnvelope in
+            names + [eventEnvelope]
+        }
+        .map { $0.currentNamedProjects() }
+        .eraseToAnyPublisher()
+    }
+
     func getProject(forName name: String) async throws -> ProjectID? {
         (try await allNamesTopic().events().currentProjectNames())[name]
     }

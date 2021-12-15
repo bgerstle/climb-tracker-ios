@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import Combine
 
 // Dummy services that can only be used in previews
 class PreviewProjectService : ProjectService {
@@ -34,6 +35,10 @@ class PreviewProjectService : ProjectService {
 }
 
 class PreviewProjectNameService : ProjectNameService {
+    var projectNamesPublisher: AnyPublisher<[ProjectID : String], Never> {
+        PassthroughSubject().eraseToAnyPublisher()
+    }
+
     func name(projectId: ProjectID, _ name: String) async throws {
 
     }

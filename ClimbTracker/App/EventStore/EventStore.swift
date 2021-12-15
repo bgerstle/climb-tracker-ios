@@ -18,7 +18,16 @@ protocol EventStore {
     func findOrCreateTopic<E: PersistableTopicEvent>(id topicId: TopicIdentifier, eventType: E.Type) async throws -> AnyTopic<E>
 }
 
-struct EventEnvelope<T> {
+protocol EventEnvelopeProtocol {
+    associatedtype Event
+
+    var event: Event { get }
+    var timestamp: Date { get }
+}
+
+struct EventEnvelope<T> : EventEnvelopeProtocol {
+    typealias Event = T
+    
     let event: T
     let timestamp: Date
 }

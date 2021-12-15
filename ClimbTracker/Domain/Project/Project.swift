@@ -92,7 +92,7 @@ struct BoulderProject : ProjectType {
         let attemptedAt: Date
     }
 
-    enum Event : PersistableTopicEvent, Equatable {
+    enum Event : PersistableTopicEvent, Equatable, Identifiable {
         static var namespace: String { "boulder-projects" }
 
         case created(Created)
@@ -138,6 +138,17 @@ struct BoulderProject : ProjectType {
                 self = .attempted(try Self.decoder.decode(Attempted.self, from: payload))
             }
         }
+
+        typealias ID = ProjectID
+
+        var id: ID {
+            switch self {
+            case .created(let event):
+                return event.projectId
+            case .attempted(let event):
+                return event.projectId
+            }
+        }
     }
 }
 
@@ -180,7 +191,7 @@ struct RopeProject : ProjectType {
         let subcategory: Subcategory
     }
 
-    enum Event : PersistableTopicEvent {
+    enum Event : PersistableTopicEvent, Identifiable {
         static var namespace: String { "rope-projects" }
         
         case created(Created)
@@ -223,6 +234,17 @@ struct RopeProject : ProjectType {
                 self = .created(try Self.decoder.decode(Created.self, from: payload))
             case .attempted:
                 self = .attempted(try Self.decoder.decode(Attempted.self, from: payload))
+            }
+        }
+
+        typealias ID = ProjectID
+
+        var id: ID {
+            switch self {
+            case .created(let event):
+                return event.projectId
+            case .attempted(let event):
+                return event.projectId
             }
         }
     }
