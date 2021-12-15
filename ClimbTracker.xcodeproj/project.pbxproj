@@ -47,6 +47,7 @@
 		BC7F2F4D2746FC3100AE5B0B /* GRDB+AsyncAwait.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7F2F4C2746FC3100AE5B0B /* GRDB+AsyncAwait.swift */; };
 		BC7F2F4F2748018C00AE5B0B /* PersistentEventTopicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7F2F4E2748018C00AE5B0B /* PersistentEventTopicTests.swift */; };
 		BC7F2F51274806B100AE5B0B /* TestDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7F2F50274806B100AE5B0B /* TestDatabase.swift */; };
+		BC7FF4C4276A19C700B959D6 /* ProjectListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2ECFDC269B877400838466 /* ProjectListViewModelTests.swift */; };
 		BC92708A269B7054002734CD /* ProjectService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC927089269B7054002734CD /* ProjectService.swift */; };
 		BC9C2B8C26A6190B00520E04 /* YosemiteDecimalGrade.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C2B8B26A6190B00520E04 /* YosemiteDecimalGrade.swift */; };
 		BC9C2B9126A61B8400520E04 /* GradePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C2B9026A61B8400520E04 /* GradePicker.swift */; };
@@ -64,7 +65,6 @@
 		BCCC526E2755746300AF81C0 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCC526D2755746300AF81C0 /* DatabaseManager.swift */; };
 		BCD1A7A32748478C00F85516 /* PersistentEventStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD1A7A22748478C00F85516 /* PersistentEventStoreTests.swift */; };
 		BCD1A7A5274C09AD00F85516 /* PrincipalClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD1A7A4274C09AD00F85516 /* PrincipalClass.swift */; };
-		BCD1A7A6274C10CC00F85516 /* ProjectListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2ECFDC269B877400838466 /* ProjectListViewModelTests.swift */; };
 		BCD1A7A8274C42AC00F85516 /* App+LaunchArgs.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD1A7A7274C42AC00F85516 /* App+LaunchArgs.swift */; };
 		BCD1A7AA274D929300F85516 /* BoulderProjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD1A7A9274D929300F85516 /* BoulderProjectTests.swift */; };
 		BCD1A7AD27515A4000F85516 /* CodableCSV in Frameworks */ = {isa = PBXBuildFile; productRef = BCD1A7AC27515A4000F85516 /* CodableCSV */; };
@@ -650,7 +650,6 @@
 			files = (
 				BC7EF03E2755371000225C0D /* TestProjectNameService.swift in Sources */,
 				BC00EE512741A89400A480A6 /* TestEvent.swift in Sources */,
-				BCD1A7A6274C10CC00F85516 /* ProjectListViewModelTests.swift in Sources */,
 				BC7F2F51274806B100AE5B0B /* TestDatabase.swift in Sources */,
 				BCD1A7AA274D929300F85516 /* BoulderProjectTests.swift in Sources */,
 				BC00EE5B2742F71000A480A6 /* ProjectNameEventServiceTests.swift in Sources */,
@@ -661,6 +660,7 @@
 				BCD1A7A32748478C00F85516 /* PersistentEventStoreTests.swift in Sources */,
 				BC7EF033275290BA00225C0D /* CSVRowTests.swift in Sources */,
 				BC7EF039275532C900225C0D /* CSVImporterTests.swift in Sources */,
+				BC7FF4C4276A19C700B959D6 /* ProjectListViewModelTests.swift in Sources */,
 				BCDFE910273EE30A00DD35F7 /* EphemeralEventStoreTests.swift in Sources */,
 				BC7F2F4F2748018C00AE5B0B /* PersistentEventTopicTests.swift in Sources */,
 				BCDFE90E273DD2A000DD35F7 /* EphemeralTopicTests.swift in Sources */,

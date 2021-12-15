@@ -7,8 +7,13 @@
 
 import Foundation
 @testable import ClimbTracker
+import Combine
 
 actor TestProjectNameService : ProjectNameService {
+    nonisolated var projectNamesPublisher: AnyPublisher<[ProjectID : String], Never> {
+        PassthroughSubject<[ProjectID: String], Never>().eraseToAnyPublisher()
+    }
+
     var names = [String: ProjectID]()
 
     func name(projectId: ProjectID, _ name: String) async throws {

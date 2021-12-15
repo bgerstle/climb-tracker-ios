@@ -18,7 +18,7 @@ extension BoulderProject : EventSourced {
             guard project == nil else {
                 fatalError("Can't apply created event \(event) to existing project \(String(describing: project))")
             }
-            return BoulderProject(createdEvent: created)
+            return BoulderProject(created)
         case .attempted(let attempted):
             guard var project = project else {
                 fatalError("Invalid attempt to apply \(attempted) to nil project, make sure created event is ordered before others.")
@@ -28,7 +28,7 @@ extension BoulderProject : EventSourced {
         }
     }
 
-    init(createdEvent: Created) {
+    init(_ createdEvent: Created) {
         self.id = createdEvent.projectId
         self.createdAt = createdEvent.createdAt
         self.grade = createdEvent.grade
@@ -54,7 +54,7 @@ extension RopeProject : EventSourced {
             guard project == nil else {
                 fatalError("Can't apply created event \(event) to existing project \(String(describing: project))")
             }
-            return RopeProject(createdEvent: created)
+            return RopeProject(created)
         case .attempted(let attempted):
             guard var project = project else {
                 fatalError("Invalid attempt to apply \(attempted) to nil project, make sure created event is ordered before others.")
@@ -64,7 +64,7 @@ extension RopeProject : EventSourced {
         }
     }
 
-    init(createdEvent: Created) {
+    init(_ createdEvent: Created) {
         self.id = createdEvent.projectId
         self.createdAt = createdEvent.createdAt
         self.grade = createdEvent.grade
