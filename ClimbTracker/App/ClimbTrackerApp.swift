@@ -40,7 +40,8 @@ struct ClimbTrackerApp: App {
 
         let csvImporter = CSVImporter<CSVRow>(projectService: projectService, projectNameService: projectNameService)
 
-        let projectDetailsViewModel = ProjectDetailsViewModel(projectService: projectService)
+        let projectDetailsViewModel = ProjectDetailsViewModel(projectService: projectService,
+                                                              projectNameService: projectNameService)
 
         return WindowGroup {
             ProjectListView(

@@ -60,38 +60,34 @@ struct ProjectDetailsView: View {
     }
 
     var body: some View {
-        NavigationView {
-            VStack {
-                // TODO: make the header scroll w/ list content
-                header()
-                    .padding()
-                Form {
-                    Section("Attempts") {
-                        attemptsList()
-                    }
+        VStack {
+            // TODO: make the header scroll w/ list content
+            header()
+                .padding()
+            Form {
+                Section("Attempts") {
+                    attemptsList()
                 }
             }
-            .onAppear {
-                viewModel.subscribe(projectId: projectId, category: projectCategory)
-            }
-            .toolbar() {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Edit") {
-                        presentingEditProject.toggle()
-                    }
-                    .accessibility(identifier: "editProjectButton")
-                }
-            }
-            // TODO: get project name
-            .navigationTitle("Project Name")
         }
-        .navigationViewStyle(StackNavigationViewStyle())
+        .onAppear {
+            viewModel.subscribe(projectId: projectId, category: projectCategory)
+        }
+        .toolbar() {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button("Edit") {
+                    presentingEditProject.toggle()
+                }
+                .accessibility(identifier: "editProjectButton")
+            }
+        }
+        .navigationTitle(viewModel.projectName ?? "")
     }
 }
 
 struct ProjectDetailsView_Previews: PreviewProvider {
     static var boulderProjectDetailsView: some View {
-        let viewModel = ProjectDetailsViewModel(projectService: previewProjectService)
+        let viewModel = ProjectDetailsViewModel(projectService: previewProjectService, projectNameService: previewProjectNameService)
         let boulderProjCreated = BoulderProject.Created(
             projectId: UUID(),
             createdAt: Date(),

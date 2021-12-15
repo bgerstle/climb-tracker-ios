@@ -14,18 +14,31 @@ class ProjectDetailsViewModel : ObservableObject {
     private static let logger = Logger.app(category: "projectDetailsViewModel")
 
     @Published
+    private(set) var projectName: String? = nil
+
+    @Published
     private(set) var project: AnyProject? = nil
 
     func subscribe(projectId: ProjectID, category: ProjectCategory) {
         project = nil
-        cancellable = createSubscription(projectId: projectId, category: category)
+
+        cancellables.removeAll()
+
+        createSubscription(projectId: projectId, category: category).store(in: &cancellables)
+        projectNameService.projectNamesPublisher
+            .map { $0[projectId] }
+            .receive(on: DispatchQueue.main)
+            .assign(to: \.projectName, on: self)
+            .store(in: &cancellables)
     }
 
     private let projectService: ProjectService
-    private var cancellable: AnyCancellable? = nil
+    private let projectNameService: ProjectNameService
+    private var cancellables: Set<AnyCancellable> = Set()
 
-    init(projectService: ProjectService) {
+    init(projectService: ProjectService, projectNameService: ProjectNameService) {
         self.projectService = projectService
+        self.projectNameService = projectNameService
     }
 
     private func createSubscription(projectId: ProjectID, category: ProjectCategory) -> AnyCancellable {
