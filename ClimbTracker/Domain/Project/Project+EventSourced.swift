@@ -10,8 +10,6 @@ import Foundation
 typealias EventSourcedProject = ProjectType & EventSourced
 
 extension BoulderProject : EventSourced {
-    typealias CreateEventPayload = Created
-
     static func apply(event: Event, to project: Self?) -> Self {
         switch event {
         case .created(let created):
@@ -45,8 +43,6 @@ extension BoulderProject : EventSourced {
 }
 
 extension RopeProject : EventSourced {
-    typealias CreateEventPayload = Created
-
     static func apply(event: Event, to project: Self?) -> Self {
         switch event {
         case .created(let created):
