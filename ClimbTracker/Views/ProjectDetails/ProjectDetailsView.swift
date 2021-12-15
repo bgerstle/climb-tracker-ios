@@ -7,6 +7,17 @@
 
 import SwiftUI
 
+extension RopeProject.Subcategory {
+    var attemptListDescription: String {
+        switch self {
+        case .sport:
+            return "Sport"
+        case .topRope:
+            return "Top Rope"
+        }
+    }
+}
+
 struct ProjectDetailsView: View {
     @EnvironmentObject var viewModel: ProjectDetailsViewModel
 
@@ -50,11 +61,21 @@ struct ProjectDetailsView: View {
     }
 
     func attemptsList() -> some View {
-        ForEach(viewModel.project?.attempts ?? [], id: \.id) { attempt in
-            HStack {
-                Text(attempt.didSend ? "Send" : "Attempt")
-                Spacer()
-                Text(ProjectDetailsView.dateFormatter.string(from: attempt.attemptedAt))
+        Group {
+            if let project = viewModel.project {
+                ForEach(project.attempts, id: \.id) { attempt in
+                    HStack {
+                        Text(attempt.didSend ? "Send" : "Attempt")
+                        if project.category == .rope {
+                            let ropeAttempt = attempt as! RopeProject.Attempt
+                            Text("(\(ropeAttempt.subcategory.attemptListDescription))")
+                        }
+                        Spacer()
+                        Text(ProjectDetailsView.dateFormatter.string(from: attempt.attemptedAt))
+                    }
+                }
+            } else {
+                EmptyView()
             }
         }
     }
