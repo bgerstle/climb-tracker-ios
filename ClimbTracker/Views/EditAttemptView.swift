@@ -23,6 +23,8 @@ struct EditAttemptView: View {
     @EnvironmentObject
     var viewModel: EditAttemptViewModel
 
+    @Environment(\.presentationMode) var presentationMode
+
     init(projectId: ProjectID, attempt: AnyAttempt) {
         self.projectId = projectId
         self.attempt = attempt
@@ -37,37 +39,36 @@ struct EditAttemptView: View {
     }
 
     var body: some View {
-        Form {
-            DatePicker("Attempted At",
-                       selection: $attemptedAt,
-                       displayedComponents: [.date, .hourAndMinute])
+        NavigationView {
+            Form {
+                DatePicker("Attempted At",
+                           selection: $attemptedAt,
+                           displayedComponents: [.date, .hourAndMinute])
 
-            Toggle("Did Send", isOn: $didSend)
+                Toggle("Did Send", isOn: $didSend)
 
-            switch attempt.match {
-            case .rope(_):
-                Picker("Subcategory", selection: $subcategory) {
-                    ForEach(RopeProject.Subcategory.allCases, id: \.self) { subcatCase in
-                        Text(subcatCase.attemptListDescription).tag(subcatCase)
+                switch attempt.match {
+                case .rope(_):
+                    Picker("Subcategory", selection: $subcategory) {
+                        ForEach(RopeProject.Subcategory.allCases, id: \.self) { subcatCase in
+                            Text(subcatCase.attemptListDescription).tag(subcatCase)
+                        }
                     }
+                case .boulder(_):
+                    EmptyView()
                 }
-            case .boulder(_):
-                EmptyView()
             }
-        }
-        .datePickerStyle(.compact)
-        .pickerStyle(.segmented)
-        .toolbar() {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button("Save") {
-                    submit()
-                    
+            .datePickerStyle(.compact)
+            .pickerStyle(.segmented)
+            .toolbar() {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Save", action: save)
                 }
             }
         }
     }
 
-    func submit() {
+    func save() {
         switch attempt.match {
         case .boulder(_):
             Task {
@@ -91,6 +92,7 @@ struct EditAttemptView: View {
                 )
             }
         }
+        presentationMode.wrappedValue.dismiss()
     }
 }
 

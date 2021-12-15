@@ -26,6 +26,8 @@ struct ProjectDetailsView: View {
 
     @State private var presentingEditProject: Bool = false
 
+    @State private var attemptToEdit: ErasedAttempt? = nil
+
     static var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
         formatter.dateStyle = .short
@@ -65,10 +67,15 @@ struct ProjectDetailsView: View {
             if let project = viewModel.project {
                 // TODO: sort by attemptedAt
                 ForEach(project.attempts, id: \.id) { attempt in
-                    NavigationLink(
-                        destination: EditAttemptView(projectId: project.id, attempt: attempt)
-                    ) {
-                        AttemptListRow(attempt: attempt)
+                    AttemptListRow(attempt: attempt)
+                    // using swipe actions because tapping isn't working right
+                    // probably because the hit area is obscured by child views
+                        .swipeActions() {
+                        Button {
+                            attemptToEdit = ErasedAttempt(attempt)
+                        } label: {
+                            Label("Edit", systemImage: "square.and.pencil")
+                        }
                     }
                 }
             } else {
@@ -94,15 +101,23 @@ struct ProjectDetailsView: View {
         .onDisappear {
             viewModel.unsubscribe()
         }
-        .toolbar() {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button("Edit") {
-                    presentingEditProject.toggle()
-                }
-                .accessibility(identifier: "editProjectButton")
-            }
-        }
+//        .toolbar() {
+//            ToolbarItem(placement: .navigationBarTrailing) {
+//                Button("Edit") {
+//                    presentingEditProject.toggle()
+//                }
+//                .accessibility(identifier: "editProjectButton")
+//            }
+//        }
         .navigationTitle(viewModel.projectName ?? "")
+        .sheet(
+            item: $attemptToEdit,
+            onDismiss: {
+                attemptToEdit = nil
+            },
+            content: { wrappedAttempt in
+                EditAttemptView(projectId: projectId, attempt: wrappedAttempt.attempt)
+            })
     }
 }
 

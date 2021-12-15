@@ -41,6 +41,16 @@ protocol AnyAttempt {
     var match: Project.Attempt { get }
 }
 
+class ErasedAttempt : Identifiable {
+    var attempt: AnyAttempt
+    init(_ attempt: AnyAttempt) {
+        self.attempt = attempt
+    }
+
+    typealias ID = AttemptID
+    var id: AttemptID { attempt.id }
+}
+
 enum Project {
     case boulder(BoulderProject)
     case rope(RopeProject)
