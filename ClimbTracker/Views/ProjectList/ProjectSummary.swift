@@ -23,7 +23,7 @@ struct ProjectSummary : Identifiable, Hashable, Equatable {
 }
 
 actor ProjectSummarizer {
-    let logger: Logger = Logger.app(category: "projectSummarizer")
+    private let logger: Logger = Logger.app(category: "projectSummarizer")
 
     @Published
     private var projectSummaries = [ProjectSummary]()
