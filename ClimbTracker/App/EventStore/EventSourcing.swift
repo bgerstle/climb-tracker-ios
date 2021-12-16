@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 protocol EventSourced {
-    associatedtype Event: PersistableTopicEvent
+    associatedtype Event: PersistableTopicEvent, Identifiable
 
     /*
      Going with this API since it allows types to enforce required attributes with `let`,
@@ -19,22 +19,30 @@ protocol EventSourced {
     static func apply(event: Event, to entity: Self?) -> Self
 }
 
+actor Materializer<Entity: EventSourced> {
+    var entities = [Entity.Event.ID: Entity]()
+}
+
+extension Materializer where Entity.Event: PersistableTopicEvent, Entity.Event: Identifiable {
+    func apply(_ event: Entity.Event) -> Entity {
+        let currentEntityState = entities[event.id]
+        let newEntityState = Entity.apply(event: event, to: currentEntityState)
+        entities[event.id] = newEntityState
+        return newEntityState
+    }
+}
+
 extension Publisher where Output: EventEnvelopeProtocol, Output.Event: PersistableTopicEvent {
-    func materializedEntities<T: EventSourced>(_ entityType: T.Type) -> AnyPublisher<T, Failure>
-    where T.Event == Output.Event,
-          T: Identifiable,
-          Output.Event: Identifiable,
-          Output.Event.ID == T.ID
-    {
-        var entities = [T.ID: T]()
-        let queue = DispatchQueue(label: "materialized views \(T.self)")
-        return receive(on: queue)
-            .map { eventEnvelope in
-                let currentEntityState = entities[eventEnvelope.event.id]
-                let newEntityState = T.apply(event: eventEnvelope.event, to: currentEntityState)
-                entities[newEntityState.id] = newEntityState
-                return newEntityState
+    func materializedEntities<Entity: EventSourced>(_ entityType: Entity.Type) -> AnyPublisher<Entity, Failure> where Entity.Event == Output.Event {
+        let materializer = Materializer<Entity>()
+        return map { eventEnvelope in
+                Future { promise in
+                    Task {
+                        promise(.success(await materializer.apply(eventEnvelope.event)))
+                    }
+                }
             }
+            .flatMap { $0 }
             .eraseToAnyPublisher()
     }
 }
