@@ -10,73 +10,6 @@ import Foundation
 typealias ProjectID = UUID
 typealias AttemptID = UUID
 
-// Cannot conform to Identifiable since that introduces "Self" requirements that prevent specifying
-// mixed collections of projects (e.g. [Boulder, Rope...])
-protocol AnyProject {
-    var id: ProjectID { get }
-    var createdAt: Date { get }
-    var rawGrade: String { get }
-    var attempts: [AnyAttempt] { get }
-
-    // convert from Any to specific Project type
-    var match: Project { get }
-}
-
-extension AnyProject {
-    var category: ProjectCategory {
-        switch self.match {
-        case .boulder(_):
-            return .boulder
-        case .rope(_):
-            return .rope
-        }
-    }
-}
-
-protocol AnyAttempt {
-    var id: AttemptID { get }
-    var didSend: Bool { get }
-    var attemptedAt: Date { get }
-
-    var match: Project.Attempt { get }
-}
-
-class ErasedAttempt : Identifiable {
-    var attempt: AnyAttempt
-    init(_ attempt: AnyAttempt) {
-        self.attempt = attempt
-    }
-
-    typealias ID = AttemptID
-    var id: AttemptID { attempt.id }
-}
-
-enum Project {
-    case boulder(BoulderProject)
-    case rope(RopeProject)
-
-    var eraseToAny: AnyProject {
-        switch self {
-        case .boulder(let project):
-            return project
-        case .rope(let project):
-            return project
-        }
-    }
-
-    enum Attempt {
-        case boulder(BoulderProject.Attempt)
-        case rope(RopeProject.Attempt)
-    }
-}
-
-protocol ProjectType: Identifiable, AnyProject, Hashable
-where ID == ProjectID {
-}
-
-protocol AttemptType: Identifiable, AnyAttempt, Hashable
-where ID == AttemptID {}
-
 struct BoulderProject : ProjectType {
     typealias ID = ProjectID
 
@@ -307,3 +240,70 @@ struct RopeProject : ProjectType {
         }
     }
 }
+
+// Cannot conform to Identifiable since that introduces "Self" requirements that prevent specifying
+// mixed collections of projects (e.g. [Boulder, Rope...])
+protocol AnyProject {
+    var id: ProjectID { get }
+    var createdAt: Date { get }
+    var rawGrade: String { get }
+    var attempts: [AnyAttempt] { get }
+
+    // convert from Any to specific Project type
+    var match: Project { get }
+}
+
+extension AnyProject {
+    var category: ProjectCategory {
+        switch self.match {
+        case .boulder(_):
+            return .boulder
+        case .rope(_):
+            return .rope
+        }
+    }
+}
+
+protocol AnyAttempt {
+    var id: AttemptID { get }
+    var didSend: Bool { get }
+    var attemptedAt: Date { get }
+
+    var match: Project.Attempt { get }
+}
+
+class ErasedAttempt : Identifiable {
+    var attempt: AnyAttempt
+    init(_ attempt: AnyAttempt) {
+        self.attempt = attempt
+    }
+
+    typealias ID = AttemptID
+    var id: AttemptID { attempt.id }
+}
+
+enum Project {
+    case boulder(BoulderProject)
+    case rope(RopeProject)
+
+    var eraseToAny: AnyProject {
+        switch self {
+        case .boulder(let project):
+            return project
+        case .rope(let project):
+            return project
+        }
+    }
+
+    enum Attempt {
+        case boulder(BoulderProject.Attempt)
+        case rope(RopeProject.Attempt)
+    }
+}
+
+protocol ProjectType: Identifiable, AnyProject, Hashable
+where ID == ProjectID {
+}
+
+protocol AttemptType: Identifiable, AnyAttempt, Hashable
+where ID == AttemptID {}
