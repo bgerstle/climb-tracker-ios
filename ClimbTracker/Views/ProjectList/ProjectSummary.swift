@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import os
 
 struct ProjectSummary : Identifiable, Hashable, Equatable {
     let id: ProjectID
@@ -21,8 +22,48 @@ struct ProjectSummary : Identifiable, Hashable, Equatable {
     var lastAttempt: Date?
 }
 
-class ProjectSummarizer {
-    func summarizeProjectEvents<PB: Publisher, PR: Publisher, PN: Publisher>(
+actor ProjectSummarizer {
+    let logger: Logger = Logger.app(category: "projectSummarizer")
+
+    @Published
+    private var projectSummaries = [ProjectSummary]()
+
+    private var currentNames = [ProjectID: String]()
+
+    private var cancellables = Set<AnyCancellable>()
+
+    private func update(_ cancellables: Set<AnyCancellable>) {
+        self.cancellables = cancellables
+    }
+
+    private func updateSummary(_ summary: ProjectSummary) {
+        logger.info("Updating summary \(summary.id)")
+        var newSummary = summary
+        newSummary.name = self.currentNames[summary.id]
+        if let summaryIndex = self.projectSummaries.firstIndex(where: { $0.id == newSummary.id }) {
+            self.projectSummaries[summaryIndex] = newSummary
+        } else {
+            self.projectSummaries.append(newSummary)
+        }
+        self.projectSummaries.sort(using: ProjectSummary.lastAttemptSortComparator())
+    }
+
+    private func updateSummary(_ nameEvent: ProjectNameEvent) {
+        switch nameEvent {
+        case .named(let payload):
+            logger.info("Updating summary name \(payload.projectId)")
+            // TODO: support renaming
+            currentNames[payload.projectId] = payload.name
+            if let summaryIndex = self.projectSummaries.firstIndex(where: { $0.id == payload.projectId }) {
+                let existingSummary = projectSummaries[summaryIndex]
+                var newSummary = existingSummary
+                newSummary.name = payload.name
+                projectSummaries[summaryIndex] = newSummary
+            }
+        }
+    }
+
+    nonisolated func summarizeProjectEvents<PB: Publisher, PR: Publisher, PN: Publisher>(
             boulder: PB,
             rope: PR,
             name: PN
@@ -36,26 +77,16 @@ class ProjectSummarizer {
     {
         // TODO: extract into project service
         let boulderProjects = boulder.materializedEntities(BoulderProject.self),
-            bouldersAsAny = boulderProjects.map { bps in bps.mapValues { $0 as AnyProject }  },
+            bouldersAsAny = boulderProjects.map { $0 as AnyProject },
             ropeProjects = rope.materializedEntities(RopeProject.self),
-            ropesAsAny = ropeProjects.map { rps in rps.mapValues { $0 as AnyProject }  },
-            allProjects = bouldersAsAny.combineLatest(ropesAsAny).map { bps, rps in
-                bps.merging(rps, uniquingKeysWith: { bp, rp in
-                    fatalError("Expected materialized boulder & rope projects to always be unique, but found duplicates \(bp) and \(rp)")
-                })
-            },
-            // TODO: use projectNamesPublisher
-            allNames = name.scan([EventEnvelope<ProjectNameEvent>]()) { names, eventEnvelope in
-                names + [eventEnvelope]
-            }
-            .map { $0.currentNamedProjects() },
-        projectSummaries = allProjects.combineLatest(allNames).map { projs, names in
-            projs.values.map { proj in
+            ropesAsAny = ropeProjects.map { $0 as AnyProject },
+            allProjects = bouldersAsAny.merge(with: ropesAsAny),
+            namelessSummaries = allProjects.map { proj in
                 ProjectSummary(
                     id: proj.id,
                     category: proj.category,
                     createdAt: proj.createdAt,
-                    name: names[proj.id],
+                    name: nil,
                     grade: proj.rawGrade,
                     sendCount: proj.attempts.filter(\.didSend).count,
                     sessionDates: Set(proj.attempts.map(\.attemptedAt).map(Calendar.defaultClimbCalendar.startOfDay)),
@@ -63,8 +94,27 @@ class ProjectSummarizer {
                     lastAttempt: proj.attempts.map(\.attemptedAt).max()
                 )
             }
+
+        let c1 = namelessSummaries.sink { summary in
+                Task {
+                    await self.updateSummary(summary)
+                }
+            }
+
+        let c2 = name.sink { nameEventEnvelope in
+                Task {
+                    await self.updateSummary(nameEventEnvelope.event)
+                }
+            }
+
+        Task {
+            await self.update(Set([c1, c2]))
         }
 
-        return projectSummaries.assertNoFailure().eraseToAnyPublisher()
+        return Future { promise in
+            Task {
+                promise(.success(await self.$projectSummaries))
+            }
+        }.flatMap { $0 }.eraseToAnyPublisher()
     }
 }

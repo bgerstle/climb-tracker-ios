@@ -90,7 +90,6 @@ class ProjectListViewModel: ObservableObject {
     func handleSummaryEvents<P: Publisher>(_ publisher: P)
     where P.Output == [ProjectSummary], P.Failure == Never {
         summaryEventSubscription = publisher
-            .map { $0.sorted(using: ProjectSummary.lastAttemptSortComparator()) }
             .receive(on: DispatchQueue.main)
             .assign(to: \.projects, on: self)
     }

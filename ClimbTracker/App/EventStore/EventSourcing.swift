@@ -20,16 +20,21 @@ protocol EventSourced {
 }
 
 extension Publisher where Output: EventEnvelopeProtocol, Output.Event: PersistableTopicEvent {
-    func materializedEntities<T: EventSourced>(_ entityType: T.Type) -> AnyPublisher<[T.ID: T], Failure>
+    func materializedEntities<T: EventSourced>(_ entityType: T.Type) -> AnyPublisher<T, Failure>
     where T.Event == Output.Event,
           T: Identifiable,
           Output.Event: Identifiable,
           Output.Event.ID == T.ID
     {
-        scan([T.ID: T]()) { (entities, eventEnvelope) in
-            let currentEntityState = entities[eventEnvelope.event.id]
-            let newEntityState = T.apply(event: eventEnvelope.event, to: currentEntityState)
-            return entities.merging([newEntityState.id: newEntityState]) { _, new in new }
-        }.eraseToAnyPublisher()
+        var entities = [T.ID: T]()
+        let queue = DispatchQueue(label: "materialized views \(T.self)")
+        return receive(on: queue)
+            .map { eventEnvelope in
+                let currentEntityState = entities[eventEnvelope.event.id]
+                let newEntityState = T.apply(event: eventEnvelope.event, to: currentEntityState)
+                entities[newEntityState.id] = newEntityState
+                return newEntityState
+            }
+            .eraseToAnyPublisher()
     }
 }
