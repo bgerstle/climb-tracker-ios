@@ -100,31 +100,30 @@ struct BoulderProject : ProjectType {
 
     var match: Project { .boulder(self) }
 
-    struct Created : Equatable, Hashable, Codable {
-        let projectId: ProjectID
-        let createdAt: Date
-        let grade: AnyBoulderGrade
-    }
-
-    struct Attempted : Equatable, Hashable, Codable {
-        let projectId: ProjectID
-        let attemptId: AttemptID
-        let didSend: Bool
-        let attemptedAt: Date
-    }
-
-    struct AttemptUpdated : Equatable, Hashable, Codable {
-        let projectId: ProjectID
-        let attemptId: AttemptID
-        let didSend: Bool
-        let attemptedAt: Date
-    }
-
     enum Event : PersistableTopicEvent, Equatable, Identifiable {
         static var namespace: String { "boulder-projects" }
 
+        struct Created : Equatable, Hashable, Codable {
+            let projectId: ProjectID
+            let createdAt: Date
+            let grade: AnyBoulderGrade
+        }
         case created(Created)
+
+        struct Attempted : Equatable, Hashable, Codable {
+            let projectId: ProjectID
+            let attemptId: AttemptID
+            let didSend: Bool
+            let attemptedAt: Date
+        }
         case attempted(Attempted)
+
+        struct AttemptUpdated : Equatable, Hashable, Codable {
+            let projectId: ProjectID
+            let attemptId: AttemptID
+            let didSend: Bool
+            let attemptedAt: Date
+        }
         case attemptUpdated(AttemptUpdated)
 
         enum PayloadType : String, CaseIterable, StringRawRepresentable {
@@ -167,11 +166,11 @@ struct BoulderProject : ProjectType {
         init(payloadType: PayloadType, payload: Data) throws {
             switch payloadType {
             case .created:
-                self = .created(try Self.decoder.decode(Created.self, from: payload))
+                self = .created(try Self.decoder.decode(Event.Created.self, from: payload))
             case .attempted:
-                self = .attempted(try Self.decoder.decode(Attempted.self, from: payload))
+                self = .attempted(try Self.decoder.decode(Event.Attempted.self, from: payload))
             case .attemptUpdated:
-                self = .attemptUpdated(try Self.decoder.decode(AttemptUpdated.self, from: payload))
+                self = .attemptUpdated(try Self.decoder.decode(Event.AttemptUpdated.self, from: payload))
             }
         }
 
@@ -219,33 +218,32 @@ struct RopeProject : ProjectType {
     var attempts: [AnyAttempt] { ropeAttempts }
     var match: Project { .rope(self) }
 
-    struct Created : Hashable, Codable {
-        let projectId: UUID
-        let createdAt: Date
-        let grade: AnyRopeGrade
-    }
-
-    struct Attempted : Hashable, Codable {
-        let projectId: ProjectID
-        let attemptId: AttemptID
-        let didSend: Bool
-        let attemptedAt: Date
-        let subcategory: Subcategory
-    }
-
-    struct AttemptUpdated : Equatable, Hashable, Codable {
-        let projectId: ProjectID
-        let attemptId: AttemptID
-        let didSend: Bool
-        let attemptedAt: Date
-        let subcategory: Subcategory
-    }
-
     enum Event : PersistableTopicEvent, Identifiable {
         static var namespace: String { "rope-projects" }
-        
+
+        struct Created : Hashable, Codable {
+            let projectId: UUID
+            let createdAt: Date
+            let grade: AnyRopeGrade
+        }
         case created(Created)
+
+        struct Attempted : Hashable, Codable {
+            let projectId: ProjectID
+            let attemptId: AttemptID
+            let didSend: Bool
+            let attemptedAt: Date
+            let subcategory: Subcategory
+        }
         case attempted(Attempted)
+
+        struct AttemptUpdated : Equatable, Hashable, Codable {
+            let projectId: ProjectID
+            let attemptId: AttemptID
+            let didSend: Bool
+            let attemptedAt: Date
+            let subcategory: Subcategory
+        }
         case attemptUpdated(AttemptUpdated)
 
         enum PayloadType : String, CaseIterable, StringRawRepresentable {
@@ -287,11 +285,11 @@ struct RopeProject : ProjectType {
         init(payloadType: PayloadType, payload: Data) throws {
             switch payloadType {
             case .created:
-                self = .created(try Self.decoder.decode(Created.self, from: payload))
+                self = .created(try Self.decoder.decode(Event.Created.self, from: payload))
             case .attempted:
-                self = .attempted(try Self.decoder.decode(Attempted.self, from: payload))
+                self = .attempted(try Self.decoder.decode(Event.Attempted.self, from: payload))
             case .attemptUpdated:
-                self = .attemptUpdated(try Self.decoder.decode(AttemptUpdated.self, from: payload))
+                self = .attemptUpdated(try Self.decoder.decode(Event.AttemptUpdated.self, from: payload))
             }
         }
 

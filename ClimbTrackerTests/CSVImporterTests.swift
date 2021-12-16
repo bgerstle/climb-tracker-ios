@@ -102,7 +102,7 @@ class CSVImporterTests: XCTestCase {
         XCTAssertEqual(anyAttempt.didSend, false)
         XCTAssertEqual(anyAttempt.attemptedAt, row.date)
 
-        guard let ropeAttempt = anyAttempt as? RopeProject.Attempt else {
+        guard let ropeAttempt = anyAttempt as? RopeProject.Event.Attempt else {
             XCTFail("Expected rope attempt but got \(anyAttempt)"); return
         }
         XCTAssertEqual(ropeAttempt.subcategory, .topRope)
@@ -132,7 +132,7 @@ class CSVImporterTests: XCTestCase {
         }
         XCTAssertEqual(addedAttempts.count, row.countAttempts)
 
-        guard let ropeAttempts = addedAttempts as? [RopeProject.Attempt] else {
+        guard let ropeAttempts = addedAttempts as? [RopeProject.Event.Attempt] else {
             XCTFail("Expected rope attempt but got \(addedAttempts)"); return
         }
         XCTAssertEqual(Set(ropeAttempts.map(\.subcategory)), Set([.sport]))
@@ -173,7 +173,7 @@ class CSVImporterTests: XCTestCase {
         }
         XCTAssertEqual(addedAttempts.count, row.countAttempts + repeatRow.countAttempts)
 
-        guard let ropeAttempts = addedAttempts as? [RopeProject.Attempt] else {
+        guard let ropeAttempts = addedAttempts as? [RopeProject.Event.Attempt] else {
             XCTFail("Expected rope attempt but got \(addedAttempts)"); return
         }
         XCTAssertEqual(Set(ropeAttempts.map(\.subcategory)), Set([.sport]))

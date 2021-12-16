@@ -30,7 +30,7 @@ class ProjectEventService : ProjectService {
     func create<G: BoulderGrade>(grade: G) async throws -> ProjectID {
         let projectId = UUID(),
             envelope = EventEnvelope(
-            event: BoulderProject.Event.created(BoulderProject.Created(projectId: projectId,
+            event: BoulderProject.Event.created(BoulderProject.Event.Created(projectId: projectId,
                                                                        createdAt: Date(),
                                                                        grade: grade.any)),
             timestamp: Date())
@@ -45,7 +45,7 @@ class ProjectEventService : ProjectService {
     func attempt(projectId: UUID, at: Date, didSend: Bool) async throws -> AttemptID {
         let attemptId = UUID(),
             envelope = EventEnvelope(
-            event: BoulderProject.Event.attempted(BoulderProject.Attempted(
+            event: BoulderProject.Event.attempted(BoulderProject.Event.Attempted(
                 projectId: projectId,
                 attemptId: attemptId,
                 didSend: didSend,
@@ -64,7 +64,7 @@ class ProjectEventService : ProjectService {
     func create<G: RopeGrade>(grade: G) async throws -> ProjectID {
         let projectId = UUID(),
         envelope = EventEnvelope(
-            event: RopeProject.Event.created(RopeProject.Created(projectId: projectId,
+            event: RopeProject.Event.created(RopeProject.Event.Created(projectId: projectId,
                                                                  createdAt: Date(),
                                                                  grade: grade.any)),
             timestamp: Date())
@@ -79,7 +79,7 @@ class ProjectEventService : ProjectService {
     func attempt(projectId: UUID, at: Date, didSend: Bool, subcategory: RopeProject.Subcategory) async throws -> AttemptID {
         let attemptId = UUID(),
             envelope = EventEnvelope(
-            event: RopeProject.Event.attempted(RopeProject.Attempted(
+            event: RopeProject.Event.attempted(RopeProject.Event.Attempted(
                 projectId: projectId,
                 attemptId: attemptId,
                 didSend: didSend,
@@ -124,7 +124,7 @@ class ProjectEventService : ProjectService {
             throw ProjectNotFound(id: projectId)
         }
 
-        let payload = BoulderProject.AttemptUpdated(
+        let payload = BoulderProject.Event.AttemptUpdated(
             projectId: projectId,
             attemptId: attemptId,
             didSend: didSend,
@@ -140,7 +140,7 @@ class ProjectEventService : ProjectService {
             throw ProjectNotFound(id: projectId)
         }
 
-        let payload = RopeProject.AttemptUpdated(
+        let payload = RopeProject.Event.AttemptUpdated(
             projectId: projectId,
             attemptId: attemptId,
             didSend: didSend,

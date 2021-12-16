@@ -124,14 +124,14 @@ struct ProjectDetailsView: View {
 struct ProjectDetailsView_Previews: PreviewProvider {
     static var boulderProjectDetailsView: some View {
         let viewModel = ProjectDetailsViewModel(projectService: previewProjectService, projectNameService: previewProjectNameService)
-        let boulderProjCreated = BoulderProject.Created(
+        let boulderProjCreated = BoulderProject.Event.Created(
             projectId: UUID(),
             createdAt: Date(),
             grade: .hueco(HuecoGrade.four)
         )
         viewModel.update(projectType: BoulderProject.self, envelope: EventEnvelope(event: .created(boulderProjCreated), timestamp: Date()))
         viewModel.update(projectType: BoulderProject.self, envelope: EventEnvelope(
-            event: .attempted(BoulderProject.Attempted(
+            event: .attempted(BoulderProject.Event.Attempted(
                 projectId: boulderProjCreated.projectId,
                 attemptId: UUID(),
                 didSend: false,
@@ -140,7 +140,7 @@ struct ProjectDetailsView_Previews: PreviewProvider {
             timestamp: Date()
         ))
         viewModel.update(projectType: BoulderProject.self, envelope: EventEnvelope(
-            event: .attempted(BoulderProject.Attempted(
+            event: .attempted(BoulderProject.Event.Attempted(
                 projectId: boulderProjCreated.projectId,
                 attemptId: UUID(),
                 didSend: true,

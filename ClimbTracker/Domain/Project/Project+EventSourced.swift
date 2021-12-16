@@ -41,14 +41,14 @@ extension BoulderProject : EventSourced {
         }
     }
 
-    init(_ createdEvent: Created) {
+    init(_ createdEvent: Event.Created) {
         self.id = createdEvent.projectId
         self.createdAt = createdEvent.createdAt
         self.grade = createdEvent.grade
         self.boulderAttempts = []
     }
 
-    private mutating func apply(_ event: Attempted) {
+    private mutating func apply(_ event: Event.Attempted) {
         boulderAttempts.append(Attempt(
             id: event.attemptId,
             didSend: event.didSend,
@@ -56,7 +56,7 @@ extension BoulderProject : EventSourced {
         ))
     }
 
-    private mutating func apply(_ event: AttemptUpdated) {
+    private mutating func apply(_ event: Event.AttemptUpdated) {
         boulderAttempts[indexOfAttempt(withId: event.attemptId)] = Attempt(
             id: event.attemptId,
             didSend: event.didSend,
@@ -89,14 +89,14 @@ extension RopeProject : EventSourced {
         }
     }
 
-    init(_ createdEvent: Created) {
+    init(_ createdEvent: Event.Created) {
         self.id = createdEvent.projectId
         self.createdAt = createdEvent.createdAt
         self.grade = createdEvent.grade
         self.ropeAttempts = []
     }
 
-    mutating func apply(_ event: Attempted) {
+    mutating func apply(_ event: Event.Attempted) {
         ropeAttempts.append(Attempt(
             id: event.attemptId,
             didSend: event.didSend,
@@ -105,7 +105,7 @@ extension RopeProject : EventSourced {
         ))
     }
 
-    private mutating func apply(_ event: AttemptUpdated) {
+    private mutating func apply(_ event: Event.AttemptUpdated) {
         ropeAttempts[indexOfAttempt(withId: event.attemptId)] = Attempt(
             id: event.attemptId,
             didSend: event.didSend,

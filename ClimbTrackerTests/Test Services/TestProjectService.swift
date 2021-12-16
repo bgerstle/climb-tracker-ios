@@ -27,7 +27,7 @@ actor TestProjectService : ProjectService {
 
     func create<G>(grade: G) async throws -> ProjectID where G : Boulder, G : Grade {
         let projectId = UUID()
-        let boulderProject = BoulderProject(BoulderProject.Created(projectId: projectId, createdAt:
+        let boulderProject = BoulderProject(BoulderProject.Event.Created(projectId: projectId, createdAt:
                                                                     Date(),
                                                                    grade: grade.any))
         projects[projectId] = boulderProject
@@ -36,7 +36,7 @@ actor TestProjectService : ProjectService {
 
     func create<G>(grade: G) async throws -> ProjectID where G : Grade, G : Rope {
         let projectId = UUID()
-        let ropeProject = RopeProject(RopeProject.Created(projectId: projectId,
+        let ropeProject = RopeProject(RopeProject.Event.Created(projectId: projectId,
                                                           createdAt:
                                                             Date(),
 
@@ -65,7 +65,7 @@ actor TestProjectService : ProjectService {
             throw ProjectNotFound(id: projectId)
         }
         XCTAssertEqual(project.category, .rope)
-        let attempt = RopeProject.Attempt(id: UUID(),
+        let attempt = RopeProject.Event.Attempt(id: UUID(),
                                           didSend: didSend,
                                           subcategory: subcategory,
                                           attemptedAt: at)
