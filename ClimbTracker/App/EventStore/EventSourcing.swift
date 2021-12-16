@@ -19,7 +19,8 @@ protocol EventSourced {
     static func apply(event: Event, to entity: Self?) -> Self
 }
 
-actor Materializer<Entity: EventSourced> {
+class Materializer<Entity: EventSourced> {
+    let queue = DispatchQueue(label: "materializer-\(Entity.self)")
     var entities = [Entity.Event.ID: Entity]()
 }
 
@@ -35,14 +36,11 @@ extension Materializer where Entity.Event: PersistableTopicEvent, Entity.Event: 
 extension Publisher where Output: EventEnvelopeProtocol, Output.Event: PersistableTopicEvent {
     func materializedEntities<Entity: EventSourced>(_ entityType: Entity.Type) -> AnyPublisher<Entity, Failure> where Entity.Event == Output.Event {
         let materializer = Materializer<Entity>()
-        return map { eventEnvelope in
-                Future { promise in
-                    Task {
-                        promise(.success(await materializer.apply(eventEnvelope.event)))
-                    }
-                }
+        return
+            receive(on: materializer.queue)
+            .map { eventEnvelope in
+                materializer.apply(eventEnvelope.event)
             }
-            .flatMap { $0 }
             .eraseToAnyPublisher()
     }
 }
